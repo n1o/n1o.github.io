@@ -5,13 +5,12 @@ title = "Pooled Probabilistic Matrix Factorization"
 description = ""
 slug = ""
 authors = []
-tags = ["bayesian"]
-categories = ["bayesian"]
+tags = ["probabilistic programming", "pyro"]
 externalLink = ""
 series = []
 +++
 
-# Pooled Probabilistic Matrix Factorization
+Probabilistic matrix factorizations is a simple but useful model for building recommendations engines. 
 
 $$x^2$$
 
