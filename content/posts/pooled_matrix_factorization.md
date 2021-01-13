@@ -10,9 +10,12 @@ externalLink = ""
 series = []
 +++
 
-Probabilistic matrix factorizations is a simple but useful model for building recommendations engines. 
+Probabilistic matrix factorizations is a simple but useful model for building recommendations engines. The model can be expressed as:
 
-$$x^2$$
+$$
+P(R|U,V, a^2) = \prod_{i=1}^N \prod_{j=1}^M[\mathcal{N}(R_{ij}|U_iV_j^T, \alpha^{-1})]^{I_{ij}}
+$$
+
 
 ```python
 import numpy as np
