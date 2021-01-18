@@ -18,11 +18,11 @@ disqusShortname = "yourdiscussshortname"
     description = "Full Stack Datascience"
     keywords = "blog,developer,personal"
     info = "Full Stack Datascience"
-    gravatar = "mrk.barak@gmail.com"
+    
     footerContent = "Enter a text here."
     katex = true
     dateFormat = "January 2, 2006"
-
+    gravatar = "mrk.barak@gmail.com"
     hideFooter = true
     hideCredits = false
     hideCopyright = false
