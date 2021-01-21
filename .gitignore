@@ -1,2 +1,5 @@
 .metals
 .vscode
+notebooks/.env
+notebooks/.ipynb_checkpoints
+notebooks/.virtual_documents
