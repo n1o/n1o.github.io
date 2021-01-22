@@ -13,6 +13,8 @@ pygmentsCodeFencesGuessSyntax = true
 
 disqusShortname = "yourdiscussshortname"
 
+googleAnalytics = "G-X8RKSWB6VHS"
+
 [params]
     author = "Marek Barak"
     description = "Full Stack Datascience"
