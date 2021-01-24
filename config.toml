@@ -14,7 +14,7 @@ pygmentsCodeFencesGuessSyntax = true
 disqusShortname = "yourdiscussshortname"
 
 googleAnalytics = "UA-188036512-1"
-ale 
+
 [params]
     author = "Marek Barak"
     description = "Full Stack Datascience"
