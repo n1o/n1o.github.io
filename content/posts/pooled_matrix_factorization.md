@@ -78,7 +78,10 @@ $$
 \mu_u \sim \mathcal{N}(\mu_0, \Sigma_0)
 $$
 
-We could define an distribution for each video, thus allowing videos that are not that popular to borrow information from videos that are frequently watched. 
+We could also define a prior for videos, which would pool less popular videos towards the more popular. But a good advise is to start simple and grow more complicated in time. This simple example illustrates the power of Bayesian modeling, we can put more and more domain knowledge in our models, in form of prior distributions. 
+
+To get our hands dirty let look 
+
 
 ```python
 import pyro
