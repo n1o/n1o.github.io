@@ -80,9 +80,59 @@ $$
 
 We could also define a prior for videos, which would pool less popular videos towards the more popular. But a good advise is to start simple and grow more complicated in time. This simple example illustrates the power of Bayesian modeling, we can put more and more domain knowledge in our models, in form of prior distributions. 
 
-To get our hands dirty let look 
-
+It is time to get dirty and write some code. 
 
 ```python
-import pyro
+ def model(alpha, dim, n, m, nan_mask, not_na, data):
+        """
+        Perform matrix factorization
+        R = U @ V.T
+        """
+        alpha_loc = torch.tensor(1 / 25)
+
+        loc_u = pyro.sample(
+            "loc_u",
+            dist.MultivariateNormal(
+                loc=torch.zeros(dim),
+                precision_matrix=torch.eye(dim) * alpha_loc,
+            ),
+        )
+        precission_u = pyro.sample(
+            "precission_u",
+            dist.LKJCorrCholesky(
+                d=dim, eta=torch.tensor(alpha)
+            ),
+        )
+
+        observations_scale = pyro.sample(
+            "obs_scale",
+            dist.InverseGamma(
+                concentration=torch.tensor(1.0),
+                rate=torch.tensor(1.0),
+            ),
+        )
+
+        with pyro.plate("users", n):
+            U = pyro.sample(
+                "U", 
+                dist.MultivariateNormal(
+                    loc=loc_u, 
+                    precision_matrix=precission_u
+                )
+            )
+        with pyro.plate("content", m):
+            V = pyro.sample(
+                "V", dist.MultivariateNormal(
+                    loc=torch.zeros(dim), 
+                    precision_matrix=torch.eye(dim)
+                )
+            )
+        with pyro.plate("observations", not_na):
+            R = pyro.sample(
+                "R",
+                dist.Normal(loc=(U @ V.T)[~nan_mask], scale=observations_scale),
+                obs=data,
+            )
 ```
+
+The code above is just an rewrite of our model as code (we use vectorized operations instead of for loops for performance reasons).
