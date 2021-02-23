@@ -11,7 +11,7 @@ pygmentsStyle = "b2"
 pygmentsCodeFences = true
 pygmentsCodeFencesGuessSyntax = true
 
-disqusShortname = "yourdiscussshortname"
+disqusShortname = "mbarak-io"
 
 googleAnalytics = "UA-188036512-1"
 
