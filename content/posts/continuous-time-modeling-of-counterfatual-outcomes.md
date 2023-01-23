@@ -1,7 +1,7 @@
 ---
 title: "Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations"
 date: 2023-01-16T17:37:36+01:00
-draft: true
+draft: false
 ---
 
 # The problem it solves
@@ -13,20 +13,24 @@ Imagine you have an irregullary sampled time series, where at various time point
 
 ## Example
 
-Lets assume that we are a medical doctor in a hospital, and we have a patient that has high fever and is at risk of dying. A common practice is to measure his levels of C-reactive protein (CRP) to determine if he need antibiotics. Lets assume that his CRP is high and we administer a certain type of antibotics in a certain dosage. Antibiotics are not a magical wand and it takes some time till their effect shows, because of this we wait some time and we measure the patients CRP levels again. There are 3 general cases that can happe:
+As a medical doctor in a hospital, if a patient has a high fever and is at risk of dying, a common practice is to measure their levels of C-reactive protein (CRP) to determine if they need antibiotics. If the CRP level is high, antibiotics are administered at a certain dosage. However, the effects of antibiotics may not be immediate and it may take some time before they show. In this scenario, the doctor would wait for some time and measure the patient's CRP levels again.
 
-1. The CRP levels drop
-2. The CRP levels go up
-3. The CRP levels remain the same
+There are generally 3 outcomes that can occur in this scenario:
 
-Here we have to decide if we continue the treatment or change the type of antibiotics or their dosage.  
+1. The CRP level decreases after antibiotics are administered, indicating that the infection is being successfully treated.
+
+2. The CRP level remains unchanged or only slightly decreases, indicating that the antibiotics may not be effective for this particular infection or the dosage may not be sufficient.
+
+3. The CRP level increases, indicating that the infection may be getting worse and a different course of treatment may be needed.
+
+It is our decision to stick with the current treatment or change it.
 
 ## Details
 We can visuallize the example above as:
 
 ![Medical Example](/images/ct_cde_medical_example.jpg)
 
-At every time step we measure the CRP levels. The CRP levels influence the dosage and type of antibiotics, they also are an indicator of how likely a patient is to die. Antibiotics should lover the probability of death by lowering the future CRP levels. This behaviour is intuitive but there is a hidden catch, we have introduced time-dependent confounding. To explain what it is lets start with time-dependent variables and time-dependent treatment.
+At every time step we measure the CRP levels of a patient. The CRP levels not only influence the dosage and type of antibiotics prescribed, but they also serve as an indicator of the patient's likelihood of dying. Antibiotics are intended to lower the probability of death by reducing future CRP levels. This logic is intuitive, but there is a hidden catch: we have introduced time-dependent confounding. To understand this, let's start by defining time-dependent variables and time-dependent treatment.
 
 ### Time-Dependent variables
 Are variables that change over time and they are repeatedly measured. In our case CRP levels are a time-dependent variable
@@ -35,7 +39,7 @@ Are variables that change over time and they are repeatedly measured. In our cas
 Treatment (or just action) that is a response to a change in time-dependent variable. In our case this the type and dose of antibiotics.
 
 ### Time-Dependent confounding
-It is a confounder that is affected by the previous treatment. In our case the current dose (type) of antibiotics has an influence of tuture doses (types) of antibiotics, or for those who have an machine learning background we can say that each treatment introduces an distribution shift.
+It is a confounder that is affected by the previous treatment. In our case the current dose (type) of antibiotics has an influence on future doses (types) of antibiotics. For those who have an machine learning background we can say that each treatment introduces an distribution shift.
 
 # Counterfactuals, confounding  and bias
 
@@ -43,21 +47,21 @@ At the beggining we asked the following question:
 
 *If I perform a hypothetical sequence of interventions how will my time series evolve?*
 
-We already introduced time-dependent confounding, so we know that each time we perform some sort of intervention we potentially can introduce an distribution shift. If we want find out the effect of an hypothetical sequence of interventions, we need to take into account all the past interventions that have happend, and keep in mind that every one of the hypothetical can cause an distribution shift.
+We already introduced time-dependent confounding, so we know that each time we perform some sort of intervention it potentially can shift the distribution. In order to accurately determine the effect of a hypothetical sequence of interventions, it is crucial to take into account all past interventions and consider how each new intervention could potentially affect the distribution further.
 
 If we want to have an unbiased counterfactual estimate we have to remove confounding (close all the back doors).
 
 # Treatment Effect Neural Controlled Differential Equation (TC-CDE) Model
 
-The grand idea is that we take the time-depenent variables, time-dependent treatments and we use them to fit a neural controlled differential equation. A neural differential controlled differential equation is just a differential equation whose vector field is a neural network, where the solution to the differential equation is not determined only by its initial condition, but its trajectory is adjusted by subsequent observations.
+The main idea is to use time-dependent variables and treatments to fit a neural controlled differential equation (NCDE). An NCDE is a type of differential equation where the vector field is represented by a neural network. The solution to the equation is not only determined by its initial conditions, but also by subsequent observations.
 
-Lets try to put in our inflamation context. Each time we sample the CRP levels, we measure how bad the inflamation is, and since our imune system is working 24/7 we may get better over time without need for any medication. We can view inflamation as a latent proces that is evolving in time, due our imune system or medication, and the CRP levels are realizations of this latent process. Modeling this latent process is hard, thus what TC-CDE model does is to express this latent process as a solution to a Neural Controlled differential equation.
+For example, in the context of inflammation, we can view inflammation as a latent process that evolves over time due to the immune system or medication. CRP levels are realizations of this latent process. Modeling this process can be difficult, but the TC-CDE model addresses this by expressing the latent process as a solution to an NCDE.
 
-For counterfactual estimation, modelling the latent process as an NCDE is not enough. To get an unbiased counterfactual estimate we need to make sure that the latent process is not predtive of the treatment that will be administered. And that if we administer a treatment at time t, it wont change the latent value at time t but only influence its future latent dynamics.
+However, for counterfactual estimation, modeling the latent process as an NCDE is not sufficient. To achieve an unbiased counterfactual estimate, we need to ensure that the latent process is not predictive of the treatment that will be administered. Additionally, we need to ensure that administering a treatment at time t will not change the latent value at time t, but only influence its future latent dynamics.
 
 ## A bit of Math
 
-I allways try to avoid using equations, and I do fail all the time. Anyway for those who are more at home in machine learning and havent seen differential equations in a while (or ever), the werid integral can be viewed as a temporal evolution of some state, where the dynamics of the evolution is governed by a differential equation.
+I always try to avoid using equations, but I don't always succeed. For those who are more familiar with machine learning and haven't seen differential equations in a while (or ever), the strange integral can be viewed as the temporal evolution of some state. The dynamics of the evolution are governed by a differential equation.
 
 ### Latent Path
 To get the latent path we first have to define the initial state:
@@ -78,7 +82,7 @@ for $t \in (t_0, t]$
 
 ### Objective function
 
-To mitigate confounding bias we have to make sure that the latent path is not predictive of future treatments to achieve this we introduce 2 neural networks
+To mitigate confounding bias we have to make sure that the latent path is not predictive of future treatments to achieve this we introduce 2 neural networks:
 
 1. $h_v: R^l \rightarrow R^d$ used to predict the outcome $\hat{y}_s = h_v(Z_s)$
 
@@ -91,7 +95,7 @@ $$L = \frac{1}{n}\sum_{i=1}^n L_i^{(y)} - \mu L_i^{(a)} $$
 - $L^{(y)} = \frac{1}{k} (y_{t_j} - \hat{y}_{t_j})^2$ this is the sequare mean of outcome prediction
 - $L^{(a)} = - \frac{1}{k} \sum_{j=1}^k a_{t_j} \log(\hat{p}_{t_j}) + (1-a_j)\log (1 - \hat{p}_{t_j})$ this is the cross entropy of treatment predictions
 
-Since there is a substraction before $\mu$ we essentially maximize the cross entropy ensuring that $z_t$ is not predictive of treatment assignment $A_t$. This leads to balancing representations removing bias form time-dependent confounders allowing reliable counterfactual estimation where $\mu$ controlls the tradeoff between treatment and outcome predictions.
+Since there is a substraction before $\mu$ we essentially maximize the cross entropy ensuring that $z_t$ is not predictive of the treatment assignment $A_t$. This leads to balancing representations removing bias form time-dependent confounders allowing reliable counterfactual estimation where $\mu$ controlls the tradeoff between treatment and outcome predictions.
 
 ### Hypothetical path
 
@@ -111,9 +115,9 @@ Being able to generate unbiased estimates of some outcome value given hypothetic
 
 # Disclaimer
 
-I did read the original paper, and look at the code that was supplied with it. I did write this article on my own, however since I am not a native speaker, and I do not have an easy access to anybody who could reliably prof read it, I did use ChatGPT for proof reading and improving my stilization. If you are really interested how the original was worded. I will provide a link below.
+I did read the original paper, and look at the code that was supplied with it. I did write this article on my own, however since I am not a native speaker, I did use ChatGPT for proof reading and improving my writing. If you are really interested how the original was worded. I will provide a link below.
 
 # Sources
 1. https://github.com/seedatnabeel/TE-CDE
 2. https://arxiv.org/abs/2206.08311
-3. 
+3. Pre ChatGPT: https://github.com/n1o/n1o.github.io/blob/cdf8005ac1cd46cfdcda05d72a7ec8d21bbb8782/content/posts/continuous-time-modeling-of-counterfatual-outcomes.md
