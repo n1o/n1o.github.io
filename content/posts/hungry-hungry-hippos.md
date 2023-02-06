@@ -90,10 +90,13 @@ Constrains A to be diagonal initialized from a diagonal version of [Hippo](https
 ## Efficiency
 H3 scales $O(N \log N)$ for a sequence of length N where Attention requires $O(N^2)$ time and $O(N^2)$ space
 
+# Disclaimer
 
+I did read the original paper, and look at the code that was supplied with it. I did write this article on my own, however since I am not a native speaker, I did use ChatGPT for proof reading and improving my writing. If you are really interested how the original was worded. I will provide a link below.
 
 # Sources
 1. https://d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html
 2. https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html
 3. https://en.wikipedia.org/wiki/Hidden_Markov_model
 4. https://arxiv.org/abs/2206.11893
+5. https://arxiv.org/abs/2212.14052
