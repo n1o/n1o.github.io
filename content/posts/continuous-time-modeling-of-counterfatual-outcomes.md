@@ -2,6 +2,7 @@
 title: "Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations"
 date: 2023-01-16T17:37:36+01:00
 draft: false
+tags: ["causality", "differential_equation"]
 ---
 
 # The problem it solves
