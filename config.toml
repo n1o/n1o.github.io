@@ -55,12 +55,13 @@ googleAnalytics = "G-5WLCXX3LGJ"
     # Custom JS
     customJS = []
 
-[params.microAnalytics]
-    id = "ZwSg9rf6GA"
-    dnt = "false" # respect DNT tracker, "true" by default
-
-[params.googleTagManager]
-    id = "G-5WLCXX3LGJ"
+    [googleTagManager]
+        id = "G-5WLCXX3LGJ"
+        
+    [microAnalytics]
+        id = "ZwSg9rf6GA"
+        dnt = "false" # respect DNT tracker, "true" by default
+   
 
 [taxonomies]
   category = "categories"
