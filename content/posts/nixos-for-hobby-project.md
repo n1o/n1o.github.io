@@ -1,31 +1,35 @@
 ---
 title: "Nixos for Hobby Project"
 date: 2023-09-13T13:09:10+02:00
-draft: true
+draft: false
 ---
 
-Lately I started a side project: [CodeBreakers](https://codebreakers.re/courses/). It is nothing fancy just a site where I plan to release videos and articles about my latest passions Reverse Engineering and Binary Exploitation.
+Lately, I've embarked on a side project: [CodeBreakers](https://codebreakers.re/courses/). It's nothing too fancy, just a website where I plan to release videos and articles about my latest passions—Reverse Engineering and Binary Exploitation.
 
-Building a website is nothing too fancy, and I did it a couple of times already. The only challange was deciding where and how to host it? My initial toughts were to use [Fly](https://fly.io/) (which is a great PaaS product where a lot of things just works), but I went instead to [Hetzner](hetzner.com/) and rented a virtual server!
+Creating a website isn't all that complex, and I've done it a couple of times before. The main challenge was deciding where and how to host it. Initially, I considered using [Fly](https://fly.io/) ((which is a fantastic PaaS product with many built-in features), but ultimately, I opted for [Hetzner](hetzner.com) and rented a virtual server. 
 
-Manging a virtual server is definetly a low level solution (and there is a lot of pain involved), but it gave me some space to explore the idea of using [NixOS](https://nixos.org/) on my server.
+Managing a virtual server is definitely a more hands-on solution (and it comes with its fair share of challenges), but it provided me with the opportunity to explore the idea of using [NixOS](https://nixos.org/) on my server.
 
 # Nixos
-I used NixOS, as my main driver for arround 2 years, and oh boy, It did hurt on multiple occasions. For those that do not know, NixOS is a special linux ditribution build arround the [Nix](https://nix.dev/tutorials/first-steps/nix-language) programming language. What makes it special is that you have your whole operating system configuration as code. 
 
-You may ask: Operating system as code sound a bit like Ansible, Puppet, Saltstack, ... Right? 
+I used NixOS as my primary OS for around two years, and I must admit, it had its moments of difficulty. For those unfamiliar with it, NixOS is a unique Linux distribution built around the  [Nix](https://nix.dev/tutorials/first-steps/nix-language)programming language. What sets it apart is that your entire operating system configuration is expressed as code.
 
-Well it depends, the techonologies mentioned above are way more sofisticated and offer more features. With NixOS this configuration is more similar to things like Terraform. Esentially you have a set of features that you can enable and configure. (There is also support for custom modules thus the limit is the sky.)
+You might ask:
+
+"Isn't having the operating system as code similar to tools like Ansible, Puppet, or SaltStack?" 
+
+Well, it depends. The technologies mentioned above are more sophisticated and offer a broader range of features. With NixOS, the configuration is more akin to something like Terraform. Essentially, you have a set of features that you can enable and configure (with support for custom modules, so the sky's the limit).
 
 
-# My App
-Ok so I have server that runs NixOS (if you don't maybe you can [Infect](https://github.com/elitak/nixos-infect)). What I want is:
+# My Setup 
+Now, with a server running NixOS (if you don't have it yet, you can [Infect](https://github.com/elitak/nixos-infect))), here's what I want to achieve:
 
 1. Ngnix
 2. Postgresql
 3. Django
 
-At Hetzner I got for a bit less than 6 Euros a virtual sever with 2 vCPUs and 4 GB of RAM and a fixed IP. This is beefy enough to run everything I want on a single machine (And if I need I can cost efficiently scale verticaly). By running on a single machine all my services can talk trough unix sockets, and the only open ports I need are:
+At Hetzner, I acquired a virtual server for just under 6 Euros, equipped with 2 vCPUs, 4 GB of RAM, and a fixed IP. This is more than sufficient to run everything I need on a single machine. Plus, if I require additional resources, I can efficiently scale vertically. Running all my services on a single machine allows them to communicate through Unix sockets, and the only open ports I need are:
+
 
 ```nix
 networking.firewall = {
@@ -33,12 +37,12 @@ networking.firewall = {
     allowedTCPPorts = [22 80 443];
   };
 ``` 
+NixOS, by default, prioritizes security. Consequently, any ports you wish to open must be explicitly defined.
 
-NixOS is by default Secure thus All the ports that you want to open needs to be explicitly defined.
 
 ## Ngnix
 
-I use Lets Encrypt certificates (want to have it as cheap as possible).
+I use Let's Encrypt certificates to keep costs as low as possible.
 
 ```nix
 services.nginx = {
@@ -70,7 +74,7 @@ security.acme = {
     email = "my@email.com";
 };
 ```
-Under the hood there is a an ```nginx``` linux user created under which Nginx runs as a systemd daemon. We do not have an ```ngnix.conf``` file but instead our configuration is inlined. 
+Under the hood, there is an ```nginx``` Linux user created, under which Nginx runs as a systemd daemon. Instead of having an ```nginx.conf``` file, our configuration is inlined.
 
 ## Postgresql
 
@@ -89,13 +93,11 @@ services.postgresql = {
   '';
 };
 ```
-
-Similarly as for Ngnix under the hood there is a ```postgres``` user created. By default this does not open the typical ```5432``` port and wont allow TCP connections, but we wont need it since we can talk to it trough a unix socket located at ```/var/run/postgresql/.s.PGSQL.5432```
-
+Similarly to Nginx, under the hood, a ```postgres``` user is created. By default, this user doesn't open the typical ```5432``` port or allow TCP connections. However, we won't need that, as we can communicate with it through a Unix socket located at ```/var/run/postgresql/.s.PGSQL.5432```.
 
 ## Django
 
-Now this was one of my pain points. In the past I did a lot of Python Machine Learning Projects on NixOS ad it was anything but friedly. Thus at the end I decided to run my application in a docker container (Technicaly it is [Podman](https://podman.io/))
+This was one of my pain points in the past. While working on Python projects on NixOS (This is especially true if you need libraries like Pytorch), the experience was anything but friendly. Consequently, I eventually decided to run my application within a Docker container (technically using [Podman](https://podman.io/)).
 
 ```nix
 {
@@ -130,10 +132,16 @@ virtualisation.oci-containers.containers = {
 }
 ```
 
-This tells Nixos to run django container as a systemd daemon.
+This tells Nixos to run ```django``` container as a systemd daemon.
 
 
 # Release or CI/CD
 
-I store all my code in a single repository at Github. I have github action that runs every time I create a new git Tag. This action collects static Django assets, builds my Docker Image that is pushed to Githubs Container Repository, replace ```$TAG``` above for the right value and copy the nixos configuration files trough SCP to the server. As the last step on the server it executes ```nixos-rebuild switch```
+I store all my code in a single GitHub repository. I have a GitHub action that runs every time I create a new Git tag. This action collects static Django assets, builds my Docker image, which is then pushed to GitHub's Container Repository. It replaces the ```$TAG``` placeholder with the appropriate value and copies the NixOS configuration files to the server through SCP. Finally, on the server, it executes ```nixos-rebuild switch``` as the last step. And the new version is live. And if the switch fails than we stay at the version as before.
 
+
+# Is NixOS for your
+Yes it is! Ok so it has some gotchas but if I compare to tools I used before this is a definite improvement. 
+
+# Disclaimer
+I did write this article, but since my writing is far from being perfect I used Chat GPT to improve my writing. 
