@@ -1,5 +1,5 @@
 baseURL = "https://n1o.github.io/"
-title = "Data, Engineering and Stuff"
+title = "Data, Code and Breaking Stuff"
 
 theme = "hugo-coder"
 languageCode = "en"
@@ -17,9 +17,9 @@ googleAnalytics = "G-5WLCXX3LGJ"
 
 [params]
     author = "Marek Barak"
-    description = "Data, Engineering and Stuff"
+    description = "Data, Code and Breaking Stuff"
     keywords = "blog,developer,personal"
-    info = "Data, Engineering and Stuff"
+    info = "Data, Code and Breaking Stuff"
     
     footerContent = "Enter a text here."
     katex = true
@@ -28,7 +28,7 @@ googleAnalytics = "G-5WLCXX3LGJ"
     hideFooter = true
     hideCredits = false
     hideCopyright = false
-    since = 202
+    since = 2020
 
     # Git Commit in Footer, uncomment the line below to enable it.
     commit = "https://github.com/luizdepra/hugo-coder/tree/"
