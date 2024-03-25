@@ -2,6 +2,7 @@
 title: "Nixos for Hobby Project"
 date: 2023-09-13T13:09:10+02:00
 draft: false
+tags: ["NixOS"]
 ---
 
 Lately, I've embarked on a side project: [CodeBreakers](https://codebreakers.re/courses/). It's nothing too fancy, just a website where I plan to release videos and articles about my latest passions—Reverse Engineering and Binary Exploitation.
