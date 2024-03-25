@@ -16,7 +16,7 @@ disqusShortname = "mbarak-io"
 
 [services]
   [services.googleAnalytics]
-    ID =  "259915171"
+    ID =  "G-5WLCXX3LGJ"
 
 [params]
     author = "n1o"
