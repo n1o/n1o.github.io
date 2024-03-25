@@ -13,10 +13,13 @@ pygmentsCodeFencesGuessSyntax = true
 
 disqusShortname = "mbarak-io"
 
-googleAnalytics = "G-5WLCXX3LGJ"
+
+[services]
+  [services.googleAnalytics]
+    ID =  "G-5WLCXX3LGJ"
 
 [params]
-    author = "Marek Barak"
+    author = "n1o"
     description = "Data, Code and Breaking Stuff"
     keywords = "blog,developer,personal"
     info = "Data, Code and Breaking Stuff"
@@ -54,13 +57,6 @@ googleAnalytics = "G-5WLCXX3LGJ"
 
     # Custom JS
     customJS = []
-
-    [googleTagManager]
-        id = "G-5WLCXX3LGJ"
-        
-    [microAnalytics]
-        id = "ZwSg9rf6GA"
-        dnt = "false" # respect DNT tracker, "true" by default
    
 
 [taxonomies]
