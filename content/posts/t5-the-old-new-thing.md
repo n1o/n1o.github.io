@@ -82,7 +82,7 @@ The S-Denosing objective aligns with the autoregressive Language Model (LLM) app
 # To other relating papers
 We have previously explored how UL2 introduced multiple pretraining objectives. To further enhance this approach, we can introduce additional task-specific pretraining objectives.
 
-## CodeT5 CodeT5+
+## CodeT5 and CodeT5+
 CodeT5 introduces two additional pretraining objectives: **Identifier Tagging** and **Masked Identifier Prediction**.
 
 ### Identifier Tagging
@@ -91,7 +91,8 @@ The goal is to teach the model knowledge of whether if a code token is a identif
 ### Masked Identifier Prediction
 Here we mask a random identifier and replace all its occurrences by a sentinel token. It can be viewed as a sort of code obfuscation, where if we change a name of a identifier it has no impact on the code. Technically this should teach the model to perform deobfuscation.
 
-## CodeT5
+**CodeT5+**
+
 CodeT5+ builds upon the foundation of CodeT5. It involves instruction tuning and utilizes both a shallow encoder and a deep decoder.
 
 In the context of pretraining objectives, we distinguish between unimodal and bimodal pretraining. Bimodal pretraining incorporates both text and code, a strategy also employed in CodeT5. The goal is to equip the model with the ability to generate code from text (and vice versa). However, in the case of CodeT5, this approach led to reduced performance on code-to-code tasks, such as translating code from one programming language to another or detecting code defects.
