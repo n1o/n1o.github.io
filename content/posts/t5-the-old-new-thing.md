@@ -1,7 +1,7 @@
 ---
 title: "T5 the Old New Thing"
 date: 2024-03-06T12:58:32+01:00
-draft: true
+draft: false
 ---
 
 # Why T5
@@ -55,36 +55,36 @@ Obviosly the state-of-the art results are no longer state-of-the art, but one im
 
 Lets assume we have an balanced encoder-decoder model, where the encoder and decoder have the same number of parameters. The role of the encoder is to process the input sequence (Prompt) and this is done only once, while the role of the decoder is to generate the output sequence, and this is done, token by token. If we compare this to an autoregressive model, this model has only a decoder, if this decoder has the same number of parameters as the whole encoder-decoder model, the runtime of the autoregressive model will be twice as long as the runtime of the encoder-decoder model. The reason is that the decoder in an autoregressive model is twice as big as the decoder in an encoder-decoder model.
 
-Note: There is no rule that encoder and decoder have to be of same size, for example CodeT5+ employs an shallow encoder and and deep decoder. In this case it is obvious that performance will be similar to an Autoregressive model.
+Note: Although T5 is an encoder-decoder model, it doesn't mean we have to use it as such. We can always just use the encoder by chopping off the decoder part and introduce an additional classification head on top of the encoder output.
 
 # FLAN
 
 FLAN takes T5 and introduces multiple finetuning tasks, including Chain of Though (CoT) instruction tuning (it is worth noting that this paper was first published in October 2022 before ChatGPT was introduced to the public in November 2022). The idea is to have this prompt guided general intelligence model that can be used in a wide range of tasks, and with the help of CoT finetuning we get a step-by-step reasoning model, that improves the performance of all other downstream tasks.
 
 ## Back to Tiny Titans
-
-Lets get back to the Tiny Titans paper, FLAN-T5 is the only encoder-decoder model they tested. Since the encoder uses a fully visible attention mask, it is no surprise that the model works well for text summarization task. And since FLAN finetuning dataset involves a lot of summarization tasks, it is no surprise that the model works well for summarization tasks.
+Let's get back to the Tiny Titans paper. FLAN-T5 is the only encoder-decoder model they tested. Since the encoder uses a fully visible attention mask, it is no surprise that the model works well for the text summarization task. And since FLAN's fine-tuning dataset involves a lot of summarization tasks, it is no surprise that the model works well for summarization tasks.
 
 # UL2
-UL2 follows on T5 but extends it by introducing a new Mixture of Denoisers pretraining objective.
+UL2 builds upon T5 and introduces a novel pretraining objective called the “Mixture of Denoisers.”
 
 ## Mixture of Denoisers
-We introduce a mixture of denoising objectives, each of the objectives is designed to force the model to learn different types of knowledge.
+In the Mixture of Denoisers approach, we employ various denoising objectives, each designed to encourage the model to learn different types of knowledge.
 
 ### R-Denosing
-This is the pain old denosing objective introduced by T5, where we corrupt a "shortish" span of the input text and the model is trained to predict the original text given the corrupted text. We corrupt spans of 2 to 5 tokens, around 15% of the text. This objective forces the language model to learn useful knowledge, not necessarily forcing it to generate fluent text.
+The R-Denosing objective is inherited from T5. In this approach, we intentionally corrupt a “shortish” span of the input text and train the model to predict the original text based on the corrupted version. Specifically, we corrupt spans of 2 to 5 tokens, which accounts for approximately 15% of the text. The goal here is to impart useful knowledge to the language model, without necessarily emphasizing fluency in text generation.
 
 ### X-Denosing
-This is a new denosing objective introduced by UL2, where we corrupt a "longish" span of the input text and the model is trained to predict the original text given the corrupted text. The idea is that weforce the model to be able to generate long text given an limited information. We corrupt spans of 12 or more tokens, around 50% of the text.
+UL2 introduces the X-Denosing objective. Here, we deliberately corrupt a “longish” span of the input text and train the model to predict the original text despite the corruption. The purpose is to challenge the model to generate coherent long text even when provided with limited information. Spans of 12 or more tokens (approximately 50% of the text) are subject to corruption in this case.
 
 ### S-Denosing
-This is essentially the autoregressive LLM objective, where we corrupt the input text by removing all the tokens that come after a certain token, we then train the model to reconstruct the original text given the corrupted text. This objective forces the model to generate fluent text.
+The S-Denosing objective aligns with the autoregressive Language Model (LLM) approach. We corrupt the input text by removing all tokens that appear after a certain token. Subsequently, the model is trained to reconstruct the original text from the corrupted version. This objective emphasizes the generation of fluent and coherent text.
 
 # To other relating papers
-We already saw that UL2 introduced multiple pretraining objectives, we can push this further by introducing additional task specific pretrainig objectives. 
+We have previously explored how UL2 introduced multiple pretraining objectives. To further enhance this approach, we can introduce additional task-specific pretraining objectives.
 
 ## CodeT5 CodeT5+
-CodeT5 introduces two additional pretraining objectives: Indenifier Tagging and Masked Identifier Prediction.
+CodeT5 introduces two additional pretraining objectives: **Identifier Tagging** and **Masked Identifier Prediction**.
+
 ### Identifier Tagging
 The goal is to teach the model knowledge of whether if a code token is a identifier or not, and it can be viewed as sort of syntax hihglihting.
 
@@ -92,33 +92,39 @@ The goal is to teach the model knowledge of whether if a code token is a identif
 Here we mask a random identifier and replace all its occurrences by a sentinel token. It can be viewed as a sort of code obfuscation, where if we change a name of a identifier it has no impact on the code. Technically this should teach the model to perform deobfuscation.
 
 ## CodeT5
-CodeT5+ builds up on top of CodeT5 and it also involves instruction tuning and employs an shallow encoder and and deep decoder. 
+CodeT5+ builds upon the foundation of CodeT5. It involves instruction tuning and utilizes both a shallow encoder and a deep decoder.
 
-We also have specific pretraining objectives depending if we do unimodal or bimodal pretraining. Bimodal pretraining involves both text and code and it was also used in CodeT5 to give the model ability to generate code from text (and vice versa). However for CodeT5 this reduced the performance of the model on code-to-code tasks like code translation from one programming language to another or code defect detection. 
+In the context of pretraining objectives, we distinguish between unimodal and bimodal pretraining. Bimodal pretraining incorporates both text and code, a strategy also employed in CodeT5. The goal is to equip the model with the ability to generate code from text (and vice versa). However, in the case of CodeT5, this approach led to reduced performance on code-to-code tasks, such as translating code from one programming language to another or detecting code defects.
 
-As for the bimodal pretraining objectives for CodeT5+ we have the following objectives:
+For CodeT5+, the bimodal pretraining objectives include the following:
 
 ### Text-Code Contrastive Learning
-Here we have positive and negative code text pairs, the idea is that for the positive samples the code and text should be close together in the representation space. This task is only activates the encoder which is used to encode the text-code snippets into an continuous representation space.
+In this objective, we work with positive and negative pairs of code and text. The idea is that for positive samples, the code and text representations should be close together in the representation space. This task activates only the encoder, which encodes the text-code snippets into a continuous representation space.
+
 ### Text-Code Matching
-This actives only the decoder and it should predict whether the code and text share the same semantics. It should enable the model capture fine-grained semantic information between code and text.
+This objective exclusively activates the decoder. Its purpose is to predict whether the code and text share the same semantics. By doing so, the model captures fine-grained semantic information between code and text.
+
 ### Text-Code Causal LM
-This activates booth the encoder and decoder and it should help the model generate code from text and vice versa.
+Here, both the encoder and decoder are engaged. The objective is to enable the model to generate code from text and vice versa.
 
 ## AST-T5
-This is an another extension of T5 for code where we leverage the Abstract Syntax Tree of the code. A new AST-Aware Subtree Corruption objective is introduced, where corrupt tokens with respect to the corresponding subtree of the AST for the code snippet.
+AST-T5 represents an intriguing extension of T5 specifically designed for code. In this variant, we harness the power of the Abstract Syntax Tree (AST) associated with the code. Notably, a novel objective called AST-Aware Subtree Corruption is introduced. This objective involves corrupting tokens within a code snippet with respect to the corresponding subtree in the AST.
 
-## LENS
-This paper explores application of T5 in network security and it is a beast (I am planning to make an full blog post about it!). But long story short the paper introduces multiple embedding strategies and pretraining objectives. We wont go into details about the embedding strategies (It involves Payload Header Embedding and Packet Segment Embedding), but we will cover the pretraining objectives.
+## LENS: T5 in Network Security
+The LENS paper delves into the application of T5 in the realm of network security, and let me tell you, it’s quite the beast (I’m even planning to write a full blog post about it!). In a nutshell, the paper introduces multiple embedding strategies and pretraining objectives. While we won’t delve into the specifics of the embedding strategies (which include Payload Header Embedding and Packet Segment Embedding), we will certainly cover the pretraining objectives.
 
 ### Packet Order Prediction
-This pretrains only the Encoder, where we try to teach the model to learn the natural order of the packets in the network traffic. This is done by corrupting the order of the packets and the model is trained to predict the original order of the packets.
-### Homologous Traffic Prediction
-As with Packet Order Prediction this objective is applied only to the Encoder and it is inspired by [ET-BERT](https://arxiv.org/abs/2202.06335). The idea is to give the model the ability to capture the difference between different types of network traffic. 
+In this pretraining objective, we focus exclusively on the Encoder. Our aim is to teach the model the natural order of packets within network traffic. To achieve this, we intentionally corrupt the order of the packets and then train the model to predict their original sequence.
 
-Note: This paper is kind of an opposite to CodeT5+ in the sense they push way more emphasis on the encoder than the decoder.
+### Homologous Traffic Prediction
+Similar to the Packet Order Prediction, this objective is also applied solely to the Encoder. It draws inspiration from [ET-BERT](https://arxiv.org/abs/2202.06335). The underlying idea is to equip the model with the ability to capture the difference between different types of network traffic.
+
+Note: Interestingly, this paper takes a somewhat divergent approach compared to CodeT5+. While CodeT5+ emphasizes the decoder, here the focus is heavily skewed toward enhancing the encoder. The main reason for this is that in LENSE we are more interested in understanding the network traffic rather than generating it. Where in CodeT5+ we are more interested in generating code.
 
 # Takeaway
-T5 is a powerful base model, that is easily extendable by introducing additional pretraining objectives. These additional pretraining objectives can force our model to learn additional context, that can be leverged in more specific tasks. We can teoretically apply additional pretraining objectives also in Causal LLMs, however I haven't seen any research in this direction (yet, but again there is a lot of going on in the field of LLMs and I am hardly an expert)
+T5, a robust base model, offers remarkable extensibility through the introduction of additional pretraining objectives. These supplementary objectives empower our model to grasp additional context, which can then be harnessed for more specific tasks. Theoretically, we can also apply these extra pretraining objectives to Causal LLMs (Language Models), although I have yet to encounter research in this particular direction. Given the dynamic landscape of language models, there is undoubtedly much ongoing exploration in the field, even though I don’t claim expertise in this area.
 
-Its runtime requirements are also 1/2 of an autoregressive model (If we have an balanced encoder decoder pair) with the same parameter.
+Furthermore, T5 boasts runtime requirements that are approximately half those of an autoregressive model (assuming a balanced encoder-decoder pair with equivalent parameters). But does T5 have any downsides? Technically, I don’t perceive any inherent drawbacks. Unfortunately, the current state-of-the-art results are still dominated by autoregressive models. However, this isn’t a limitation of T5 itself; rather, it reflects the prevailing trends in current research.
+
+# Disclaimer
+Since I am not an english native speaker, I use ChatGPT to help me with the text (Formatting, Spelling, etc). However I did write every single word in this blog post, If you are interested you can check the the original text [here](https://github.com/n1o/n1o.github.io/blob/master/content/posts/t5-the-old-new-thing.md)
