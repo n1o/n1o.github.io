@@ -112,7 +112,7 @@ Here, both the encoder and decoder are engaged. The objective is to enable the m
 AST-T5 represents an intriguing extension of T5 specifically designed for code. In this variant, we harness the power of the Abstract Syntax Tree (AST) associated with the code. Notably, a novel objective called AST-Aware Subtree Corruption is introduced. This objective involves corrupting tokens within a code snippet with respect to the corresponding subtree in the AST.
 
 ## LENS: T5 in Network Security
-The LENS paper delves into the application of T5 in the realm of network security, and let me tell you, it’s quite the beast (I’m even planning to write a full blog post about it!). In a nutshell, the paper introduces multiple embedding strategies and pretraining objectives. While we won’t delve into the specifics of the embedding strategies (which include Payload Header Embedding and Packet Segment Embedding), we will certainly cover the pretraining objectives.
+The LENS paper applies T5 for network security, and let me tell you, it’s quite the beast (I’m even planning to write a full blog post about it!). In a nutshell, the paper introduces multiple embedding strategies and pretraining objectives. While we won’t delve into the specifics of the embedding strategies (which include Payload Header Embedding and Packet Segment Embedding), we will certainly cover the pretraining objectives.
 
 ### Packet Order Prediction
 In this pretraining objective, we focus exclusively on the Encoder. Our aim is to teach the model the natural order of packets within network traffic. To achieve this, we intentionally corrupt the order of the packets and then train the model to predict their original sequence.
