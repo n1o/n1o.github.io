@@ -12,13 +12,14 @@ Here is a bunch of my posts about a super cool model called T5 its extensions an
 
 
 # Coding T5
-- CodeT5, CodeT5+
-- AST-T5
-- CodeFusion
+- CodeT5, CodeT5+ (Coming Soon)
+- AST-T5 (Coming Soon)
+- CodeFusion (Coming Soon)
 
 # Cyber Security
-- LENS
+- LENS (Coming Soon)
+- HexT5 (Coming Soon)
 
 # With Graphs
-- Graph Neural Prompting
+- Graph Neural Prompting (Coming Soon)
 
