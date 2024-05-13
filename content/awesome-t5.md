@@ -1,7 +1,7 @@
 ---
 title: "Awesome T5"
 date: 2024-05-06T17:31:29+02:00
-draft: true
+draft: false
 ---
 
 Here is a bunch of my posts about a super cool model called T5 its extensions and applications.
