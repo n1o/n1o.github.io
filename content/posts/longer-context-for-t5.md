@@ -83,7 +83,9 @@ Since we have an optimization problem within our routing mechanism, we want this
 
 
 #### Feedforward
-$$X_i = X_i + FFd_{Light}(X_i) + \tilde{s}_i . FFd_{Heavy}(X_i)$$
+
+$$X_i = X_i + FFd_{Light}(X_i) + \tilde{s_i} . FFd_{Heavy}(X_i)$$
+
 - $X_i$ is the model state at token $i$ 
 - $\tilde{s}_i$ is the normalized routing score (this is 0 for non-routed tokens)
 
