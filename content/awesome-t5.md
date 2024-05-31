@@ -12,12 +12,14 @@ Here is a bunch of my posts about a super cool model called T5 its extensions an
 
 
 # Coding T5
-- CodeT5, CodeT5+ (Coming Soon)
+- [CodeT5, CodeT5+]({{< relref "posts/code-t5-plus.md" >}})
 - AST-T5 (Coming Soon)
-- CodeFusion (Coming Soon)
+- CodeFusion (Commit Soon)
+    - there is a bit of confusion about this research paper, there are some citation issues, and the overall reviews are not that great, however it still sounds like an interesting research direction, and will cover it but it may be a short one
 
 # Cyber Security
 - LENS (Coming Soon)
+- BinT5 (Coming Soon)
 - HexT5 (Coming Soon)
 
 # With Graphs
