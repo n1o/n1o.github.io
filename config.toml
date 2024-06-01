@@ -74,7 +74,7 @@ disqusShortname = "mbarak-io"
     name = "Twitter"
     icon = "fa fa-twitter"
     weight = 3
-    url = "https://twitter.com/MrkBarak"
+    url = "https://twitter.com/n1o_cr0Tx"
 [[params.social]]
     name = "LinkedIn"
     icon = "fa fa-linkedin"
@@ -84,7 +84,7 @@ disqusShortname = "mbarak-io"
     name = "Medium"
     icon = "fa fa-medium"
     weight = 5
-    url = "https://medium.com/@MrkBarak"
+    url = "https://medium.com/@n1o_cr0Tx"
 [[params.social]]
     name = "RSS"
     icon = "fa fa-rss"
