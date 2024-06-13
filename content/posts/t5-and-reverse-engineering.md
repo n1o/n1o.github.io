@@ -24,7 +24,7 @@ To understand reverse engineering we need to start with compilation. Compilation
 
 But to keep thing simple lets continue with machine code. Machine code is just a sequence of bytes. These bytes can be instruction or data. (Code is data, data is code is one of the basic idea of Von Neumann's architecture). These bytes can be without loose of generality reconstructed back to assembly code. Assembly code is a human readable representation of machine code. One thing to note is that being human readable does not mean that it is easy to understand.
 
-To give you an example of the following C code:
+To give you an example of the following ```simple_main.c``` code:
 
 ```c
 #include <stdio.h>
@@ -44,6 +44,31 @@ Compiled with GCC 11.4.0
 
 ```
 gcc simple_main.c -o simple_main.so -no-pie -fno-stack-protector
+```
+- please never ever enable those 2 flags above in production code, i just want to keep the assembly as simple as possible
+
+We get [this](https://raw.githubusercontent.com/n1o/n1o.github.io/master/examples/decompiled_simple_main.txt), it aint pretty, and there is probably a lot more than we asked for. 
+
+```asm
+0000000000401156 <main>:
+  401156:	f3 0f 1e fa          	endbr64 
+  40115a:	55                   	push   rbp
+  40115b:	48 89 e5             	mov    rbp,rsp
+  40115e:	48 83 ec 10          	sub    rsp,0x10
+  401162:	89 7d fc             	mov    DWORD PTR [rbp-0x4],edi
+  401165:	48 89 75 f0          	mov    QWORD PTR [rbp-0x10],rsi
+  401169:	83 7d fc 01          	cmp    DWORD PTR [rbp-0x4],0x1
+  40116d:	7e 14                	jle    401183 <main+0x2d>
+  40116f:	48 8d 05 8e 0e 00 00 	lea    rax,[rip+0xe8e]        # 402004 <_IO_stdin_used+0x4>
+  401176:	48 89 c7             	mov    rdi,rax
+  401179:	b8 00 00 00 00       	mov    eax,0x0
+  40117e:	e8 dd fe ff ff       	call   401060 <printf@plt>
+  401183:	48 8d 05 91 0e 00 00 	lea    rax,[rip+0xe91]        # 40201b <_IO_stdin_used+0x1b>
+  40118a:	48 89 c7             	mov    rdi,rax
+  40118d:	e8 be fe ff ff       	call   401050 <puts@plt>
+  401192:	b8 00 00 00 00       	mov    eax,0x0
+  401197:	c9                   	leave  
+  401198:	c3                   	ret    
 ```
 
 # BinT5
