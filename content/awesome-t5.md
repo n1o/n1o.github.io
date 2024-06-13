@@ -19,8 +19,8 @@ Here is a bunch of my posts about a super cool model called T5 its extensions an
 
 # Cyber Security
 - LENS (Coming Soon)
-- BinT5 (Coming Soon)
-- HexT5 (Coming Soon)
+- [BinT5, HexT5]({{< relref "posts/t5-and-reverse-engineering.md" >}}) T5 and Reverse Engineering
+
 
 # With Graphs
 - Graph Neural Prompting (Coming Soon)
