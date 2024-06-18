@@ -1,7 +1,7 @@
 +++ 
-draft = true
+draft = false
 date = 2024-06-12T14:07:17+02:00
-title = "BinT5 and HexT5 or how is T5 used for Binary Reverse Engineering"
+title = "BinT5 and HexT5 or T5 and Binary Reverse Engineering"
 description = ""
 slug = ""
 authors = []
@@ -16,14 +16,14 @@ series = []
 For a while now I have a new passion and that is binary reverse engineering and vulnerability exploitation. This interest has led me to create [CodeBreakers](https://codebreakers.re) 
 a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.
 
-There are two approaches where [T5]({{< relref "posts/t5-the-old-new-thing.md" >}}) was applied for reverse engineeringg, one is [BinT5](https://arxiv.org/abs/2301.01701) and the other [HexT5](https://www.semanticscholar.org/paper/HexT5%3A-Unified-Pre-Training-for-Stripped-Binary-Xiong-Chen/04c3fccfe01f42afe18dcdb027385f350ab3c9d1) but before we dive into details about these papers let's first take a look at the basics of reverse engineering.
+I found two notable research papers where [T5]({{< relref "posts/t5-the-old-new-thing.md" >}}) has been applied to reverse engineering are [BinT5](https://arxiv.org/abs/2301.01701) and [HexT5](https://www.semanticscholar.org/paper/HexT5%3A-Unified-Pre-Training-for-Stripped-Binary-Xiong-Chen/04c3fccfe01f42afe18dcdb027385f350ab3c9d1). Before we dive deep into the details of these papers, let's first explore the basics of reverse engineering.
 
 
 ## Reverse Engineering
 
-To understand reverse engineering we need to start with compilation. Compilation is the process of translating a high-level programming language like C (Yes! C is a high level programming language) to machine code. Machine code is something that your CPU can directly execute. The actual execution of the machine code is bit more involved, since an instruction like "add" can be further broken down into micro-code instructions, instruction can actually be executed out of order and with speculative execution things get messy really fast, and a there is a lot of room for mistakes and security vulnerabilities.
+To understand reverse engineering, we must first understand compilation. Compilation is the process of translating a high-level programming language, such as C (yes, C is considered a high-level programming language), into machine code. Machine code is a format that your CPU can directly execute. The actual execution of machine code is a bit more complex, as an instruction like "add" can be further broken down into micro-code instructions. Instructions can be executed out of order, and with speculative execution, things can quickly become complicated, leaving room for errors and security vulnerabilities.
 
-But to keep thing simple lets continue with machine code. Machine code is just a sequence of bytes. These bytes can be instruction or data. (Code is data, data is code is one of the basic idea of Von Neumann's architecture). These bytes can be without loose of generality reconstructed back to assembly code. Assembly code is a human readable representation of machine code. One thing to note is that being human readable does not mean that it is easy to understand.
+To keep things simple let's continue with machine code. Machine code is essentially a sequence of bytes. These bytes can represent instructions or data (the concept of "code is data, data is code" is a fundamental idea of Von Neumann's architecture). These bytes can, without loss of generality, be reconstructed back into assembly code. Assembly code is a human-readable representation of machine code. However, it's important to note that being human-readable does not necessarily mean it is easy to understand.
 
 To give you an example of the following ```simple_main.c``` code:
 
@@ -48,7 +48,7 @@ gcc simple_main.c -o simple_main.so -no-pie -fno-stack-protector
 ```
 **Please never ever enable those 2 flags above in production code, i just want to keep the assembly as simple as possible.**
 
-We get [this](https://raw.githubusercontent.com/n1o/n1o.github.io/master/examples/decompiled_simple_main.txt), it aint pretty, and there is probably a lot more than we asked for. But this is still manageable, and in reasonable time I can show the assembly output for our main function from above:
+We get [this](https://raw.githubusercontent.com/n1o/n1o.github.io/master/examples/decompiled_simple_main.txt), it ain't pretty, and it might contain more information than we asked for. However, it remains manageable, and in a reasonable timeframe, even an less experienced reverse engineer can extract the corresponding assembly for our main function::
 
 ```assembly
 0000000000401156 <main>:
@@ -71,126 +71,138 @@ We get [this](https://raw.githubusercontent.com/n1o/n1o.github.io/master/example
   401197:	c9                   	leave  
   401198:	c3                   	ret    
 ```
-The first column is the address in memory where the instruction is stored, the second column are the opcodes, and the third column is the human readable representation of the opcode, with some comments. In the actually code we see some function calls, some memory manipulation and conditional jumps. Somebody who has some idea about the calling convensions and has basic understanding of assembly can, in an reasonable time, understand what is going on. Lets push this a bit further and lets invoke the ```strip``` command to get [this beauty](https://raw.githubusercontent.com/n1o/n1o.github.io/master/examples/decompiled_striped_simple_main.txt). This makes things exponentially harder, there is no main function at all. Luckily for us, we have access to the unstriped version (and we added ```-no-pie``` flag to GCC) and our main function is still at ```0x401156```. But you can already see the pattern, that once we strip the binary we loose a lot of information, like function simbols and their boundaries. Most comercial software are stripped, and you can bet that most mallware is stripped as well.
 
-I hope I convinced you that reverse engineering challenging as is, by stripping binaries makes it even harder. By introducing various source code obfuscations we are standing before a nearly impossible task. 
+The first column represents the memory address where the instruction is stored, the second column contains the opcodes, and the third column provides a human-readable representation of the opcode, supplemented with some comments. In the actual code, we observe some function calls, memory manipulation, and conditional jumps. Anyone with a basic understanding of calling conventions and assembly could reasonably comprehend what's happening. 
+
+
+Let's dive deeper and invoke the `strip` command to obtain [this beauty](https://raw.githubusercontent.com/n1o/n1o.github.io/master/examples/decompiled_striped_simple_main.txt). Stripping significantly complicates matters as there is no main function at all. Fortunately, we have access to the unstripped version (and we added the `-no-pie` flag to GCC), so our main function remains at `0x401156`. However, a pattern emerges: stripping the binary results in the loss of substantial information, such as function symbols and their boundaries. Most commercial software is stripped, and it's safe to assume that most malware is stripped as well.
+
+I hope I've managed to convince you that reverse engineering is challenging in its own right, and stripping binaries only amplifies this difficulty. When we introduce various source code obfuscations, we find ourselves facing a task that is nearly impossible.
 
 # BinT5
 
-We build on top of CodeT5 Base (220m) and finetune it to perform reverse engineering, more specifically we want to generate natural language summaries for binary functions. Why summaries? We have to remind ourselves that compilation is not a 1 to 1 function, making the recovery of actually source code an imossible task. But providing an highlevel overview of the behaviour of the function gives the reverse engineer a good starting point, where to focus on and what to expect. 
+Builds upon CodeT5 Base (220m) and fine-tunes it to perform reverse engineering, specifically to generate natural language summaries for binary functions. Why summaries? It's important to remember that compilation is not a one-to-one function, making the recovery of actual source code an impossible task. However, providing a high-level overview of a function's behavior gives the reverse engineer a good starting point, indicating where to focus and what to expect.
+
 
 ## Input Data
-The authors state that there is no reference dataset for reverse engineering task, so they create their own dataset. They call it Capybara, and it contains 214k decompiled C binaries for projects built for Ubuntu using Travis CIcopiled with GCC using the following opimization flags: -O0, -O1, -O2, -O3. These binaries are than striped. One of the biggest downsides of C projects is a lack of standard single documentation format, because of this the authors apply various heuristics to provide documnentation for the functions.
+The authors note the absence of a reference dataset for reverse engineering tasks, leading them to create their own dataset. Named Capybara, it contains 214k decompiled C binaries for projects built for Ubuntu using Travis CI, compiled with GCC using the following optimization flags: -O0, -O1, -O2, -O3. These binaries are then stripped. One of the significant downsides of C projects is the lack of a standard single documentation format. To address this, the authors apply various heuristics to provide documentation for the functions.
 
-The actually input of the model is not the assembly code, but the decompiled pseudo C code. For generating pseudo C code the authors use [Ghidra](https://www.ghidra-sre.org/). Why using pseudo C instead of assembly, because pseudo C is more human readable and it was performing better in the experiments. And since CodeT5 was pretrained on C source code, and there is a lot of similarity between C source code and pseudo C code (it is pseudo C code because it does not have to be compilable). 
+The actual input of the model is not the assembly code, but the decompiled pseudo C code. The authors use [Ghidra](https://www.ghidra-sre.org/) to generate pseudo C code. The choice of pseudo C over assembly is due to its greater readability and superior performance in experiments.  Since CodeT5 was pretrained on C source code, and there is a substantial similarity between C source code and pseudo C code (it's referred to as pseudo C code because it doesn't have to be compilable), making it safe to assume that it will work well.
 
 ### Demistriped Functions
-By leveraging Ghidra we can lift assembly code to pseudo C code, however in stripped binaries functions can be inlined or ```CALL``` instructions can be replaced by ```JUMP``` instructions. The actual recovering of function boundaries is separate research topic. Because of this imperfections the authors introduce demistriped functions. These are function that are lifted from binaries that are not striped, but we manually remove indentifiers like function names or variable names.
+By leveraging Ghidra, we can lift assembly code to pseudo C code. However, in stripped binaries, functions can be inlined, or `CALL` instructions can be replaced by `JUMP` instructions. The actual recovery of function boundaries is a separate research topic. Due to these imperfections, the authors introduce demistriped functions. These are functions lifted from binaries that are not stripped using ```strip``` command, but the identifiers like function names or variable names are manually removed.
 
 #### Remarks
-In my opinion this is an highly unrealistic scenario, limiting any particular real world application.
+This scenario seems highly unrealistic, potentially limiting its applicability in real-world situations.
 
 ## Performance
-The authors compare BinT5 to [GraphCodeBERT](https://codebreakers.re/articles/detail/bert-codebert-and-graphcodebert/) and [PolyGlotCodeBERT](https://arxiv.org/abs/2112.02043) finetuned on Capybara dataset. On BLEU-4 BinT5 scores 5 to 3 points higher than the previously mentioned models. 
+The authors compare BinT5 to [GraphCodeBERT](https://codebreakers.re/articles/detail/bert-codebert-and-graphcodebert/) and [PolyGlotCodeBERT](https://arxiv.org/abs/2112.02043), both fine-tuned on the Capybara dataset. On the BLEU-4 metric, BinT5 scores 3 to 5 points higher than the aforementioned models.
 
-Overall the model struggles a lot with striped binaries, part of the strugle comes from the inherited flaws from the decompilation process, especially with inlined functions, where the decompiler can not recover the function boundaries.
+However, the model significantly struggles with stripped binaries. This struggle stems partly from inherent flaws in the decompilation process, particularly with inlined functions where the decompiler cannot recover the function boundaries.
 
-In case of demi-striped functions the model performs significantly better, however this is not a real world scenario, rendering the model less useful.
+In the case of demi-striped functions, the model performs significantly better. However, this is not a real-world scenario, which limits the model's usefulness.
 
 ### Ablevation
 
 #### Duplicates
-Capybara dataset contains some level of duplicates, this is natural thing, since different project thed to rely on shared libraries. By removing duplicates (near duplicates) from the dataset, the model looses a lot of its performance on Exact Match, but based on human evaluation the summaries are still reasonable.
+The Capybara dataset contains some level of duplicates, which is natural since different projects tend to rely on shared libraries. By removing duplicates (or near duplicates) from the dataset, the model loses a lot of its performance on Exact Match. However, based on human evaluation, the summaries remain reasonable.
 
 #### Source Code Comments vs Function Names
-From an performance perspective having comments in the code seems less important than actual identifiers, with function names contributing the most, but again in stripped binaries we do not have function names.
+From a performance perspective, having comments in the code seems less important than actual identifiers, with function names contributing the most. However, in stripped binaries, we do not have function names.
 
 ### Data Leakage
 
-There are couple of concerns about data leakage from CodeT5. CodeT5 was pretrained on a dataset containing C/C# code, unfortunately the dataset is not public, so it is hard to assess if the foundational model was pretrained on source code that is similar (or the same) as used in BinT5. The authors claim that the dataleakage is minimal since the performance of the model is comparable to finetuned GraphCodeBERT and PolyGlotCodeBERT (They where not pretrained on any C code) on the Capybara dataset. 
+There are a few concerns about data leakage from CodeT5. CodeT5 was pretrained on a dataset containing C/C# code. Unfortunately, the dataset is not public, making it difficult to assess if the foundational model was pretrained on source code that is similar (or the same) as that used in BinT5. The authors claim that the data leakage is minimal since the performance of the model is comparable to fine-tuned GraphCodeBERT and PolyGlotCodeBERT (which were not pretrained on any C code) on the Capybara dataset.
 
 ## Remarks to BinT5
 
-It is a nice first paper that applies T5 (or an LLM) to reverse engineering of stripped binaries. However the results are not that promising. The model works nice, but only on a very specific scenario (demi-striped), unfortunately a scenario that is not likely to happen in the real world. 
+I would like to applaud BinT5 as it represents the first attempt to apply T5 (or an LLM) to the reverse engineering of stripped binaries. However, the results are not particularly promising. The model performs well, but only in a very specific scenario (demi-striped), which is unlikely to occur in the real world.
 
-In my personal opinion, the authors missed the main point of T5, and they did not introduce any new pretraining objectives that would help the model to better understand the binary code. But luckily for us there is HexT5.
+In my personal opinion, the authors missed the main point of T5. They did not introduce any new pretraining objectives that would help the model better understand the binary code. Fortunately, we have HexT5 as an alternative.
 
 # HexT5
 
-HexT5 continues where BinT5 left off, it introduce a couple of pretraining objectives that should help with the model to comprehend the binary code better. The authors also realize that existing reverse engineering methods are narrow focused on a single task like, function name recovery, variable names recovery, binary code summarization or binary function similarity detection. With HexT5 the authors want to tackle all of these tasks at once, stating that models that try to learn multiple objectives at once tend to perform better than models that are trained on a single task. In addition we work with binaries that where compiled for different architectures ```x86, x86_64, arm32, arm64```, different compiler flags: ```-O0, -O1, -O2, -O3)``` and four compilers clang-7.0, clang-9.0, gcc-7.2.0, gcc-8.3.0.
+HexT5 picks up where BinT5 left off, introducing several pretraining objectives designed to enhance the model's understanding of binary code. The authors recognize that existing reverse engineering methods tend to focus narrowly on single tasks such as function name recovery, variable name recovery, binary code summarization, or binary function similarity detection. With HexT5, the authors aim to tackle all these tasks simultaneously, asserting that models trained on multiple objectives tend to outperform those trained on a single task. Additionally, they work with binaries compiled for different architectures (`x86, x86_64, arm32, arm64`), different compiler flags (`-O0, -O1, -O2, -O3`), and four compilers: clang-7.0, clang-9.0, gcc-7.2.0, gcc-8.3.0.
 
-As with BinT5 it builds on top of T5 Base (220m).
+Like BinT5, HexT5 builds on top of T5 Base (220m).
 
 ## Input Data
 
-As in BinT5 we do not leverage binary code (assembly) directly, but we first decompile it to pseudo C, however in this case we use [Hex-Rays](https://hex-rays.com/ida-pro/) instead of Ghidra. Since Hex-Rays is a commercial product (and an expensive one), with performance that is (arguably) better than Ghidra. 
+As with BinT5, HexT5 doesn't directly leverage binary code (assembly), but first decompiles it to pseudo C. However, in this case, [Hex-Rays](https://hex-rays.com/ida-pro/) is used instead of Ghidra. Hex-Rays is a commercial (and expensive) product with performance that is arguably superior to Ghidra.
 
-As the source for the binaries it uses [GNU Binutils](https://www.gnu.org/software/binutils/), where the data is than partitioned in an cross project or cross binary fashion.
+The source for the binaries is [GNU Binutils](https://www.gnu.org/software/binutils/), and the data is partitioned in a cross-project or cross-binary manner.
 
-1. Cross Project
-A binary for example ```ls``` or ```cat``` will be located in either training or test set, including all the functions from that binary, compiled with different compiler flags, different compiles and different architectures.
-2. Cross Binary
-This splists each binary into a set of functions, with each function being in either training or test set. If a function is in the training set, than all its versions (compiled with different compiler flags, different compiles and different architectures) are in the training set as well.
+1. Cross Project: A binary, for example, `ls` or `cat`, will be located in either the training or test set, including all the functions from that binary, compiled with different compiler flags, different compilers, and different architectures.
+2. Cross Binary: This approach splits each binary into a set of functions, with each function being in either the training or test set. If a function is in the training set, then all its versions (compiled with different compiler flags, different compilers, and different architectures) are in the training set as well.
 
 ### Remarks
-Cross Project partititions resembles the real world scenario, since it is unlikely that a reverse engineer will have access to some parts of the binary, but not to the others (Obviously this is a bit of a lie, since binaries tend to share libraries, third party code, etc.). Unfortunately Cross Project partitioning has worse performance than Cross Binary partitioning.
+Cross Project partitioning mirrors real-world scenarios, as it's unlikely that a reverse engineer will have access to some parts of the binary but not others. However, this is somewhat misleading, as binaries often share libraries and third-party code. Unfortunately, Cross Project partitioning performs worse than Cross Binary partitioning.
 
 
 ### DWARF
 
-The authors use [DWARF](https://dwarfstd.org/) as a bridge between source code and binary code. DWARF is a debugging format that is used to map the binary code to the source code. The authors extract the symbols from the DWARF information, and map them to the decompiled pseudo C code using their addresses. By leveraging DWARF we are able to recover variable names, function names and other identifiers. However again, in stripped binaries the bigest obstacle is the function boundaries detection. Unfortunately this paper does not address it, making the model less useful in real world scenarios.
+The authors utilize [DWARF](https://dwarfstd.org/), a debugging format used to map binary code to source code, as a bridge between the two. They extract symbols from the DWARF information and map them to the decompiled pseudo C code using their addresses. This allows for the recovery of variable names, function names, and other identifiers. However, in stripped binaries, the biggest challenge remains the detection of function boundaries. Unfortunately , this paper does not address this issue, limiting the model's usefulness in real-world scenarios.
 
 ### Normalization
 
-Variable and Function names in striped binaries tend to have no meaning, because of this we replace them with specially tokens. For variables we use tokens "\<VAR\>, \<VAR2\>, ..., \<VAR100\>, for the functions that we want to reverse engineer we reserve token "\<FUNC\>" all the functions that are being called from the inside we use "\<FUNC1\>, \<FUNC2\>, ..., \<FUNC50\>". Comments inside pseudo code are generated by the decompiler and they bear no meaning, because of this we delete them. There is one edge case, and that are variables that do not have any meaningful name, in this case we replace these variables with "\<UKN\>" instead of "<VAR...>".
+In stripped binaries, variable and function names often lack meaning. To address this, we replace them with special tokens. For variables, we use tokens "\<VAR\>, \<VAR2\>, ..., \<VAR100\>". For the functions we want to reverse engineer, we reserve the token "\<FUNC\>". For all functions called from within, we use "\<FUNC1\>, \<FUNC2\>, ..., \<FUNC50\>". Comments inside pseudo code, generated by the decompiler, bear no meaning and are therefore deleted. There is one edge case: variables that lack any meaningful name. In this case, we replace these variables with "\<UKN\>" instead of "<VAR...>".
 
 ## Pretraining Objectives
 
-Before we dive into the objectives, lets us revisit the goal of the model, we want it to be able to recover variable names, function names, summarize binary code and detect binary code similarity. All of these tasks can be seen as a function which takes a programming language (In our case pseudo C) and it produces natural language, with the binary code similarity detection being a bit different.
+Before we explore the pretraining objectives, let's revisit the model's goal. We want it to recover variable names, function names, summarize binary code, and detect binary code similarity. All these tasks can be viewed as a function that takes a programming language (in our case, pseudo C) and produces natural language, with binary code similarity detection being slightly different.
 
-Why is this important? Most of current LLMs are trying to give us an conversional agent like experience, HexT5 does not try to do that, and because of this we do not need an Natural Language to Programing Language alignment objective. By not being able to promnt the model we have it more constrained, but on the bright side It can more focus on the task at hand.
+Why is this important? Most current LLMs aim to provide a conversational agent-like experience. HexT5 does not attempt to do this, eliminating the need for a Natural Language to Programming Language alignment objective. While this inability to prompt the model makes it more constrained, it allows the model to focus more on the task at hand.
 
-The meat of HexT5 are the following four pretraining objectives, Masked Span Prediction, Source Identifier Prediction Bimodal Single Generation and Contrastive Learning.
-
-![T5](/images/hextt5_pretraining.png)
+HexT5's core consists of four pretraining objectives: Masked Span Prediction, Source Identifier Prediction, Bimodal Single Generation, and Contrastive Learning.
 
 ### Masked Span Prediction
-This is essentially the same as in CodeT5, we take chunks of the input and we mask them, and we want the model to recover the masked tokens. This objective helps the alighment of pseudo code and comments.
+
+This is essentially the same as in CodeT5. We take chunks of the input, mask them, and expect the model to recover the masked tokens. This objective aids in aligning pseudo code and comments.
+
+![MSP](/images/hext5_masked_identifier_pred.png)
+
 
 ### Source Identifier Prediction (SIP)
 
-The actual objective is inspired by [DOBF](https://arxiv.org/abs/2102.07492), and the idea is to teach the model deobfuscation. That means we try to recover the obfuscated variable names and function names. In our cases we try to predict the values hidden behind "\<FUNC\>, \<FUNC..\>" and "\<VAR\>" tokens. 
+This objective, inspired by [DOBF](https://arxiv.org/abs/2102.07492), aims to teach the model deobfuscation. This means we attempt to recover the obfuscated variable names and function names. In our case, we try to predict the values hidden behind "\<FUNC\>, \<FUNC..\>" and "\<VAR\>" tokens. 
+
+![SIP](/images/hext5_source_identifier_prediction.png)
 
 ### Bimodal Single Generation
 
 Goal of the objective is to align the programming language to natural language generation. Here we feed the whole Pseudo C code to the model and we want it to generate a natural language summary of the code. From the models perspective this objective is the same as SIP, to distinguish between the two objectives the authors add a hard prompt token "summarize" before the Pseudo C code (for SIP the prompt token is "identifier_prediction").
 
+![BSG](/images/hext5_bimodal_single_gen.png)
 
 ### Contrastive Learning
 
-The idea is to push the contextual representations of similar functions closer together and the representations of dissimilar functions further apart. We already saw this for [CodeT5+]({{< relref "posts/code-t5-plus.md" >}}), in case of HexT5 however we do not employ an Momentum Encoder, but instead we use the remaining samples from a given mini-batch as negative samples, and for the positive samples we use the same function but compiled with different compiler flags, different compiler and/or different architecture.
+The concept behind contrastive learning is to bring the contextual representations of similar functions closer together and push the representations of dissimilar functions further apart. We've already seen this in [CodeT5+]({{< relref "posts/code-t5-plus.md" >}}). However, in the case of HexT5, we don't employ a Momentum Encoder. Instead, we use the remaining samples from a given mini-batch as negative samples, and for the positive samples, we use the same function but compiled with different compiler flags, different compilers, and/or different architectures.
 
-On thing that is not explicitly stated in the paper is if a given function is selected to be in an mini-batch, are all the versions of that function in the mini-batch as well, I expect that this is the case. 
+One thing not explicitly stated in the paper is whether, if a given function is selected to be in a mini-batch, all the versions of that function are also in the mini-batch. I expect that this is the case.
 
-Contrastive Learning is an sequence level objective, that means we take an Pseudo C code snippet, we pass it trough the encoder part of the model, this yields for each token an contextual representation, to actually get the embedding we average the contextuall representations. We take this representation and we pass it in the contrastive learning objective:
+Contrastive Learning is a sequence-level objective. This means we take a Pseudo C code snippet, pass it through the encoder part of the model, which yields a contextual representation for each token. To actually get the embedding, we average these contextual representations. We take this representation and pass it into the contrastive learning objective:
 
 $$ L_{CL} = -\log \frac{e^{sim}(V,V^+)/\tau}{\sum_{j\in B} e^{sim (V,V_j^-)/\tau}} $$
 - $sim$ is the similarity function, in our case cosine similarity
 - $V^+$ are the positive samples
 - $V^{-}$ are the negative samples, there is an additional way to sample the negatives, we can apply an random dropout mas to V_j, however I find this approach more confusing 
 
+![CL](/images/hext5_contrastive_obj.png)
+
 ## Performance
 
-Long story short, HexT5 did set the SoTA in Binary Code Summarization, Variable Name Recovery, Function Name Recovery and Binary Code Similarity Search. What is interesting that in Binary Code Summarization they also benchmarked it against [Gepetto](https://github.com/JusticeRage/Gepetto). Gepetto is a Ida-Pro plugin that leverages OpenAIs Chat-GPT to generate summaries for binary functions.
+To cut a long story short, HexT5 has set the state-of-the-art in Binary Code Summarization, Variable Name Recovery, Function Name Recovery, and Binary Code Similarity Search. Interestingly, in Binary Code Summarization, they also benchmarked it against [Gepetto](https://github.com/JusticeRage/Gepetto). Gepetto is an Ida-Pro plugin that leverages OpenAI's Chat-GPT to generate summaries for binary functions.
 
 # Remarks
 
-There are some obvious downsides of booth models. Function boundaries detection is a very serious problem, and 
+## Function Boundaries
+Both models have some obvious downsides. The detection of function boundaries is a significant problem and without a solution, the models are not particularly useful in real-world scenarios. 
 
 ## Data Leakage
 
-My personal opinion is that data leakage is a serious concern, lets look at a paper from [Shang et. al 2024](https://arxiv.org/abs/2404.09836v1), this is a newever study applying LLMs like GPT-4 and CodeLlama 7B for reverse engineering. They state that these autoregressive causal models perform way better than BinT5 or HexT5 (for HexT5 the reported scores are vastly different between the papers). These big causal foundational models have the capacity to memorize the training data, and since the training data is not public (For CodeLlama we know it was pretrained on an additional 500B tokens or 864GB source code, GPT-4 is unknown but because of Github Copilots Codex we can assume it saw an incredible amount of (not just open source) source code).
+In my personal opinion, data leakage is a serious concern. Let's consider a paper from [Shang et. al 2024](https://arxiv.org/abs/2404.09836v1), a newer study applying LLMs like GPT-4 and CodeLlama 7B for reverse engineering. They state that these autoregressive causal models perform much better than BinT5 or HexT5 (for HexT5, the reported scores are vastly different between the papers). These large causal foundational models have the capacity to memorize the training data, and since the training data is not public (for CodeLlama, we know it was pretrained on an additional 500B tokens or 864GB of source code, GPT-4 is unknown but due to Github Copilot's Codex, we can assume it saw an incredible amount of source code, not just open source). 
 
+It is hard limit the amount of data leakage, especially if we use Pseudo C code, which may be in many cases be very similar to the original source code. Because of this I would like to see and focus my personal research on techniques that either work with the binary code directly or they choose a different intermediate representation that is not so similar to the original source code.
 
 # Disclaimer
-
+Since I am not an english native speaker, I use ChatGPT to help me with the text (Formatting, Spelling, etc). However I did write every single word in this blog post, If you are interested you can check the the original text [here](https://github.com/n1o/n1o.github.io/blob/master/content/posts/t5-and-reverse-engineering.md)
