@@ -19,7 +19,7 @@ Here is a bunch of my posts about a super cool model called T5 its extensions an
 
 # Cyber Security
 - LENS (Coming Soon)
-- [BinT5, HexT5]({{< relref "posts/t5-and-reverse-engineering.md" >}}) T5 and Reverse Engineering
+- [BinT5, HexT5]({{< relref "posts/t5-and-reverse-engineering.md" >}}) or "How is T5 used for Binary Reverse Engineering"
 
 
 # With Graphs
