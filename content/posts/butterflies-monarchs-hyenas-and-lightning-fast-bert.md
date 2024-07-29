@@ -180,11 +180,82 @@ $$M = PLPRP$$
 - $P$ is a permutatin that maps $[x_1, \cdots, x_n]$ to $[x_1, x_{1+m}, \cdots, x_{1+(m-1)m}, x_2, x_{2+m}, \cdots, x_{2+(m-1)m}, \cdots, x_m, x_{2m}, \cdots, x_n]$
     - this takes a vector of length n and reshapes it into an $b \times \frac{n}{b}$ matrix in row-major order, transposes it and flattens it in a vector
 
-A long long time ago I wrote about [H3]({{< relref "posts/hungry-hungry-hippos.md" >}}) and since Monarch Matrices are from the same research group, we can see a lot of things coming together. 
 
 ## Connection to Butter Fly Matrices
 Why the hell did we need to talk about Butter Fly Matrices? As it turn out we can reexpress any Butterfly Matrix as a Monarch Matrix. Why so? It turns out that we can express any diagonal block matrix as a block diagonal matrix using two permutation matrices from both sides. This property makes Monarch Matrices at least as expressive as Butterfly Matrices.
 
 # Monarch Mixer (M2) Bert
 
-There was maybe a bit of unnecessarily amount of theory, but now we can finally look into M2 Bert, which is an Attention and MLP free version of BERT. 
+That was maybe a bit of unnecessarily amount of theory, but now we can finally look into M2 Bert, which is an Attention and MLP free version of BERT. 
+
+![m2 Bert](/images/m2_bert.png)
+
+We have two parts:
+
+1. Sequence Mixer
+2. Dimension Mixer
+
+## Sequence Mixer
+
+Sequence Mixer performs short convolutions, this is just [torch.nn.Conv1d](https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html), Monarch Long Convolutions.
+
+### Long Convolution and Hyenas
+
+First lets define convolution:
+
+$$y_t = (h * u)_{t} \sum^{L-1}_{n=0} h_{t-n} u_n$$
+
+This is just a sum of element-wise multiplication of the filter $h$ and the input signal $u$. Unfortunately there is a catch, in general the length of the filter is much shorter than the input signal, but this means that an explicitly defined convolution filter can take into account only local context.
+
+One way to overcome this is to use the implicit parametrization of convolution:
+
+$$ h_t = \gamma_{\theta}(t) $$
+
+We are going to leverage this implicit parametrization and define the Hyena Filter as:
+
+$$ h_t = Window(t) \cdot (FFN \circ PositionalEncoding)(t) $$
+
+- $Window(t)$ is ExponentialModulation
+
+```{python}
+class ExponentialModulation(OptimModule):
+    def __init__(
+        self,
+        d_model,
+        fast_decay_pct=0.3,
+        slow_decay_pct=1.5,
+        target=1e-2,
+
+        modulation_lr=0.0,
+        shift: float = 0.0,
+        **kwargs,
+    ):
+        super().__init__()
+        self.shift = shift
+
+        max_decay = math.log(target) / fast_decay_pct
+        min_decay = math.log(target) / slow_decay_pct
+        deltas = torch.linspace(min_decay, max_decay, d_model)[None, None]
+        self.register("deltas", deltas, lr=modulation_lr)
+
+    def forward(self, t, x):
+        decay = torch.exp(-t * self.deltas.abs())
+        x = x * (decay + self.shift)
+
+        return x
+```
+
+- $FFN$ is a Feed Forward Network and in our case we have and 2 layer MLP with Sinusoidal Activation Function
+
+This is way to abstract, lets look an example:
+
+![Hyena Filter Example](/images/hyena_filter_example.png)
+
+Having an long exponentially decaying part helps the model to select specific inputs at specific steps, combining it with high-frequency periodic activations (Sine) helps mitigating the low-frequency bias of neural networks. (Low frequency bias is a phenomenon where the model tends to learn smooth functions with small changes)
+
+What is the deal with the Hyena anyway? Everything comes from the [Hyena Hierarchy](https://arxiv.org/abs/2302.10866) paper. Long story short, they take the ideas introduced at [H3]({{< relref "posts/hungry-hungry-hippos.md" >}}) and generalize it further introducing the Hyena Operator.
+
+### Remarks
+What does this has to do with Monarch Matrices? Well, technically we use Fast Fourier Transformation to do the convolution, which gives us sub-quadratic time complexity, for more information check out [MonarchMixerSequenceMixing](https://huggingface.co/togethercomputer/m2-bert-80M-32k-retrieval/blob/main/monarch_mixer_sequence_mixer.py)
+
+## Dimension Mixer
