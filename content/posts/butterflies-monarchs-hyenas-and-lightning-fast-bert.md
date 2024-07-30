@@ -215,7 +215,7 @@ $$ h_t = Window(t) \cdot (FFN \circ PositionalEncoding)(t) $$
 
 - $Window(t)$ is ExponentialModulation
 
-```{python}
+```python
 class ExponentialModulation(OptimModule):
     def __init__(
         self,
@@ -260,7 +260,7 @@ What does this has to do with Monarch Matrices? Well, technically, we use Fast F
 
 In the Dimension Mixer, we take the output from the Sequence Mixer and we mix the information across the model dimension. This is done by multiplication with a Block Diagonal Linear neural network layer. The weights of this layer are just a Block Diagonal Matrix. Here is a simplified Python implementation of the Block Diagonal Linear Layer:
 
-```{python}
+```python
 import torch
 import numpy as np
 from torch import nn
@@ -290,7 +290,7 @@ class BlockDiagonalLinear(nn.Module):
 
 The pseudo code for the Dimension Mixer forward pass is:
 
-```{python}
+```python
 y = BlockDiagonalLinear(blocks=4, hidden_size=768, intermediate_size=3072)(x)
 y = nn.GELU(approximate='none')(y)
 # y = nn.Dropout(p=0.1)(y) # In general we use dropout only during training
@@ -303,7 +303,7 @@ return y
 
 Since we have defined the Sequence and Dimension Mixer, we can now define the M2 Bert Layer:
 
-```{python}
+```python
 class M2BertLayer(nn.Module):
   def __init__(self, hidden_size=768, intermediate_size=3072):
     self.sequence_mixer = MonarchMixerSequenceMixer(hidden_size=hidden_size)
