@@ -1,0 +1,197 @@
+<!doctype html><html lang=en><head><title>Butterflies, Monarchs, Hyenas, and Lightning Fast BERT · Data, Code and Breaking Stuff
+</title><meta charset=utf-8><meta name=viewport content="width=device-width,initial-scale=1"><meta name=color-scheme content="light dark"><meta name=author content="n1o_c0rTx"><meta name=description content="Abstract Link to heading I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by ColT5 but than I came across of M2 BERT and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans."><meta name=keywords content="blog,developer,personal"><meta name=twitter:card content="summary"><meta name=twitter:title content="Butterflies, Monarchs, Hyenas, and Lightning Fast BERT"><meta name=twitter:description content="Abstract Link to heading I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by ColT5 but than I came across of M2 BERT and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans."><meta property="og:url" content="https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/"><meta property="og:site_name" content="Data, Code and Breaking Stuff"><meta property="og:title" content="Butterflies, Monarchs, Hyenas, and Lightning Fast BERT"><meta property="og:description" content="Abstract Link to heading I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by ColT5 but than I came across of M2 BERT and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans."><meta property="og:locale" content="en"><meta property="og:type" content="article"><meta property="article:section" content="posts"><meta property="article:published_time" content="2024-07-12T13:36:49+02:00"><meta property="article:modified_time" content="2024-07-12T13:36:49+02:00"><link rel=canonical href=https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/><link rel=preload href="/fonts/forkawesome-webfont.woff2?v=1.2.0" as=font type=font/woff2 crossorigin><link rel=stylesheet href=/css/coder.min.0fa2dc75ed1b76894ac0e062b10a6c4730daa745096fa120114b290ed8a48788.css integrity="sha256-D6Lcde0bdolKwOBisQpsRzDap0UJb6EgEUspDtikh4g=" crossorigin=anonymous media=screen><link rel=stylesheet href=/css/coder-dark.min.593028e7f7ac55c003b79c230d1cd411bb4ca53b31556c3abb7f027170e646e9.css integrity="sha256-WTAo5/esVcADt5wjDRzUEbtMpTsxVWw6u38CcXDmRuk=" crossorigin=anonymous media=screen><link rel=icon type=image/png href=/images/favicon-32x32.png sizes=32x32><link rel=icon type=image/png href=/images/favicon-16x16.png sizes=16x16><link rel=apple-touch-icon href=/images/apple-touch-icon.png><link rel=apple-touch-icon sizes=180x180 href=/images/apple-touch-icon.png><link rel=manifest href=/site.webmanifest><link rel=mask-icon href=/images/safari-pinned-tab.svg color=#5bbad5><meta name=generator content="Hugo 0.130.0"></head><body class="preload-transitions colorscheme-auto"><div class=float-container><a id=dark-mode-toggle class=colorscheme-toggle><i class="fa fa-adjust fa-fw" aria-hidden=true></i></a></div><main class=wrapper><nav class=navigation><section class=container><a class=navigation-title href=/>Data, Code and Breaking Stuff
+</a><input type=checkbox id=menu-toggle>
+<label class="menu-button float-right" for=menu-toggle><i class="fa fa-bars fa-fw" aria-hidden=true></i></label><ul class=navigation-list><li class=navigation-item><a class=navigation-link href=/about/>About</a></li><li class=navigation-item><a class=navigation-link href=/posts/>Blog</a></li><li class=navigation-item><a class=navigation-link href=/awesome-t5/>Awesome T5</a></li><li class=navigation-item><a class=navigation-link href=/projects/>Projects</a></li><li class=navigation-item><a class=navigation-link href=/contact/>Contact me</a></li></ul></section></nav><div class=content><section class="container post"><article><header><div class=post-title><h1 class=title><a class=title-link href=https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/>Butterflies, Monarchs, Hyenas, and Lightning Fast BERT</a></h1></div><div class=post-meta><div class=date><span class=posted-on><i class="fa fa-calendar" aria-hidden=true></i>
+<time datetime=2024-07-12T13:36:49+02:00>July 12, 2024
+</time></span><span class=reading-time><i class="fa fa-clock-o" aria-hidden=true></i>
+10-minute read</span></div></div></header><div class=post-content><h1 id=abstract>Abstract
+<a class=heading-link href=#abstract><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by <a href=/posts/longer-context-for-t5/>ColT5</a> but than I came across of <a href=https://hazyresearch.stanford.edu/blog/2024-05-20-m2-bert-retrieval>M2 BERT</a> and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans.</p><h1 id=modern-gpu>Modern GPU
+<a class=heading-link href=#modern-gpu><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>Before we start, let&rsquo;s take a look at an NVIDIA Tensor Core. It is a specialized compute core that allows for fused multiply-add operation. This means we can multiply two $4 \times 4$ and add to a third $4 \times 4$ matrix in a single operation. Now, why is this useful? it is just an 4 by 4 matrix, and I have huge matrices to multiply. Well, there is something called Block Matrix Multiplication.</p><h2 id=block-matrix-multiplication>Block Matrix Multiplication
+<a class=heading-link href=#block-matrix-multiplication><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>The idea is that we take a matrix and we chop it into smaller identically sized matrices. The actually computation works the same as the normal matrix multiplication, with the difference that we are now multiplying and adding together smaller matrices. (Multiplication and Addition)</p><p>Here is an example:</p><p>$$A = \begin{bmatrix} \begin{bmatrix} 1 & 2 \\ 3 & 4 \end{bmatrix} & \begin{bmatrix} 5 & 6 \\ 7 & 8 \end{bmatrix} \\ \begin{bmatrix} 9 & 10 \\ 11 & 12 \end{bmatrix} & \begin{bmatrix} 13 & 14 \\ 15 & 16 \end{bmatrix} \end{bmatrix}$$</p><p>$$B = \begin{bmatrix}
+\begin{bmatrix}
+17 & 18 \\
+19 & 20
+\end{bmatrix} & \begin{bmatrix}
+21 & 22 \\
+23 & 24
+\end{bmatrix} \\
+\begin{bmatrix}
+25 & 26 \\
+27 & 28
+\end{bmatrix} & \begin{bmatrix}
+29 & 30 \\
+31 & 32
+\end{bmatrix}
+\end{bmatrix}$$</p><p>Three sulting matrix $C = AB$ is:</p><p>$$C_{11} = \begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix} \begin{bmatrix}
+17 & 18 \\
+19 & 20
+\end{bmatrix} + \begin{bmatrix}
+5 & 6 \\
+7 & 8
+\end{bmatrix} \begin{bmatrix}
+25 & 26 \\
+27 & 28
+\end{bmatrix}$$</p><p>$$C_{12} = \begin{bmatrix}
+1 & 2 \\
+3 & 4
+\end{bmatrix} \begin{bmatrix}
+21 & 22 \\
+23 & 24
+\end{bmatrix} + \begin{bmatrix}
+5 & 6 \\
+7 & 8
+\end{bmatrix} \begin{bmatrix}
+29 & 30 \\
+31 & 32
+\end{bmatrix}$$</p><p>$$C_{21} = \begin{bmatrix}
+9 & 10 \\
+11 & 12
+\end{bmatrix} \begin{bmatrix}
+17 & 18 \\
+19 & 20
+\end{bmatrix} + \begin{bmatrix}
+13 & 14 \\
+15 & 16
+\end{bmatrix} \begin{bmatrix}
+25 & 26 \\
+27 & 28
+\end{bmatrix}$$</p><p>$$C_{22} = \begin{bmatrix}
+9 & 10 \\
+11 & 12
+\end{bmatrix} \begin{bmatrix}
+21 & 22 \\
+23 & 24
+\end{bmatrix} + \begin{bmatrix}
+13 & 14 \\
+15 & 16
+\end{bmatrix} \begin{bmatrix}
+29 & 30 \\
+31 & 32
+\end{bmatrix}$$</p><p>Resulting in:
+$$C = \begin{bmatrix}\begin{bmatrix}
+322 & 338 \\
+580 & 608
+\end{bmatrix} & \begin{bmatrix}
+422 & 440 \\
+762 & 798
+\end{bmatrix} \\
+\begin{bmatrix}
+994 & 1038 \\
+1290 & 1346
+\end{bmatrix} &
+\begin{bmatrix}
+1166 & 1218 \\
+1542 & 1606
+\end{bmatrix}
+\end{bmatrix}$$</p><p>Because of block matrix multiplication (well there are more operations that work well with block matrices not just multiplication) we can take advantage of the NVIDIA Tensor Cores and speed up the computation.</p><h1 id=butterflies>Butterflies
+<a class=heading-link href=#butterflies><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>Before Butterflies we need to understand Structured Matrices and their significance. A structured matrix is a matrix that has a special structure that enables for faster, sub-quadratic $O(n^2)$ operations for dimension $n \times n$ in runtime and parameters.</p><p>Since this post is about Language Models, let&rsquo;s make a brief pause and discuss Transformers. The core concept of transformers is the self-attention mechanism. Unfortunately, the self-attention mechanism is quadratic in the input sequence length, and replacing it with a more efficient version is an active area of research.</p><h2 id=butterfly-matrices>Butterfly Matrices
+<a class=heading-link href=#butterfly-matrices><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Butterfly matrices are a super set of structured matrices, and we can view them as a product of block diagonal and permutation matrices.</p><p>Let $M \in B^{n}$ be a class of Butterfly Matrices, than we can express it recursively as:</p><p>$$ M = B_n \begin{pmatrix} M_1 & 0 \\ 0 & M2 \end{pmatrix} $$</p><ul><li>$B_n \in \mathcal{BF}^{(n,n)}$ is a Butterfly Factor</li><li>$M_1, M_2 \in B^{(n/2)}$ are Butter Fly matrices but half of the size</li></ul><h3 id=butterfly-factor-matrix>Butterfly Factor Matrix
+<a class=heading-link href=#butterfly-factor-matrix><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><p>A Butterfly Factor Matrix $\mathcal{BF}^{(n,k)}$ is a block diagonal matrix of size n and block size k, containing $\frac{n}{k}$ Butterfly factors
+$$ diag(B_1, B_2, \cdots, B_{\frac{n}{k}})$$</p><ul><li>$B_i \in \mathcal{BF}^{(k,k)}$</li></ul><h3 id=butterfly-factor>Butterfly Factor
+<a class=heading-link href=#butterfly-factor><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><p>These are just block diagonal matrices, which means that we can partition the matrix into smaller matrices (blocks) with each block being an diagonal matrix.</p><p>$$ \mathcal{BF}^{(k,k)} = \begin{pmatrix} D_1 & D_2 \\ D_3 & D_4 \end{pmatrix} $$</p><ul><li>$D_i$ is a $\frac{k}{2}$ diagonal matrix</li><li>$k$ is even</li></ul><h2 id=benefits>Benefits
+<a class=heading-link href=#benefits><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>We already talked about block matrix multiplication, if we look once more at the recursive definition of Butterfly Matrices:</p><p>$$ M = B_n \begin{pmatrix} M_1 & 0 \\ 0 & M2 \end{pmatrix} $$</p><p>We see that we have an block diagonal matrix times a diagonal block matrix. Diagonal block matrices are great since there are a lot of zeroes, and we can ignore them. This promotes sparsity and computational efficiency at the same time.</p><h1 id=monarchs>Monarchs
+<a class=heading-link href=#monarchs><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>The main idea behind Monarch Matrices is to take two sparse matrices and multiply them together to approximate a dense matrix. And to make it as efficient as possible, we design the class of Monarch Matrices to be an product of two (Or more depending on the order) block diagonal matrices.</p><h2 id=order-of-p-monarch-matrix>Order of p Monarch Matrix
+<a class=heading-link href=#order-of-p-monarch-matrix><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Let an $M^{N \times N}$ monarch matrix be defined as:</p><p>$$M = (\prod_{i=1}^p P_i B_i)P_0 $$</p><ul><li>$P_i$ is a bit-reversal permutation related to the base $\sqrt[p]{N}$</li><li>$B_i$ is a block diagonal matrix with blocksize b</li></ul><p>What does this tells us? If we take p block diagonal matrices and interleave them with a series of permutation matrices, we can approximate a dense matrix. Obviosly, choosing the right permutation matrices and block diagonal matrices is not trivial.</p><h2 id=order-2>Order 2
+<a class=heading-link href=#order-2><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Lets talk about a special case, where we have two block diagonal matrices:</p><p>$$M = PLPRP$$</p><ul><li>$L,R$ are block diagonal matrices<ul><li>it is common to set $L = R = (I_{\sqrt{N}} \otimes F_{\sqrt{N}})$<ul><li>$F_{\sqrt{N}}$ is an $\sqrt{N}$ Discrete Fourier Transform matrix</li><li>$\otimes$ is the Kronecker product</li></ul></li></ul></li><li>$P$ is a permutatin that maps $[x_1, \cdots, x_n]$ to $[x_1, x_{1+m}, \cdots, x_{1+(m-1)m}, x_2, x_{2+m}, \cdots, x_{2+(m-1)m}, \cdots, x_m, x_{2m}, \cdots, x_n]$<ul><li>this takes a vector of length n and reshapes it into an $b \times \frac{n}{b}$ matrix in row-major order, transposes it and flattens it in a vector</li></ul></li></ul><h2 id=connection-to-butter-fly-matrices>Connection to Butter Fly Matrices
+<a class=heading-link href=#connection-to-butter-fly-matrices><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Why the hell did we need to talk about Butterfly Matrices? As it turn out, we can reexpress any Butterfly Matrix as a Monarch Matrix. Why is that? It turns out that we can express any diagonal block matrix as a block diagonal matrix using two permutation matrices from both sides. This property makes Monarch Matrices at least as expressive as Butterfly Matrices.</p><h1 id=monarch-mixer-m2-bert>Monarch Mixer (M2) Bert
+<a class=heading-link href=#monarch-mixer-m2-bert><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>That was maybe a bit of unnecessarily amount of theory, but now we can finally look into M2 Bert, which is an Attention and MLP free version of BERT.</p><p><img alt="m2 Bert" src=/images/m2_bert.png></p><p>We have two parts:</p><ol><li>Sequence Mixer</li><li>Dimension Mixer</li></ol><h2 id=sequence-mixer>Sequence Mixer
+<a class=heading-link href=#sequence-mixer><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Sequence Mixer performs short convolutions, this is just <a href=https://pytorch.org/docs/stable/generated/torch.nn.Conv1d.html>torch.nn.Conv1d</a>, Monarch Long Convolutions.</p><h3 id=long-convolution-and-hyenas>Long Convolution and Hyenas
+<a class=heading-link href=#long-convolution-and-hyenas><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><p>First lets define convolution:</p><p>$$y_t = (h * u)<em>{t} \sum^{L-1}</em>{n=0} h_{t-n} u_n$$</p><p>This is just a sum of element-wise multiplication of the filter $h$ and the input signal $u$. Unfortunately there is a catch. Generally the length of the filter is much shorter than the input signal. This implies that an explicitly defined convolution filter can only take into account the local context.</p><p>One way to overcome this is to use the implicit parametrization of convolution:</p><p>$$ h_t = \gamma_{\theta}(t) $$</p><p>In M2 Bert we are going to leverage this implicit parametrization and define the Hyena Filter as:</p><p>$$ h_t = Window(t) \cdot (FFN \circ PositionalEncoding)(t) $$</p><ul><li>$Window(t)$ is ExponentialModulation</li></ul><div class=highlight><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#fff;font-weight:700>class</span> ExponentialModulation(OptimModule):
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>def</span> __init__(
+</span></span><span style=display:flex><span>        self,
+</span></span><span style=display:flex><span>        d_model,
+</span></span><span style=display:flex><span>        fast_decay_pct=<span style=color:#ff0;font-weight:700>0.3</span>,
+</span></span><span style=display:flex><span>        slow_decay_pct=<span style=color:#ff0;font-weight:700>1.5</span>,
+</span></span><span style=display:flex><span>        target=<span style=color:#ff0;font-weight:700>1e-2</span>,
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        modulation_lr=<span style=color:#ff0;font-weight:700>0.0</span>,
+</span></span><span style=display:flex><span>        shift: <span style=color:#fff;font-weight:700>float</span> = <span style=color:#ff0;font-weight:700>0.0</span>,
+</span></span><span style=display:flex><span>        **kwargs,
+</span></span><span style=display:flex><span>    ):
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>super</span>().__init__()
+</span></span><span style=display:flex><span>        self.shift = shift
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        max_decay = math.log(target) / fast_decay_pct
+</span></span><span style=display:flex><span>        min_decay = math.log(target) / slow_decay_pct
+</span></span><span style=display:flex><span>        deltas = torch.linspace(min_decay, max_decay, d_model)[<span style=color:#fff;font-weight:700>None</span>, <span style=color:#fff;font-weight:700>None</span>]
+</span></span><span style=display:flex><span>        self.register(<span style=color:#0ff;font-weight:700>&#34;deltas&#34;</span>, deltas, lr=modulation_lr)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>def</span> forward(self, t, x):
+</span></span><span style=display:flex><span>        decay = torch.exp(-t * self.deltas.abs())
+</span></span><span style=display:flex><span>        x = x * (decay + self.shift)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>        <span style=color:#fff;font-weight:700>return</span> x
+</span></span></code></pre></div><ul><li>$FFN$ is a Feed Forward Network and in our case we have and 2 layer MLP with Sinusoidal Activation Function</li></ul><p>This is way to abstract, let&rsquo;s look at an example:</p><p><img alt="Hyena Filter Example" src=/images/hyena_filter_example.png></p><p>Having an long exponentially decaying part helps the model to select specific inputs at specific steps, combining it with high-frequency periodic activations (Sine) helps mitigating the low-frequency bias of neural networks. (Low frequency bias is a phenomenon where the model tends to learn smooth functions with small changes)</p><p>What is the deal with the Hyena anyway? Everything comes from the <a href=https://arxiv.org/abs/2302.10866>Hyena Hierarchy</a> paper. In short, they take the ideas introduced at <a href=/posts/hungry-hungry-hippos/>H3</a> and further generallize them, introducing the Hyena Operator.</p><h3 id=remarks>Remarks
+<a class=heading-link href=#remarks><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h3><p>What does this has to do with Monarch Matrices? Well, technically, we use Fast Fourier Transformation to perform the convolution, which gives us sub-quadratic time complexity, for more information check out <a href=https://huggingface.co/togethercomputer/m2-bert-80M-32k-retrieval/blob/main/monarch_mixer_sequence_mixer.py>MonarchMixerSequenceMixing</a></p><h2 id=dimension-mixer>Dimension Mixer
+<a class=heading-link href=#dimension-mixer><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>In the Dimension Mixer, we take the output from the Sequence Mixer and we mix the information across the model dimension. This is done by multiplication with a Block Diagonal Linear neural network layer. The weights of this layer are just a Block Diagonal Matrix. Here is a simplified Python implementation of the Block Diagonal Linear Layer:</p><div class=highlight><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> torch
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>import</span> numpy <span style=color:#fff;font-weight:700>as</span> np
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>from</span> torch <span style=color:#fff;font-weight:700>import</span> nn
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>class</span> BlockDiagonalLinear(nn.Module):
+</span></span><span style=display:flex><span>  <span style=color:#fff;font-weight:700>def</span> __init__(self, blocks=<span style=color:#ff0;font-weight:700>4</span>, hidden_size, intermediate_size):
+</span></span><span style=display:flex><span>    self.blocks = blocks
+</span></span><span style=display:flex><span>    self.hidden_size = hidden_size
+</span></span><span style=display:flex><span>    self.intermediate_size = intermediate_size
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    in_size = hidden_size // blocks
+</span></span><span style=display:flex><span>    intermediate = intermediate_size // blocks
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>    self.wweight = nn.Parameter(torch.zeros(blocks, in_size, intermediate))
+</span></span><span style=display:flex><span>    self.reset_parameters() <span style=color:#007f7f># To Kaiming weights</span>
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#fff;font-weight:700>def</span> forward(self, x):
+</span></span><span style=display:flex><span>    batch_shape, n = x.shape[:-<span style=color:#ff0;font-weight:700>1</span>], x.shape[-<span style=color:#ff0;font-weight:700>1</span>]
+</span></span><span style=display:flex><span>    batch_dim = np.prod(batch_shape)
+</span></span><span style=display:flex><span>    nblocks, q, p = self.weight.shape
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>assert</span> nblocks * p == n
+</span></span><span style=display:flex><span>    x_reshaped = x.reshape(batch_dim, nblocks, p).transpose(<span style=color:#ff0;font-weight:700>0</span>, <span style=color:#ff0;font-weight:700>1</span>)
+</span></span><span style=display:flex><span>    out = torch.empty(batch_dim, nblocks, q, device=x.device, dtype=x.dtype).transpose(<span style=color:#ff0;font-weight:700>0</span>, <span style=color:#ff0;font-weight:700>1</span>)
+</span></span><span style=display:flex><span>    out = torch.bmm(x_reshaped, self.weight.transpose(-<span style=color:#ff0;font-weight:700>1</span>, -<span style=color:#ff0;font-weight:700>2</span>), out=out).transpose(<span style=color:#ff0;font-weight:700>0</span>, <span style=color:#ff0;font-weight:700>1</span>)
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> out.reshape(*batch_shape, nblocks * q)
+</span></span></code></pre></div><p>The pseudo code for the Dimension Mixer forward pass is:</p><div class=highlight><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span>y = BlockDiagonalLinear(blocks=<span style=color:#ff0;font-weight:700>4</span>, hidden_size=<span style=color:#ff0;font-weight:700>768</span>, intermediate_size=<span style=color:#ff0;font-weight:700>3072</span>)(x)
+</span></span><span style=display:flex><span>y = nn.GELU(approximate=<span style=color:#0ff;font-weight:700>&#39;none&#39;</span>)(y)
+</span></span><span style=display:flex><span><span style=color:#007f7f># y = nn.Dropout(p=0.1)(y) # In general we use dropout only during training</span>
+</span></span><span style=display:flex><span>y = BlockDiagonalLinear(blocks=<span style=color:#ff0;font-weight:700>4</span>, hidden_size=<span style=color:#ff0;font-weight:700>3072</span>, intermediate_size=<span style=color:#ff0;font-weight:700>768</span>)(y)
+</span></span><span style=display:flex><span>y = nn.LayerNorm()(y)
+</span></span><span style=display:flex><span><span style=color:#fff;font-weight:700>return</span> y
+</span></span></code></pre></div><h2 id=finishing-it-up>Finishing it up
+<a class=heading-link href=#finishing-it-up><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>Since we have defined the Sequence and Dimension Mixer, we can now define the M2 Bert Layer:</p><div class=highlight><pre tabindex=0 style=color:#e5e5e5;background-color:#000;-moz-tab-size:4;-o-tab-size:4;tab-size:4><code class=language-python data-lang=python><span style=display:flex><span><span style=color:#fff;font-weight:700>class</span> M2BertLayer(nn.Module):
+</span></span><span style=display:flex><span>  <span style=color:#fff;font-weight:700>def</span> __init__(self, hidden_size=<span style=color:#ff0;font-weight:700>768</span>, intermediate_size=<span style=color:#ff0;font-weight:700>3072</span>):
+</span></span><span style=display:flex><span>    self.sequence_mixer = MonarchMixerSequenceMixer(hidden_size=hidden_size)
+</span></span><span style=display:flex><span>    self.dimension_mixer = DimensionMixer(hidden_size=hidden_size, intermediate_size=intermediate_size)
+</span></span><span style=display:flex><span>
+</span></span><span style=display:flex><span>  <span style=color:#fff;font-weight:700>def</span> forward(self, x):
+</span></span><span style=display:flex><span>    x = self.sequence_mixer(x)
+</span></span><span style=display:flex><span>    x = self.dimension_mixer(x)
+</span></span><span style=display:flex><span>    <span style=color:#fff;font-weight:700>return</span> x
+</span></span></code></pre></div><p>And to get a BERT model we just stack a couple of M2 Bert Layers, and that is it.</p><h2 id=performance>Performance
+<a class=heading-link href=#performance><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h2><p>The biggest benefit of M2 Bert is that it achieves 9x the throughput for a sequence length of 4096, and it achieves an 27% parameter reduction while maintaining the same accuracy. This allows us to train significantly larger models with the same resources.</p><h1 id=conclusion>Conclusion
+<a class=heading-link href=#conclusion><i class="fa fa-link" aria-hidden=true title="Link to heading"></i>
+<span class=sr-only>Link to heading</span></a></h1><p>In the past, I read a lot of <a href=/posts/longer-context-for-t5/>research</a> about how to speed up or increase the context size of the Encoder part of T5. M2 BERT is a fresh take on to do this, and I cannot wait to see how it will work out in practice. In the meantime I reignited my interest in State Space Models and discovered <a href=https://arxiv.org/abs/2407.09941>Hydra</a> which is a Bidirectional extension of <a href=https://arxiv.org/abs/2312.00752>Mamba</a>. There is this new trend of combining Attention and State Space Models, an example of which is <a href=https://arxiv.org/abs/2406.07522>Samba</a>. In my personal opinion the combination of Hydra and M2 Bert could lead to an exremely powerful and efficient model.</p></div><footer><div id=disqus_thread></div><script>window.disqus_config=function(){},function(){if(["localhost","127.0.0.1"].indexOf(window.location.hostname)!=-1){document.getElementById("disqus_thread").innerHTML="Disqus comments not available by default when the website is previewed locally.";return}var t=document,e=t.createElement("script");e.async=!0,e.src="//mbarak-io.disqus.com/embed.js",e.setAttribute("data-timestamp",+new Date),(t.head||t.body).appendChild(e)}(),document.addEventListener("themeChanged",function(){document.readyState=="complete"&&DISQUS.reset({reload:!0,config:disqus_config})})</script></footer></article><link rel=stylesheet href=https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.css integrity=sha384-vKruj+a13U8yHIkAyGgK1J3ArTLzrFGBbBc0tDp4ad/EyewESeXE/Iv67Aj8gKZ0 crossorigin=anonymous><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/katex.min.js integrity=sha384-PwRUT/YqbnEjkZO0zZxNqcxACrXe+j766U2amXcgMg5457rve2Y7I6ZJSm2A0mS4 crossorigin=anonymous></script><script defer src=https://cdn.jsdelivr.net/npm/katex@0.16.4/dist/contrib/auto-render.min.js integrity=sha384-+VBxd3r6XgURycqtZ117nYw44OOcIax56Z4dCRWbxyPt0Koah1uHoK0o4+/RRE05 crossorigin=anonymous onload='renderMathInElement(document.body,{delimiters:[{left:"$$",right:"$$",display:!0},{left:"$",right:"$",display:!1},{left:"\\(",right:"\\)",display:!1},{left:"\\[",right:"\\]",display:!0}]})'></script></section></div><footer class=footer><section class=container>©
+2020 -
+2024
+n1o_c0rTx
+·
+Powered by <a href=https://gohugo.io/>Hugo</a> & <a href=https://github.com/luizdepra/hugo-coder/>Coder</a>.</section></footer></main><script src=/js/coder.min.6ae284be93d2d19dad1f02b0039508d9aab3180a12a06dcc71b0b0ef7825a317.js integrity="sha256-auKEvpPS0Z2tHwKwA5UI2aqzGAoSoG3McbCw73gloxc="></script><script async src="https://www.googletagmanager.com/gtag/js?id=G-5WLCXX3LGJ"></script><script>var dnt,doNotTrack=!1;if(!1&&(dnt=navigator.doNotTrack||window.doNotTrack||navigator.msDoNotTrack,doNotTrack=dnt=="1"||dnt=="yes"),!doNotTrack){window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments)}gtag("js",new Date),gtag("config","G-5WLCXX3LGJ")}</script></body></html>
