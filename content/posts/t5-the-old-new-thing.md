@@ -2,6 +2,7 @@
 title: "T5 the Old New Thing"
 date: 2024-03-06T12:58:32+01:00
 draft: false
+tags: ["NLP", "T5", "Transformers"]
 ---
 
 # Why T5

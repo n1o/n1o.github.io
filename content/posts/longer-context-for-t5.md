@@ -2,6 +2,7 @@
 title: "Longer Context for T5"
 date: 2024-04-29T14:10:36+02:00
 draft: false
+tags: ["NLP", "T5", "Transformers"]
 ---
 
 # Why does T5 need a longer context?
