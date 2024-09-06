@@ -4,7 +4,7 @@ date: 2024-09-05T10:39:29+01:00
 draft: false
 ---
 
-Similarly to the [Awesome T5]({{< relref "posts/awesome-t5.md" >}}) series, this series will cover a bunch of posts about State Space Models, their extensions and applications.
+This series will cover a bunch of posts about State Space Models, their extensions and applications.
 
 # Basics
 - [Mamba, Mamba2]({{< relref "posts/from-mamba-to-mamba2.md" >}})
