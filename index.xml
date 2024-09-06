@@ -1,11 +1,242 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data, Code and Breaking Stuff</title><link>https://n1o.github.io/</link><description>Recent content on Data, Code and Breaking Stuff</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 08 Aug 2024 09:57:32 +0200</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>From Mamba to Mamba-2</title><link>https://n1o.github.io/posts/from-mamba-to-mamba2/</link><pubDate>Thu, 08 Aug 2024 09:57:32 +0200</pubDate><guid>https://n1o.github.io/posts/from-mamba-to-mamba2/</guid><description>Abstract Link to heading This is not my first gig where I write about State Space Models. I already mentioned them here and here. Now what is the deal with this Mamba(2) thing? They are proving to be an alternative to the strong Transformer++ architecture (Transformer++ models like LLaMa are based on Rotary Embedding, SwiGLU, MLP, RMSNorm, without linear bias, sometimes with grouped query attention and/or sliding window attention). Hold on, if this Transformer++ models work well, why do we need altneratives?</description></item><item><title>Butterflies, Monarchs, Hyenas, and Lightning Fast BERT</title><link>https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/</link><pubDate>Fri, 12 Jul 2024 13:36:49 +0200</pubDate><guid>https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/</guid><description>Abstract Link to heading I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by ColT5 but than I came across of M2 BERT and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans.</description></item><item><title>BinT5 and HexT5 or T5 and Binary Reverse Engineering</title><link>https://n1o.github.io/posts/t5-and-reverse-engineering/</link><pubDate>Wed, 12 Jun 2024 14:07:17 +0200</pubDate><guid>https://n1o.github.io/posts/t5-and-reverse-engineering/</guid><description>Abstract Link to heading For a while now I have a new passion and that is binary reverse engineering and vulnerability exploitation. This interest has led me to create CodeBreakers a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.
-I found two notable research papers where T5 has been applied to reverse engineering are BinT5 and HexT5. Before we dive deep into the details of these papers, let&amp;rsquo;s first explore the basics of reverse engineering.</description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>Abstract Link to heading In a previous post, T5 the Old New Thing, we briefly touched upon CodeT5 and CodeT5+. Now, we aim to dive deeper into these topics.
-I have previously explored CodeBERT and GraphCodeBERT. These models, based on BERT and RoBERTa architectures, excel at code understanding and retrieval tasks. However, they fall short when it comes to code generation tasks. It&amp;rsquo;s worth noting that these models share a common theme: they utilize unique pretraining objectives tailored specifically for source code.</description></item><item><title>Awesome T5</title><link>https://n1o.github.io/awesome-t5/</link><pubDate>Mon, 06 May 2024 17:31:29 +0200</pubDate><guid>https://n1o.github.io/awesome-t5/</guid><description>Here is a bunch of my posts about a super cool model called T5 its extensions and applications.
-Basics Link to heading T5, FLAN-T5, UL2 LongT5, CoLT5 Coding T5 Link to heading CodeT5, CodeT5+ AST-T5 (Coming Soon) CodeFusion (Commit Soon) there is a bit of confusion about this research paper, there are some citation issues, and the overall reviews are not that great, however it still sounds like an interesting research direction, and will cover it but it may be a short one Cyber Security Link to heading LENS (Coming Soon) BinT5, HexT5 or &amp;ldquo;How is T5 used for Binary Reverse Engineering&amp;rdquo; With Graphs Link to heading Graph Neural Prompting (Coming Soon)</description></item><item><title>Longer Context for T5</title><link>https://n1o.github.io/posts/longer-context-for-t5/</link><pubDate>Mon, 29 Apr 2024 14:10:36 +0200</pubDate><guid>https://n1o.github.io/posts/longer-context-for-t5/</guid><description>Why does T5 need a longer context? Link to heading In my previous post T5 the Old New Thing we already explored why T5 is awesome. But one downside is its limited context length of 512 tokens. However, it does have a limitation - its context length is restricted to 512 tokens. This can&amp;rsquo;t be directly compared to the context length of a decoder-only model, as T5 is an encoder-decoder model.</description></item><item><title>T5 the Old New Thing</title><link>https://n1o.github.io/posts/t5-the-old-new-thing/</link><pubDate>Wed, 06 Mar 2024 12:58:32 +0100</pubDate><guid>https://n1o.github.io/posts/t5-the-old-new-thing/</guid><description>Why T5 Link to heading A couple of weeks ago I run into the following paper Tiny Titans. It compares multiple smallish (up to 1B parameters) open source LLMs with bigger proprietary ones on meeting summarization. TLDR; the small models tend to perform worse in zero-shot setting as well after fine-tunnig than big ones. Except for FLAN-T5-Large which after finetuning performs way beyond its league, beating even the biggest proprietary models (GPT-3.</description></item><item><title>Nixos for Hobby Project</title><link>https://n1o.github.io/posts/nixos-for-hobby-project/</link><pubDate>Wed, 13 Sep 2023 13:09:10 +0200</pubDate><guid>https://n1o.github.io/posts/nixos-for-hobby-project/</guid><description>Lately, I&amp;rsquo;ve embarked on a side project: CodeBreakers. It&amp;rsquo;s nothing too fancy, just a website where I plan to release videos and articles about my latest passions—Reverse Engineering and Binary Exploitation.
-Creating a website isn&amp;rsquo;t all that complex, and I&amp;rsquo;ve done it a couple of times before. The main challenge was deciding where and how to host it. Initially, I considered using Fly ((which is a fantastic PaaS product with many built-in features), but ultimately, I opted for Hetzner and rented a virtual server.</description></item><item><title>Paper overview: Hungry Hungry Hippos: Towards Language Modeling with State Space Models</title><link>https://n1o.github.io/posts/hungry-hungry-hippos/</link><pubDate>Mon, 06 Feb 2023 09:39:03 +0100</pubDate><guid>https://n1o.github.io/posts/hungry-hungry-hippos/</guid><description>High level overview Link to heading By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.
-Language modeling requirements Link to heading The Transformer architecture, which forms the basis of ChatGPT, is riding high on the hype train due to its impressive performance.</description></item><item><title>Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations</title><link>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</link><pubDate>Mon, 16 Jan 2023 17:37:36 +0100</pubDate><guid>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</guid><description>The problem it solves Link to heading Imagine you have an irregullary sampled time series, where at various time points we perform interventions. These interventions may influence the dynamics of the timeseries. The question we want to answer is:
-If I perform a hypothetical sequence of interventions how will my time series evolve?
-An example and some details Link to heading Example Link to heading As a medical doctor in a hospital, if a patient has a high fever and is at risk of dying, a common practice is to measure their levels of C-reactive protein (CRP) to determine if they need antibiotics.</description></item><item><title>Hierarchical Probabilistic Matrix Factorization</title><link>https://n1o.github.io/posts/pooled_matrix_factorization/</link><pubDate>Thu, 17 Dec 2020 10:19:42 +0100</pubDate><guid>https://n1o.github.io/posts/pooled_matrix_factorization/</guid><description>Probabilistic Matrix factorization is a simple but useful model for matrix imputation. The main idea is to decompose a tall and wide matrix into a product of two matrices, one tall and thin and one short and wide.
-$$ R_{n\times m} = U_{m \times d} \cdot V_{d \times n} $$
-If you are a Bayesian, you can express this model as:
-$$ R_{ij} \sim \mathcal{N}(u_i \cdot v_j^T, \sigma) $$ $$ u_i \sim \mathcal{N}(\mu_u, \Sigma_u) $$ $$ v_j \sim \mathcal{N}(\mu_v, \Sigma_v) $$</description></item><item><title/><link>https://n1o.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/about/</guid><description>About Link to heading I&amp;rsquo;m Marek Barak, I started my journey into computer science when I was 15 by coding in C++, without having access to the internet and in good old fashioned Bloodshed C++ Since then more than 15 years has passed, and I managed to get an Master degree in computer science and statistics from the University of Economics in Bratislava. I had to opportunity to do build machine learning and distributed systems for early to mid sage startups.</description></item><item><title/><link>https://n1o.github.io/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/contact/</guid><description>Contact Link to heading Feel free to contact me via email mrk.barak@gmail.com or socials.</description></item><item><title/><link>https://n1o.github.io/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/projects/</guid><description>Projects Link to heading Study notes Link to heading This is my compilation of notes from various subjects. This is work in progress, where I continuously migrate, rewrite, simplify the notes I have. During the years I wrote thousands of pages worth of notes, not always concise. Right now I prefer taking notes that are somewhat similar to the Zettelkasten method. Thus keeping them short, easy to follow, covering at most a single subject.</description></item></channel></rss>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data, Code and Breaking Stuff</title><link>https://n1o.github.io/</link><description>Recent content on Data, Code and Breaking Stuff</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 05 Sep 2024 10:39:29 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Awesome SSM</title><link>https://n1o.github.io/awesome-ssm/</link><pubDate>Thu, 05 Sep 2024 10:39:29 +0100</pubDate><guid>https://n1o.github.io/awesome-ssm/</guid><description>&lt;p>This series will cover a bunch of posts about State Space Models, their extensions and applications.&lt;/p>
+&lt;h1 id="basics">
+ Basics
+ &lt;a class="heading-link" href="#basics">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://n1o.github.io/posts/from-mamba-to-mamba2/" >Mamba, Mamba2&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="bidirectional">
+ Bidirectional
+ &lt;a class="heading-link" href="#bidirectional">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://n1o.github.io/posts/hydra-a-double-headed-mamba/" >Hydra&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="theory-and-limitations">
+ Theory and Limitations
+ &lt;a class="heading-link" href="#theory-and-limitations">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736" class="external-link" target="_blank" rel="noopener">The Expressive Capacity of State Space Models: A Formal Language Perspective&lt;/a>
+&lt;ul>
+&lt;li>look at SSMs from a lens of regular languages&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28" class="external-link" target="_blank" rel="noopener">The Illusion of State in State-Space Models&lt;/a>
+&lt;ul>
+&lt;li>look at the limitations of SSMs, especially when it comes to tracking state in Chess, Code and other domains&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="with-graphs">
+ With Graphs
+ &lt;a class="heading-link" href="#with-graphs">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/Graph-Mamba%3A-Towards-Learning-on-Graphs-with-State-Behrouz-Hashemi/2dda6da7375bf5e8bcf60f87b17ba10757f3bc57" class="external-link" target="_blank" rel="noopener">Graph Mamba: Towards Learning on Graphs with State Space Models&lt;/a>
+&lt;ul>
+&lt;li>we leverage SSMs an alternative to Message Passing in Graph Neural Networks&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="distillation">
+ Distillation
+ &lt;a class="heading-link" href="#distillation">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://browse.arxiv.org/abs/2408.10189v1" class="external-link" target="_blank" rel="noopener">Transformers to SSMs: Distilling Quadratic Knowledge to Subquadratic Models&lt;/a>
+&lt;ul>
+&lt;li>idea is to take an pretrained transformer and distill it into a SSM&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="reinforcement-learning">
+ Reinforcement Learning
+ &lt;a class="heading-link" href="#reinforcement-learning">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/Decision-Mamba%3A-Reinforcement-Learning-via-Sequence-Ota/9b8130a2a5d3398f4993f540ddd01d440d99d62e" class="external-link" target="_blank" rel="noopener">Decision Mamba: Reinforcement Learning via Sequence Modeling with Selective State Spaces&lt;/a>
+&lt;ul>
+&lt;li>apply SSMs to Sequential Decision Making&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul></description></item><item><title>Hydra a Double Headed Mamba</title><link>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</link><pubDate>Thu, 29 Aug 2024 11:53:51 +0200</pubDate><guid>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>State Space Models are awesome, models like Mamba and Mamba2 boast unparalleled performance especially when it comes to long sequences. The only downside is that they are causal, which means they model one token at a time, looking only at past tokens. Bidirectional models like &lt;a href="https://codebreakers.re/articles/detail/bert-codebert-and-graphcodebert/" class="external-link" target="_blank" rel="noopener">Bert, CodeBERT and GraphCodeBERT&lt;/a> have been shown to excel when it comes to code understanding. One way to put it is that by looking into the past and the future simultaneously we can get a better understanding of what is happening. Hydra is a bidirectional extension of Mamba2 that builds upon solid mathematical foundations, instead of just naively taking two Mamba(2)&amp;rsquo;s, flipping one of them, and somehow combining them.&lt;/p></description></item><item><title>From Mamba to Mamba-2</title><link>https://n1o.github.io/posts/from-mamba-to-mamba2/</link><pubDate>Thu, 08 Aug 2024 09:57:32 +0200</pubDate><guid>https://n1o.github.io/posts/from-mamba-to-mamba2/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>This is not my first gig where I write about State Space Models. I already mentioned them &lt;a href="https://n1o.github.io/posts/hungry-hungry-hippos/" >here&lt;/a> and &lt;a href="https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/" >here&lt;/a>. Now what is the deal with this Mamba(2) thing? They are proving to be an alternative to the strong Transformer++ architecture (Transformer++ models like LLaMa are based on Rotary Embedding, SwiGLU, MLP, RMSNorm, without linear bias, sometimes with grouped query attention and/or sliding window attention). Hold on, if this Transformer++ models work well, why do we need altneratives? There are multiple reason:&lt;/p></description></item><item><title>Butterflies, Monarchs, Hyenas, and Lightning Fast BERT</title><link>https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/</link><pubDate>Fri, 12 Jul 2024 13:36:49 +0200</pubDate><guid>https://n1o.github.io/posts/butterflies-monarchs-hyenas-and-lightning-fast-bert/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>I have been working on a project of creating my own Large Language Model, as I am huge fan of T5, or to be more concrete I recognize the added value of having an Encoder-Decoder architecture. The biggest challenge, at least in my opinion, in training an LLM is the sheer computational costs required to do so. I was originally planning to take the Encoder introduced by &lt;a href="https://n1o.github.io/posts/longer-context-for-t5/" >ColT5&lt;/a> but than I came across of &lt;a href="https://hazyresearch.stanford.edu/blog/2024-05-20-m2-bert-retrieval" class="external-link" target="_blank" rel="noopener">M2 BERT&lt;/a> and suddenly I went down the rabbit hole of Structured Matrices, Butterflies, Monarch and Hyeans.&lt;/p></description></item><item><title>BinT5 and HexT5 or T5 and Binary Reverse Engineering</title><link>https://n1o.github.io/posts/t5-and-reverse-engineering/</link><pubDate>Wed, 12 Jun 2024 14:07:17 +0200</pubDate><guid>https://n1o.github.io/posts/t5-and-reverse-engineering/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>For a while now I have a new passion and that is binary reverse engineering and vulnerability exploitation. This interest has led me to create &lt;a href="https://codebreakers.re" class="external-link" target="_blank" rel="noopener">CodeBreakers&lt;/a>
+a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.&lt;/p></description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>In a previous post, &lt;a href="https://n1o.github.io/posts/t5-the-old-new-thing/" >T5 the Old New Thing&lt;/a>, we briefly touched upon CodeT5 and CodeT5+. Now, we aim to dive deeper into these topics.&lt;/p>
+&lt;p>I have previously explored &lt;a href="https://codebreakers.re/articles/detail/bert-codebert-and-graphcodebert/" class="external-link" target="_blank" rel="noopener">CodeBERT and GraphCodeBERT&lt;/a>. These models, based on &lt;a href="https://arxiv.org/abs/1810.04805" class="external-link" target="_blank" rel="noopener">BERT&lt;/a> and &lt;a href="https://arxiv.org/abs/1907.11692" class="external-link" target="_blank" rel="noopener">RoBERTa&lt;/a> architectures, excel at code understanding and retrieval tasks. However, they fall short when it comes to code generation tasks. It&amp;rsquo;s worth noting that these models share a common theme: they utilize unique pretraining objectives tailored specifically for source code.&lt;/p></description></item><item><title>Awesome T5</title><link>https://n1o.github.io/awesome-t5/</link><pubDate>Mon, 06 May 2024 17:31:29 +0200</pubDate><guid>https://n1o.github.io/awesome-t5/</guid><description>&lt;p>Here is a bunch of my posts about a super cool model called T5 its extensions and applications.&lt;/p>
+&lt;h1 id="basics">
+ Basics
+ &lt;a class="heading-link" href="#basics">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://n1o.github.io/posts/t5-the-old-new-thing/" >T5, FLAN-T5, UL2&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://n1o.github.io/posts/longer-context-for-t5/" >LongT5, CoLT5&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="coding-t5">
+ Coding T5
+ &lt;a class="heading-link" href="#coding-t5">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://n1o.github.io/posts/code-t5-plus/" >CodeT5, CodeT5+&lt;/a>&lt;/li>
+&lt;li>AST-T5 (Coming Soon)&lt;/li>
+&lt;li>CodeFusion (Commit Soon)
+&lt;ul>
+&lt;li>there is a bit of confusion about this research paper, there are some citation issues, and the overall reviews are not that great, however it still sounds like an interesting research direction, and will cover it but it may be a short one&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;h1 id="cyber-security">
+ Cyber Security
+ &lt;a class="heading-link" href="#cyber-security">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>LENS (Coming Soon)&lt;/li>
+&lt;li>&lt;a href="https://n1o.github.io/posts/t5-and-reverse-engineering/" >BinT5, HexT5&lt;/a> or &amp;ldquo;How is T5 used for Binary Reverse Engineering&amp;rdquo;&lt;/li>
+&lt;/ul>
+&lt;h1 id="with-graphs">
+ With Graphs
+ &lt;a class="heading-link" href="#with-graphs">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>Graph Neural Prompting (Coming Soon)&lt;/li>
+&lt;/ul></description></item><item><title>Longer Context for T5</title><link>https://n1o.github.io/posts/longer-context-for-t5/</link><pubDate>Mon, 29 Apr 2024 14:10:36 +0200</pubDate><guid>https://n1o.github.io/posts/longer-context-for-t5/</guid><description>&lt;h1 id="why-does-t5-need-a-longer-context">
+ Why does T5 need a longer context?
+ &lt;a class="heading-link" href="#why-does-t5-need-a-longer-context">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>In my previous post
+&lt;a href="https://n1o.github.io/posts/t5-the-old-new-thing/" >T5 the Old New Thing&lt;/a>
+we already explored why T5 is awesome. But one downside is its limited context length of 512 tokens.
+However, it does have a limitation - its context length is restricted to 512 tokens. This can&amp;rsquo;t be directly compared to the context length of a decoder-only model, as T5 is an encoder-decoder model. This means that the encoder can process an input of up to 512 tokens, and the decoder can generate an output of up to 512 tokens, making the total context length 1024 tokens. In this article, we will discuss two extensions:&lt;/p></description></item><item><title>T5 the Old New Thing</title><link>https://n1o.github.io/posts/t5-the-old-new-thing/</link><pubDate>Wed, 06 Mar 2024 12:58:32 +0100</pubDate><guid>https://n1o.github.io/posts/t5-the-old-new-thing/</guid><description>&lt;h1 id="why-t5">
+ Why T5
+ &lt;a class="heading-link" href="#why-t5">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>A couple of weeks ago I run into the following paper &lt;a href="https://arxiv.org/abs/2402.00841" class="external-link" target="_blank" rel="noopener">Tiny Titans&lt;/a>. It compares multiple smallish (up to 1B parameters) open source LLMs with bigger proprietary ones on meeting summarization. TLDR; the small models tend to perform worse in zero-shot setting as well after fine-tunnig than big ones. Except for FLAN-T5-Large which after finetuning performs way beyond its league, beating even the biggest proprietary models (GPT-3.5).&lt;/p></description></item><item><title>Nixos for Hobby Project</title><link>https://n1o.github.io/posts/nixos-for-hobby-project/</link><pubDate>Wed, 13 Sep 2023 13:09:10 +0200</pubDate><guid>https://n1o.github.io/posts/nixos-for-hobby-project/</guid><description>&lt;p>Lately, I&amp;rsquo;ve embarked on a side project: &lt;a href="https://codebreakers.re/courses/" class="external-link" target="_blank" rel="noopener">CodeBreakers&lt;/a>. It&amp;rsquo;s nothing too fancy, just a website where I plan to release videos and articles about my latest passions—Reverse Engineering and Binary Exploitation.&lt;/p>
+&lt;p>Creating a website isn&amp;rsquo;t all that complex, and I&amp;rsquo;ve done it a couple of times before. The main challenge was deciding where and how to host it. Initially, I considered using &lt;a href="https://fly.io/" class="external-link" target="_blank" rel="noopener">Fly&lt;/a> ((which is a fantastic PaaS product with many built-in features), but ultimately, I opted for &lt;a href="hetzner.com" >Hetzner&lt;/a> and rented a virtual server.&lt;/p></description></item><item><title>Paper overview: Hungry Hungry Hippos: Towards Language Modeling with State Space Models</title><link>https://n1o.github.io/posts/hungry-hungry-hippos/</link><pubDate>Mon, 06 Feb 2023 09:39:03 +0100</pubDate><guid>https://n1o.github.io/posts/hungry-hungry-hippos/</guid><description>&lt;h1 id="high-level-overview">
+ High level overview
+ &lt;a class="heading-link" href="#high-level-overview">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.&lt;/p></description></item><item><title>Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations</title><link>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</link><pubDate>Mon, 16 Jan 2023 17:37:36 +0100</pubDate><guid>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</guid><description>&lt;h1 id="the-problem-it-solves">
+ The problem it solves
+ &lt;a class="heading-link" href="#the-problem-it-solves">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>Imagine you have an irregullary sampled time series, where at various time points we perform interventions. These interventions may influence the dynamics of the timeseries. The question we want to answer is:&lt;/p>
+&lt;p>&lt;em>If I perform a hypothetical sequence of interventions how will my time series evolve?&lt;/em>&lt;/p></description></item><item><title>Hierarchical Probabilistic Matrix Factorization</title><link>https://n1o.github.io/posts/pooled_matrix_factorization/</link><pubDate>Thu, 17 Dec 2020 10:19:42 +0100</pubDate><guid>https://n1o.github.io/posts/pooled_matrix_factorization/</guid><description>&lt;p>Probabilistic Matrix factorization is a simple but useful model for matrix imputation. The main idea is to decompose a tall and wide matrix into a product of two matrices, one tall and thin and one short and wide.&lt;/p>
+&lt;p>$$
+R_{n\times m} = U_{m \times d} \cdot V_{d \times n}
+$$&lt;/p>
+&lt;p>&lt;img alt="Matrix Factorization" src="https://n1o.github.io/images/matrix_factorization.svg">&lt;/p>
+&lt;p>If you are a Bayesian, you can express this model as:&lt;/p>
+&lt;p>$$
+R_{ij} \sim \mathcal{N}(u_i \cdot v_j^T, \sigma)
+$$
+$$
+u_i \sim \mathcal{N}(\mu_u, \Sigma_u)
+$$
+$$
+v_j \sim \mathcal{N}(\mu_v, \Sigma_v)
+$$&lt;/p></description></item><item><title/><link>https://n1o.github.io/about/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/about/</guid><description>&lt;h1 id="about">
+ About
+ &lt;a class="heading-link" href="#about">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>I&amp;rsquo;m Marek Barak, I started my journey into computer science when I was 15 by coding in C++, without having access to the internet and in good old fashioned &lt;a href="https://www.bloodshed.net/" class="external-link" target="_blank" rel="noopener">Bloodshed C++&lt;/a> Since then more than 15 years has passed, and I managed to get an Master degree in computer science and statistics from the University of Economics in Bratislava. I had to opportunity to do build machine learning and distributed systems for early to mid sage startups. Currently my day job is at &lt;a href="https://paiqo.com/" class="external-link" target="_blank" rel="noopener">Paiqo&lt;/a> tackling anything Data related. At nights I am an independent Cyber Security Researcher figuring out how to apply Machine Learning to Cyber Security especially in the field of Reverse Engineering and Vulnerability Exploitation.&lt;/p></description></item><item><title/><link>https://n1o.github.io/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/contact/</guid><description>&lt;h1 id="contact">
+ Contact
+ &lt;a class="heading-link" href="#contact">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>Feel free to contact me via email &lt;!-- raw HTML omitted -->&lt;a href="mailto:mrk.barak@gmail.com" >mrk.barak@gmail.com&lt;/a>&lt;!-- raw HTML omitted --> or &lt;a href="https://n1o.github.io/" >socials&lt;/a>.&lt;/p></description></item><item><title/><link>https://n1o.github.io/projects/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/projects/</guid><description>&lt;h1 id="projects">
+ Projects
+ &lt;a class="heading-link" href="#projects">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;h2 id="study-noteshttpsn1ogithubiostudy_notescontenthtml">
+ &lt;a href="https://n1o.github.io/study_notes/content.html" class="external-link" target="_blank" rel="noopener">Study notes&lt;/a>
+ &lt;a class="heading-link" href="#study-noteshttpsn1ogithubiostudy_notescontenthtml">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h2>
+&lt;p>This is my compilation of notes from various subjects. This is work in progress, where I continuously migrate, rewrite, simplify the notes I have. During the years I wrote thousands of pages worth of notes, not always concise. Right now I prefer taking notes that are somewhat similar to the &lt;a href="https://en.wikipedia.org/wiki/Zettelkasten" class="external-link" target="_blank" rel="noopener">Zettelkasten&lt;/a> method. Thus keeping them short, easy to follow, covering at most a single subject.&lt;/p></description></item></channel></rss>
