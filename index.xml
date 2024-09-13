@@ -108,7 +108,8 @@
  &lt;/a>
 &lt;/h1>
 &lt;p>For a while now I have a new passion and that is binary reverse engineering and vulnerability exploitation. This interest has led me to create &lt;a href="https://codebreakers.re" class="external-link" target="_blank" rel="noopener">CodeBreakers&lt;/a>
-a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.&lt;/p></description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>&lt;h1 id="abstract">
+a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.&lt;/p>
+&lt;p>I found two notable research papers where &lt;a href="https://n1o.github.io/posts/t5-the-old-new-thing/" >T5&lt;/a> has been applied to reverse engineering are &lt;a href="https://arxiv.org/abs/2301.01701" class="external-link" target="_blank" rel="noopener">BinT5&lt;/a> and &lt;a href="https://www.semanticscholar.org/paper/HexT5%3A-Unified-Pre-Training-for-Stripped-Binary-Xiong-Chen/04c3fccfe01f42afe18dcdb027385f350ab3c9d1" class="external-link" target="_blank" rel="noopener">HexT5&lt;/a>. Before we dive deep into the details of these papers, let&amp;rsquo;s first explore the basics of reverse engineering.&lt;/p></description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -189,7 +190,15 @@ However, it does have a limitation - its context length is restricted to 512 tok
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h1>
-&lt;p>By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.&lt;/p></description></item><item><title>Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations</title><link>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</link><pubDate>Mon, 16 Jan 2023 17:37:36 +0100</pubDate><guid>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</guid><description>&lt;h1 id="the-problem-it-solves">
+&lt;p>By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.&lt;/p>
+&lt;h1 id="language-modeling-requirements">
+ Language modeling requirements
+ &lt;a class="heading-link" href="#language-modeling-requirements">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>The Transformer architecture, which forms the basis of ChatGPT, is riding high on the hype train due to its impressive performance. Although it is just a basic &lt;a href="ttps://d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html" >Transformer&lt;/a>, it has proven to be extremely effective. The reason for its success is explored in the paper &amp;ldquo;&lt;a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" class="external-link" target="_blank" rel="noopener">In-Context Learning and Induction Heads&lt;/a>.&amp;rdquo; The authors argue that the majority of the in-context learning capacity of the Transformer architecture can be evaluated by two tests:&lt;/p></description></item><item><title>Paper overview: Continuous-Time Modeling of Counterfactual Outcomes Using Neural Controlled Differential Equations</title><link>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</link><pubDate>Mon, 16 Jan 2023 17:37:36 +0100</pubDate><guid>https://n1o.github.io/posts/continuous-time-modeling-of-counterfatual-outcomes/</guid><description>&lt;h1 id="the-problem-it-solves">
  The problem it solves
  &lt;a class="heading-link" href="#the-problem-it-solves">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -197,7 +206,22 @@ However, it does have a limitation - its context length is restricted to 512 tok
  &lt;/a>
 &lt;/h1>
 &lt;p>Imagine you have an irregullary sampled time series, where at various time points we perform interventions. These interventions may influence the dynamics of the timeseries. The question we want to answer is:&lt;/p>
-&lt;p>&lt;em>If I perform a hypothetical sequence of interventions how will my time series evolve?&lt;/em>&lt;/p></description></item><item><title>Hierarchical Probabilistic Matrix Factorization</title><link>https://n1o.github.io/posts/pooled_matrix_factorization/</link><pubDate>Thu, 17 Dec 2020 10:19:42 +0100</pubDate><guid>https://n1o.github.io/posts/pooled_matrix_factorization/</guid><description>&lt;p>Probabilistic Matrix factorization is a simple but useful model for matrix imputation. The main idea is to decompose a tall and wide matrix into a product of two matrices, one tall and thin and one short and wide.&lt;/p>
+&lt;p>&lt;em>If I perform a hypothetical sequence of interventions how will my time series evolve?&lt;/em>&lt;/p>
+&lt;h1 id="an-example-and-some-details">
+ An example and some details
+ &lt;a class="heading-link" href="#an-example-and-some-details">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;h2 id="example">
+ Example
+ &lt;a class="heading-link" href="#example">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h2>
+&lt;p>As a medical doctor in a hospital, if a patient has a high fever and is at risk of dying, a common practice is to measure their levels of C-reactive protein (CRP) to determine if they need antibiotics. If the CRP level is high, antibiotics are administered at a certain dosage. However, the effects of antibiotics may not be immediate and it may take some time before they show. In this scenario, the doctor would wait for some time and measure the patient&amp;rsquo;s CRP levels again.&lt;/p></description></item><item><title>Hierarchical Probabilistic Matrix Factorization</title><link>https://n1o.github.io/posts/pooled_matrix_factorization/</link><pubDate>Thu, 17 Dec 2020 10:19:42 +0100</pubDate><guid>https://n1o.github.io/posts/pooled_matrix_factorization/</guid><description>&lt;p>Probabilistic Matrix factorization is a simple but useful model for matrix imputation. The main idea is to decompose a tall and wide matrix into a product of two matrices, one tall and thin and one short and wide.&lt;/p>
 &lt;p>$$
 R_{n\times m} = U_{m \times d} \cdot V_{d \times n}
 $$&lt;/p>
@@ -218,7 +242,7 @@ $$&lt;/p></description></item><item><title/><link>https://n1o.github.io/about/</
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h1>
-&lt;p>I&amp;rsquo;m Marek Barak, I started my journey into computer science when I was 15 by coding in C++, without having access to the internet and in good old fashioned &lt;a href="https://www.bloodshed.net/" class="external-link" target="_blank" rel="noopener">Bloodshed C++&lt;/a> Since then more than 15 years has passed, and I managed to get an Master degree in computer science and statistics from the University of Economics in Bratislava. I had to opportunity to do build machine learning and distributed systems for early to mid sage startups. Currently my day job is at &lt;a href="https://paiqo.com/" class="external-link" target="_blank" rel="noopener">Paiqo&lt;/a> tackling anything Data related. At nights I am an independent Cyber Security Researcher figuring out how to apply Machine Learning to Cyber Security especially in the field of Reverse Engineering and Vulnerability Exploitation.&lt;/p></description></item><item><title/><link>https://n1o.github.io/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/contact/</guid><description>&lt;h1 id="contact">
+&lt;p>I&amp;rsquo;m Marek Barak, I started my journey into computer science when I was 15 by coding in C++, without having access to the internet and in good old fashioned &lt;a href="https://www.bloodshed.net/" class="external-link" target="_blank" rel="noopener">Bloodshed C++&lt;/a>. Since then nearly 20 years have passed, and I managed to get a Master degree in Computer Science and Statistics from the University of Economics in Bratislava. I had the opportunity to do machine learning and build distributed systems for early to mid stage startups. Right now my day job is at &lt;a href="https://paiqo.com/" class="external-link" target="_blank" rel="noopener">Paiqo&lt;/a> tackling anything Data related. At nights I am an independent Cyber Security Researcher figuring out how to apply Machine Learning to Cyber Security especially in the field of Reverse Engineering and Vulnerability Exploitation.&lt;/p></description></item><item><title/><link>https://n1o.github.io/contact/</link><pubDate>Mon, 01 Jan 0001 00:00:00 +0000</pubDate><guid>https://n1o.github.io/contact/</guid><description>&lt;h1 id="contact">
  Contact
  &lt;a class="heading-link" href="#contact">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>

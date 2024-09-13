@@ -6,4 +6,19 @@
  &lt;/a>
 &lt;/h1>
 &lt;p>Imagine you have an irregullary sampled time series, where at various time points we perform interventions. These interventions may influence the dynamics of the timeseries. The question we want to answer is:&lt;/p>
-&lt;p>&lt;em>If I perform a hypothetical sequence of interventions how will my time series evolve?&lt;/em>&lt;/p></description></item></channel></rss>
+&lt;p>&lt;em>If I perform a hypothetical sequence of interventions how will my time series evolve?&lt;/em>&lt;/p>
+&lt;h1 id="an-example-and-some-details">
+ An example and some details
+ &lt;a class="heading-link" href="#an-example-and-some-details">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;h2 id="example">
+ Example
+ &lt;a class="heading-link" href="#example">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h2>
+&lt;p>As a medical doctor in a hospital, if a patient has a high fever and is at risk of dying, a common practice is to measure their levels of C-reactive protein (CRP) to determine if they need antibiotics. If the CRP level is high, antibiotics are administered at a certain dosage. However, the effects of antibiotics may not be immediate and it may take some time before they show. In this scenario, the doctor would wait for some time and measure the patient&amp;rsquo;s CRP levels again.&lt;/p></description></item></channel></rss>

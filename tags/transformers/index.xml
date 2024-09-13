@@ -6,7 +6,8 @@
  &lt;/a>
 &lt;/h1>
 &lt;p>For a while now I have a new passion and that is binary reverse engineering and vulnerability exploitation. This interest has led me to create &lt;a href="https://codebreakers.re" class="external-link" target="_blank" rel="noopener">CodeBreakers&lt;/a>
-a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.&lt;/p></description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>&lt;h1 id="abstract">
+a platform dedicated to applying machine learning to reverse engineering, vulnerability detection, exploitation, and other cybersecurity-related applications.&lt;/p>
+&lt;p>I found two notable research papers where &lt;a href="https://n1o.github.io/posts/t5-the-old-new-thing/" >T5&lt;/a> has been applied to reverse engineering are &lt;a href="https://arxiv.org/abs/2301.01701" class="external-link" target="_blank" rel="noopener">BinT5&lt;/a> and &lt;a href="https://www.semanticscholar.org/paper/HexT5%3A-Unified-Pre-Training-for-Stripped-Binary-Xiong-Chen/04c3fccfe01f42afe18dcdb027385f350ab3c9d1" class="external-link" target="_blank" rel="noopener">HexT5&lt;/a>. Before we dive deep into the details of these papers, let&amp;rsquo;s first explore the basics of reverse engineering.&lt;/p></description></item><item><title>CodeT5 and CodeT5+</title><link>https://n1o.github.io/posts/code-t5-plus/</link><pubDate>Sat, 01 Jun 2024 08:46:43 +0200</pubDate><guid>https://n1o.github.io/posts/code-t5-plus/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>

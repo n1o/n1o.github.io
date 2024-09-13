@@ -26,4 +26,12 @@
  &lt;span class="sr-only">Link to heading&lt;/span>
  &lt;/a>
 &lt;/h1>
-&lt;p>By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.&lt;/p></description></item></channel></rss>
+&lt;p>By combining State Space Models (SSMs) with Attention, we get a model that generates text more efficiently, with a speed increase of approximately 1.6 times. Additionally, this approach requires less paremters, enabling the development of larger models on existing hardware.&lt;/p>
+&lt;h1 id="language-modeling-requirements">
+ Language modeling requirements
+ &lt;a class="heading-link" href="#language-modeling-requirements">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>The Transformer architecture, which forms the basis of ChatGPT, is riding high on the hype train due to its impressive performance. Although it is just a basic &lt;a href="ttps://d2l.ai/chapter_attention-mechanisms-and-transformers/transformer.html" >Transformer&lt;/a>, it has proven to be extremely effective. The reason for its success is explored in the paper &amp;ldquo;&lt;a href="https://transformer-circuits.pub/2022/in-context-learning-and-induction-heads/index.html" class="external-link" target="_blank" rel="noopener">In-Context Learning and Induction Heads&lt;/a>.&amp;rdquo; The authors argue that the majority of the in-context learning capacity of the Transformer architecture can be evaluated by two tests:&lt;/p></description></item></channel></rss>
