@@ -115,11 +115,16 @@ disqusShortname = "mbarak-io"
             url = "awesome-t5/"
 
             [[languages.en.menu.main]]
-            name = "Projects"
+            name = "Awesome SSM"
             weight = 4
+            url = "awesome-ssm/"
+
+            [[languages.en.menu.main]]
+            name = "Projects"
+            weight = 5
             url = "projects/"
 
             [[languages.en.menu.main]]
             name = "Contact me"
-            weight = 5
+            weight = 6
             url = "contact/"
