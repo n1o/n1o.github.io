@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data, Code and Breaking Stuff</title><link>https://n1o.github.io/</link><description>Recent content on Data, Code and Breaking Stuff</description><generator>Hugo</generator><language>en</language><lastBuildDate>Thu, 05 Sep 2024 10:39:29 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Awesome SSM</title><link>https://n1o.github.io/awesome-ssm/</link><pubDate>Thu, 05 Sep 2024 10:39:29 +0100</pubDate><guid>https://n1o.github.io/awesome-ssm/</guid><description>&lt;p>This series will cover a bunch of posts about State Space Models, their extensions and applications.&lt;/p>
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data, Code and Breaking Stuff</title><link>https://n1o.github.io/</link><description>Recent content on Data, Code and Breaking Stuff</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 18 Sep 2024 11:26:25 +0200</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Mamba(2) and Transformer Hybrids: An Overview</title><link>https://n1o.github.io/posts/ssm-transformer-hybrids-guide/</link><pubDate>Wed, 18 Sep 2024 11:26:25 +0200</pubDate><guid>https://n1o.github.io/posts/ssm-transformer-hybrids-guide/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>We have already looked into &lt;a href="https://n1o.github.io/posts/from-mamba-to-mamba2/" >Mamba and Mamba2&lt;/a>. In terms of efficiency, with their linear complexity and the absence of Key-Value cache, they are a significant improvement over Attention-based models in terms of throughput and memory usage. However, not everything is perfect. Transformers have a certain advantage when it comes to in-context learning. In-context learning is the ability to adapt the model without retraining it. This is done by providing relevant (or not) context to the model in the form of a prompt.&lt;/p></description></item><item><title>Awesome SSM</title><link>https://n1o.github.io/awesome-ssm/</link><pubDate>Thu, 05 Sep 2024 10:39:29 +0100</pubDate><guid>https://n1o.github.io/awesome-ssm/</guid><description>&lt;p>This series will cover a bunch of posts about State Space Models, their extensions and applications.&lt;/p>
 &lt;h1 id="basics">
  Basics
  &lt;a class="heading-link" href="#basics">
@@ -18,6 +25,27 @@
 &lt;/h1>
 &lt;ul>
 &lt;li>&lt;a href="https://n1o.github.io/posts/hydra-a-double-headed-mamba/" >Hydra&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;h1 id="attention-hybrids">
+ Attention Hybrids
+ &lt;a class="heading-link" href="#attention-hybrids">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;ul>
+&lt;li>&lt;a href="https://n1o.github.io/posts/ssm-transformer-hybrids-guide/" >SSM-Transformer Hybrids&lt;/a>
+&lt;ul>
+&lt;li>coverrs
+&lt;ul>
+&lt;li>theory and limitations of pure SSMs&lt;/li>
+&lt;li>Samba&lt;/li>
+&lt;li>Zamba, Zamba2 (small and mini)&lt;/li>
+&lt;li>Jamba and Jamba 1.5&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;/ul>
+&lt;/li>
 &lt;/ul>
 &lt;h1 id="theory-and-limitations">
  Theory and Limitations
