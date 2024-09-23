@@ -12,6 +12,14 @@ This series will cover a bunch of posts about State Space Models, their extensio
 # Bidirectional
 - [Hydra]({{< relref "posts/hydra-a-double-headed-mamba.md" >}})
 
+# Attention Hybrids
+- [SSM-Transformer Hybrids]({{< relref "posts/ssm-transformer-hybrids-guide.md" >}})
+    - coverrs
+        - theory and limitations of pure SSMs
+        - Samba
+        - Zamba, Zamba2 (small and mini)
+        - Jamba and Jamba 1.5
+    
 # Theory and Limitations
 - [The Expressive Capacity of State Space Models: A Formal Language Perspective](https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736)
     - look at SSMs from a lens of regular languages
