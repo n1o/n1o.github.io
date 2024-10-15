@@ -87,7 +87,7 @@ There are two types of grammars:
 ## Problems
 To study the strengths and weaknesses of SSMs and Transformers, we first introduce 3 sample problems; these sample problems emulate string processing showcasing the different weaknesses and strengths of transformers.
 
-![FlipFlop Parity and Dyck](/static/images/flip_flop_parity_dyck.png)
+![FlipFlop Parity and Dyck](/images/flip_flop_parity_dyck.png)
 
 ### Flip-Flop
 The Flip-Flop problem is defined as a sequence of instructions and data. There are 3 instructions: Read, Write, Ignore. Each time we encounter a Write instruction, we store information into memory (this information is either 0 or 1); this information will be recalled by the next Read instruction.
