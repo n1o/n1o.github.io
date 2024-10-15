@@ -14,6 +14,10 @@ series = []
 # Abstract
 Last time we looked into the weak points of State Space Models ([Mamba, Mamba2]({{< relref "posts/from-mamba-to-mamba2.md" >}})), especially when compared with Attention-Based models (LLama, GPT-like). They lack in terms of in-context learning. To alleviate this, we focused on [SSM-Transformer Hybrids]({{< relref "posts/ssm-transformer-hybrids-guide.md" >}}) and introduced multiple models that do this differently. Here we look into the expressivity of State Space Models from two formal perspectives. The first is from the perspective of Circuit complexity and later from the perspective of Formal Languages.
 
+We cover the following two papers:
+- [The Expressive Capacity of State Space Models: A Formal Language Perspective](https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736)
+- [The Illusion of State in State-Space Models](https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28)
+
 ## TLDR
 SSMs and Transformers have similar strengths and weaknesses; however, there is complementary synergy, giving a more theoretical reason for hybrid architectures.
 

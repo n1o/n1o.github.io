@@ -13,18 +13,19 @@ This series will cover a bunch of posts about State Space Models, their extensio
 - [Hydra]({{< relref "posts/hydra-a-double-headed-mamba.md" >}})
 
 # Attention Hybrids
-- [SSM-Transformer Hybrids]({{< relref "posts/ssm-transformer-hybrids-guide.md" >}})
-    - coverrs
-        - theory and limitations of pure SSMs
-        - Samba
-        - Zamba, Zamba2 (small and mini)
-        - Jamba and Jamba 1.5
+- [SSM-Transformer Hybrids]({{< relref "posts/ssm-transformer-hybrids-guide.md" >}}) covers:
+    - [An Empirical Study of Mamba-based Language Models](https://arxiv.org/abs/2406.07887)
+    - [SAMBA Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling](https://arxiv.org/html/2406.07522v1)
+    - [Jamba A Hybrid Transformer-Mamba Language Model](https://arxiv.org/abs/2403.19887v1)
+    - [Jamba 1.5 Hybrid Transformer-Mamba Models at Scale](https://arxiv.org/abs/2408.12570)
+    - [Zamba A Compact 7B SSM Hybrid Model](https://arxiv.org/abs/2405.16712v1)
+    - [Zamba2-small](https://www.zyphra.com/post/zamba2-small)
+    - [Zamba2-mini](https://www.zyphra.com/post/zamba2-mini)
     
 # Theory and Limitations
-- [The Expressive Capacity of State Space Models: A Formal Language Perspective](https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736)
-    - look at SSMs from a lens of regular languages
-- [The Illusion of State in State-Space Models](https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28)
-    - look at the limitations of SSMs, especially when it comes to tracking state in Chess, Code and other domains
+- [Illusion of State in SSMs like Mamba]({{< relref "posts/ssm-the-illusion.md" >}}) covers:
+    - [The Expressive Capacity of State Space Models: A Formal Language Perspective](https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736)
+    - [The Illusion of State in State-Space Models](https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28)
 
 # With Graphs
 - [Graph Mamba: Towards Learning on Graphs with State Space Models](https://www.semanticscholar.org/paper/Graph-Mamba%3A-Towards-Learning-on-Graphs-with-State-Behrouz-Hashemi/2dda6da7375bf5e8bcf60f87b17ba10757f3bc57)
