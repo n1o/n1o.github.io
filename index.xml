@@ -41,16 +41,15 @@
  &lt;/a>
 &lt;/h1>
 &lt;ul>
-&lt;li>&lt;a href="https://n1o.github.io/posts/ssm-transformer-hybrids-guide/" >SSM-Transformer Hybrids&lt;/a>
+&lt;li>&lt;a href="https://n1o.github.io/posts/ssm-transformer-hybrids-guide/" >SSM-Transformer Hybrids&lt;/a> covers:
 &lt;ul>
-&lt;li>coverrs
-&lt;ul>
-&lt;li>theory and limitations of pure SSMs&lt;/li>
-&lt;li>Samba&lt;/li>
-&lt;li>Zamba, Zamba2 (small and mini)&lt;/li>
-&lt;li>Jamba and Jamba 1.5&lt;/li>
-&lt;/ul>
-&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/abs/2406.07887" class="external-link" target="_blank" rel="noopener">An Empirical Study of Mamba-based Language Models&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/html/2406.07522v1" class="external-link" target="_blank" rel="noopener">SAMBA Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/abs/2403.19887v1" class="external-link" target="_blank" rel="noopener">Jamba A Hybrid Transformer-Mamba Language Model&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/abs/2408.12570" class="external-link" target="_blank" rel="noopener">Jamba 1.5 Hybrid Transformer-Mamba Models at Scale&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://arxiv.org/abs/2405.16712v1" class="external-link" target="_blank" rel="noopener">Zamba A Compact 7B SSM Hybrid Model&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.zyphra.com/post/zamba2-small" class="external-link" target="_blank" rel="noopener">Zamba2-small&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.zyphra.com/post/zamba2-mini" class="external-link" target="_blank" rel="noopener">Zamba2-mini&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
@@ -62,14 +61,10 @@
  &lt;/a>
 &lt;/h1>
 &lt;ul>
-&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736" class="external-link" target="_blank" rel="noopener">The Expressive Capacity of State Space Models: A Formal Language Perspective&lt;/a>
+&lt;li>&lt;a href="https://n1o.github.io/posts/ssm-the-illusion/" >Illusion of State in SSMs like Mamba&lt;/a> covers:
 &lt;ul>
-&lt;li>look at SSMs from a lens of regular languages&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28" class="external-link" target="_blank" rel="noopener">The Illusion of State in State-Space Models&lt;/a>
-&lt;ul>
-&lt;li>look at the limitations of SSMs, especially when it comes to tracking state in Chess, Code and other domains&lt;/li>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736" class="external-link" target="_blank" rel="noopener">The Expressive Capacity of State Space Models: A Formal Language Perspective&lt;/a>&lt;/li>
+&lt;li>&lt;a href="https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28" class="external-link" target="_blank" rel="noopener">The Illusion of State in State-Space Models&lt;/a>&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
