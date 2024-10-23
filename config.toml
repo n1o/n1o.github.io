@@ -1,5 +1,5 @@
 baseURL = "https://n1o.github.io/"
-title = "Data, Code and Breaking Stuff"
+title = "Data Artificer and code:Breaker"
 
 theme = "hugo-coder"
 languageCode = "en"
@@ -20,11 +20,11 @@ disqusShortname = "mbarak-io"
 
 [params]
     author = "n1o_c0rTx"
-    description = "Data, Code and Breaking Stuff"
+    description = "Data Artificer and code:Breaker" 
     keywords = "blog,developer,personal"
-    info = "Data, Code and Breaking Stuff"
+    info = "Data Artificer and code:Breaker"
     
-    footerContent = "Enter a text here."
+    footerContent = "Data and Technology"
     katex = true
     dateFormat = "January 2, 2006"
     gravatar = "mrk.barak@gmail.com"
@@ -105,7 +105,7 @@ disqusShortname = "mbarak-io"
             url = "about/"
             
             [[languages.en.menu.main]]
-            name = "Blog"
+            name = "Writing"
             weight = 2
             url = "posts/"
 
