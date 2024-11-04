@@ -32,7 +32,8 @@ This series will cover a bunch of posts about State Space Models, their extensio
     - we leverage SSMs an alternative to Message Passing in Graph Neural Networks
 
 # Distillation
-- [Transformers to SSMs: Distilling Quadratic Knowledge to Subquadratic Models](https://browse.arxiv.org/abs/2408.10189v1)
+- [Hohawk and Mamba in the Llama]({{< relref "posts/distilling-ssm-from-transformers.md" >}}) covers:
+
     - idea is to take an pretrained transformer and distill it into a SSM
 
 # Reinforcement Learning
