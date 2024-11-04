@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 14 Oct 2024 10:52:09 +0200</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Illusion of State in SSMs like Mamba</title><link>https://n1o.github.io/posts/ssm-the-illusion/</link><pubDate>Mon, 14 Oct 2024 10:52:09 +0200</pubDate><guid>https://n1o.github.io/posts/ssm-the-illusion/</guid><description>&lt;h1 id="abstract">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 28 Oct 2024 10:12:27 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Distilling State Space Models from Transformers</title><link>https://n1o.github.io/posts/distilling-ssm-from-transformers/</link><pubDate>Mon, 28 Oct 2024 10:12:27 +0100</pubDate><guid>https://n1o.github.io/posts/distilling-ssm-from-transformers/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>It is notoriously expensive to train a Language Model from scratch, making independent research impossible and trying out new architectures extremely risky. Because of these costs, Transformer++ models like LLaMa, based on Rotary Embedding, SwiGLU, MLP, RMSNorm, without linear bias, sometimes with grouped query attention and/or sliding window attention, are the de facto standard, not because they are the best, but because they are proven to work! In previous posts I covered &lt;a href="https://n1o.github.io/posts/ssm-transformer-hybrids-guide/" >SSM-Transformer Hybrids&lt;/a>. The biggest benefit of hybridization is their reduced inference cost and minimal memory overhead due to reduced KV cache, and combining SSMs can Attention can make the model more expressive. The biggest obstacle of these models is that they need to be pretrained from scratch. For example &lt;a href="https://www.zyphra.com/post/zamba2-7b" class="external-link" target="_blank" rel="noopener">Zamba2 7B&lt;/a>, is a 7B model that was trained on 128 H100 GPUs for 50 days, bringing its pretraining costs to around 600K US dollars. This makes it one of the cheapest (but by far not weakest) SSM-Attention hybrids, however if we look into detail the model was trained only on 3T (+100B high quality for annealing) tokens. In comparison Llama3 was trained on 15T tokens, if we would apply the same number of tokens to Zamba we would end up with costs around 3M US dollars. It is not hard to see that these kinds of budgets are out of scope for any individual, but also out of scope for many medium sized research organizations and academia.&lt;/p></description></item><item><title>Illusion of State in SSMs like Mamba</title><link>https://n1o.github.io/posts/ssm-the-illusion/</link><pubDate>Mon, 14 Oct 2024 10:52:09 +0200</pubDate><guid>https://n1o.github.io/posts/ssm-the-illusion/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -90,26 +97,8 @@
  &lt;/a>
 &lt;/h1>
 &lt;ul>
-&lt;li>&lt;a href="https://browse.arxiv.org/abs/2408.10189v1" class="external-link" target="_blank" rel="noopener">Transformers to SSMs: Distilling Quadratic Knowledge to Subquadratic Models&lt;/a>
-&lt;ul>
-&lt;li>idea is to take an pretrained transformer and distill it into a SSM&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul>
-&lt;h1 id="reinforcement-learning">
- Reinforcement Learning
- &lt;a class="heading-link" href="#reinforcement-learning">
- &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
- &lt;span class="sr-only">Link to heading&lt;/span>
- &lt;/a>
-&lt;/h1>
-&lt;ul>
-&lt;li>&lt;a href="https://www.semanticscholar.org/paper/Decision-Mamba%3A-Reinforcement-Learning-via-Sequence-Ota/9b8130a2a5d3398f4993f540ddd01d440d99d62e" class="external-link" target="_blank" rel="noopener">Decision Mamba: Reinforcement Learning via Sequence Modeling with Selective State Spaces&lt;/a>
-&lt;ul>
-&lt;li>apply SSMs to Sequential Decision Making&lt;/li>
-&lt;/ul>
-&lt;/li>
-&lt;/ul></description></item><item><title>Hydra a Double Headed Mamba</title><link>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</link><pubDate>Thu, 29 Aug 2024 11:53:51 +0200</pubDate><guid>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</guid><description>&lt;h1 id="abstract">
+&lt;li>
+&lt;p>&lt;a href="https://n1o.github.io/posts/distilling-ssm-from-transformers/" >Hohawk and Mamba in the Llama&lt;/a> covers:&lt;/p></description></item><item><title>Hydra a Double Headed Mamba</title><link>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</link><pubDate>Thu, 29 Aug 2024 11:53:51 +0200</pubDate><guid>https://n1o.github.io/posts/hydra-a-double-headed-mamba/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
