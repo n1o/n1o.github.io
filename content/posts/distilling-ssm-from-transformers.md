@@ -57,7 +57,7 @@ Here it is worth noting, that Mamba(2) is also the channel Mixer, thus the stude
 
 The authors decided to remove the Normalization layers, and they set the gate to 1, to cancel out its initial effect.
 
-![Here sigma is the gate, by forcing it to 1 we open it](./images/mamba_layer.png)
+![Here sigma is the gate, by forcing it to 1 we open it](/images/mamba_layer.png)
 
 ## Stage 3
 Here we are going to train the studen model as a whole, but first we transfer the remaining parts from the teach model. There remaining parts are:
@@ -92,7 +92,7 @@ These moddifications are not to major, and they do not require changes to the SS
 ### Results
 The actual training was done on 3 Bilion tokens! Yes bilions, not trillions!  At the beginning of the post we saw, that Zamba2 7B was pretrained on 3T tokens with the estimated budged of around 600k, by naively extrapolating we could say that Mohawk enables distilation at 0.1% of the cost, making it around 600 US Dolars. Yes sure, there are wast difference in the architecture, but this is again one of the first steps of exploring new architectures with shortcuts in pretraining.
 
-![](./images/phi_1_5_mamb_2_results.png)
+![](/images/phi_1_5_mamb_2_results.png)
 
 The actual token distribution was 80M for Stage 1, 160M for Stage 2 and 2.78B for Stage 3.
 
@@ -105,7 +105,7 @@ To better gasp the importance of various stages we the authors decided to train 
 
 All the models are distilled with Mohawk on 5B tokens instead of 3B. 
 
-![](./images/phi_1_5_mamb_2_stage_comparison.png)
+![](/images/phi_1_5_mamb_2_stage_comparison.png)
 
 We can see that most of the training budget was spent on Stage 3, and we spent relative little in the first 2 stages, however we can see that there are massive gains. Even wen we just apply stage 2 and 3, we get improvements to performing vanila knowledge distilation. And at last even a bit of Stage 1, is the key for the student to retain the teachers performance.
 
@@ -156,11 +156,11 @@ Here A is a diagonal matrix and the rest is continuous signal
 
 We can now use V,K,Q from attention to initialize x, B, C of Mamba:
 
-![](./images/attention_to_mamba_algorithm.png)
+![](/images/attention_to_mamba_algorithm.png)
 
 This introduces a couple of extra parameters. First there is a need of a Neural Network to perform the discretization of the continuous signal, and second we need the values for A. As it turns out, by reusing attention weights we greatly jumpstart the models performance:
 
-![](./images/attention_initialized_mamba.png)
+![](/images/attention_initialized_mamba.png)
 
 This figure compares 2 models, one is a pure Mamba model and the Second is an 50% Hybrid. We compare the Perplexity of booth model, and it clearly obvious that Attention initialization leads to significantly lower perplexity, which is most obvious in a pure Mamba model!
 
@@ -168,7 +168,7 @@ This figure compares 2 models, one is a pure Mamba model and the Second is an 50
 
 We already have an algorithm that is efficient at reusing attention weights, lets see how far we can go and how many attention layers we can transfer. 
 
-![](./images/attention_to_mamba_initialization_and_training.png)
+![](/images/attention_to_mamba_initialization_and_training.png)
 
 It is crucial to note, that we freeze most of the remaining layers, especially the Fully Connected layers, since they should contain most of the models knowledge! We only train the transferred weight and the extra parameters.
 
@@ -182,15 +182,15 @@ Here we combine two approaches:
 
 - Word level KL divergence, here the student is forced to match the whole probability distribution of the teacher over the entire set of tokens
 
-$$\text{KL}(p(.| \hat{y}_{1:t, x, \theta_T}) || p(.|\hat{y}_{1:t}, x ,\theta))$$
+$$ \text{KL}(p(.| \hat{y_{1:t}}, x, \theta_T) || p(.|\hat{y}_{1:t}, x ,\theta))$$
 
 - Sentence Level Knowledge Distilation ([SeqKD](https://arxiv.org/abs/1606.07947)), the student is optimized on the output of the teacher ($\hat{y}_{1 \cdots t}$, also known as pseudo-labels) instead of the ground truth $y_{1,\cdots, t}$. 
 
-$$\sum_{t=1}^T \alpha \log p(\hat{y}_{t+1}| \hat{y}_{1:t}, x, \theta)$$ 
+$$\sum_{t=1}^T \alpha \log p(\hat{y_{t+1}}| \hat{y}_{1:t}, x, \theta)$$ 
 
 The overall objective is just the weighted combination of booth:
 
-$$L(\theta) = - \sum_{t=1}^T \alpha \log p(\hat{y}_{t+1}| \hat{y}_{1:t}, x, \theta) + \beta \text{KL}[p(.| \hat{y}_{1:t, x, \theta_{\text{Teacher}}}) || p(.|\hat{y}_{1:t}, x ,\theta)] $$
+$$L(\theta) = - \sum_{t=1}^T \alpha \log p(\hat{y_{t+1}}| \hat{y}_{1:t}, x, \theta) + \beta  \text{KL}(p(.| \hat{y_{1:t}}, x, \theta_T) || p(.|\hat{y}_{1:t}, x ,\theta))$$
 
 
 2. **Preverence Optimization**
@@ -217,11 +217,11 @@ We use two teacher models: Zephyr-7B and Llama3-instruct, in student models we r
 #### Results
 For a Chat Specific benchmark:
 
-![](./images/attention_to_mamba_chat_results.png)
+![](/images/attention_to_mamba_chat_results.png)
 
 For a more general Bench Mark:
 
-![](./images/attention_to_mamba_general_results.png)
+[](/images/attention_to_mamba_general_results.png)
 
 To a certain degree the results are somewhat disappointing, it is clearly obvious that replacing Attention with Mamba hurts, especially in cases where we drop most of the attention layers.
 
