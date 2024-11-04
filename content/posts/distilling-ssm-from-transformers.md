@@ -110,4 +110,124 @@ All the models are distilled with Mohawk on 5B tokens instead of 3B.
 We can see that most of the training budget was spent on Stage 3, and we spent relative little in the first 2 stages, however we can see that there are massive gains. Even wen we just apply stage 2 and 3, we get improvements to performing vanila knowledge distilation. And at last even a bit of Stage 1, is the key for the student to retain the teachers performance.
 
 ## Remarks
+
 The idea of mixer vise alignment for knowledge distilation is still in its infance, however it is an extremely cool concept, and it enables to create new models without the need of expensive pretraining. However as we can see, there are still strick constraints, how a studen model can look like, where Mamba2 is used to mimic the behaviour of self-attention.
+
+# Mamba in the Llama
+
+To a certain degree the authors build up the research done in [[State Space Duality]]({{< relref "posts/from-mamba-to-mamba2.md" >}}), which focused on the connection between Linear Attention and Reccurent form of State Space Models. 
+
+## From Linear Attention to a Linear RNN
+
+To recap lets start with standard masked multi-head Attention 
+$$Q_t = W^Qo_t, K_t = W^Ko_t, V_t = W^Vo_t, \text{ for all t} $$
+$$ \alpha_1, \cdots, \alpha_T = \text{softmax}([Q^T_qK_q, \cdots, Q^TK_T]/ \sqrt{D}) $$
+$$ y_t = \sum_{s=1}^t m_{s,t}a_sV_s $$
+- $m_{s,t} = 1(s \le t)$ is our causal mask
+
+By dropping softmax we can reexpress it as:
+
+$$ y_t = \sum{s=1}^tm_{s,t}a_s V_s = \frac{1}{\sqrt{D}}Q_t \sum_{s=1}^t(m_{s,t}K_s^TV_s) = \frac{1}{\sqrt{D}} Q_t \sum_{s=1}^tm_{s,t}K_s^TW^vo_s $$
+
+If we compare it to the definition of a Linear Recurrent Neural Network:
+
+$$h_{t} = A_t h_{t-1} + B_t x_t $$
+$$ y_t = C_t h_t $$
+
+It not hard to see that there is a is a lot of similarity, and we can expreess linear Attention as a Linear RNN
+
+$$h_t = m_{t-1,t}h_{t-1} + K_t V_t $$
+$$ y_t = \frac{1}{\sqrt{D}}Q_th_t$$
+$$ \downarrow $$
+
+$$ h_t = A_t h_{t-1} + B_t x_t$$
+$$ y_t = C_t h_t $$
+$$ A_t = m_{t-1,t}, B_t = W^Ko_t, C_t = W^Qo_t, x_t = W^vo^t $$
+
+However there is a catch, $h \in R^{N \times 1}$, this means that the hidden state is capable storing only one scalar over time per hidden dimension, which greatly reduces its expresivity! This is one of the main reasons why linear attention did not become more mainstream, luckily for us, Mamba (and Mamba2) allows an efficient way how to expand the hidden state size and still maintain the nice reccurent form.
+
+
+## Deriving Mamba from Attention
+First lets recap the Mamba equation:
+
+$$h^t(k) = A_h(k) + B(k)x(k) $$
+$$ y(k) = C(k)h(k) $$
+Here A is a diagonal matrix and the rest is continuous signal
+
+We can now use V,K,Q from attention to initialize x, B, C of Mamba:
+
+![](./images/attention_to_mamba_algorithm.png)
+
+This introduces a couple of extra parameters. First there is a need of a Neural Network to perform the discretization of the continuous signal, and second we need the values for A. As it turns out, by reusing attention weights we greatly jumpstart the models performance:
+
+![](./images/attention_initialized_mamba.png)
+
+This figure compares 2 models, one is a pure Mamba model and the Second is an 50% Hybrid. We compare the Perplexity of booth model, and it clearly obvious that Attention initialization leads to significantly lower perplexity, which is most obvious in a pure Mamba model!
+
+## Hybrid Model
+
+We already have an algorithm that is efficient at reusing attention weights, lets see how far we can go and how many attention layers we can transfer. 
+
+![](./images/attention_to_mamba_initialization_and_training.png)
+
+It is crucial to note, that we freeze most of the remaining layers, especially the Fully Connected layers, since they should contain most of the models knowledge! We only train the transferred weight and the extra parameters.
+
+### Knowledge Distilation
+
+we can divide Mamba in the Llamas knowledge distilation into two parts:
+
+1. **Supervised Fine-Tuning**
+
+Here we combine two approaches:
+
+- Word level KL divergence, here the student is forced to match the whole probability distribution of the teacher over the entire set of tokens
+
+$$\text{KL}(p(.| \hat{y}_{1:t, x, \theta_T}) || p(.|\hat{y}_{1:t}, x ,\theta))$$
+
+- Sentence Level Knowledge Distilation ([SeqKD](https://arxiv.org/abs/1606.07947)), the student is optimized on the output of the teacher ($\hat{y}_{1 \cdots t}$, also known as pseudo-labels) instead of the ground truth $y_{1,\cdots, t}$. 
+
+$$\sum_{t=1}^T \alpha \log p(\hat{y}_{t+1}| \hat{y}_{1:t}, x, \theta)$$ 
+
+The overall objective is just the weighted combination of booth:
+
+$$L(\theta) = - \sum_{t=1}^T \alpha \log p(\hat{y}_{t+1}| \hat{y}_{1:t}, x, \theta) + \beta \text{KL}[p(.| \hat{y}_{1:t, x, \theta_{\text{Teacher}}}) || p(.|\hat{y}_{1:t}, x ,\theta)] $$
+
+
+2. **Preverence Optimization**
+By performing supervised finetuning, in the first part we undo the preference optimization performed on the original model. By reintroducing it we should gain extra performance. The authors leveraged Direct Preference Optimization (DPO), were we the teacher acted as the reference model.
+
+Here is the objective:
+
+$$ \max_{\theta}E_{x \sim D, y \sim p(y|x;\theta)}[r_{\phi}(x,y)] - \beta KL(p(y|x;\theta) || \theta(y| x; \theta_{\text{Teacher}}) $$
+- $r_{\phi}(x,y)$ is a reward function, where $\phi$ is optimizes with regards the reward
+- since we use DPO, we do not have a revard model as in reinforced learning, it is just classification since it is basically just supervised learning.
+
+#### Data
+Fort the teachers pseudo labels we leverage: UltraChat and UltraFeedback, for the word level objective we use GenQua, InfinityInstruct and Openhermes 2.5.
+
+For DPO we use UtraFeedback if the teacher is Zephyr and SimPO and Zephyr if the teacher is Llama3.
+
+Overall we train on 20B Tokens!
+
+
+### Experiments
+We use two teacher models: Zephyr-7B and Llama3-instruct, in student models we replace attention by either Mamba or Mamba2 with 50%, 25%, 12.5% or 0% of retained attention layers.
+
+
+#### Results
+For a Chat Specific benchmark:
+
+![](./images/attention_to_mamba_chat_results.png)
+
+For a more general Bench Mark:
+
+![](./images/attention_to_mamba_general_results.png)
+
+To a certain degree the results are somewhat disappointing, it is clearly obvious that replacing Attention with Mamba hurts, especially in cases where we drop most of the attention layers.
+
+
+# Final Impression
+
+To a certain degree both distilation methods disappoint, especially if we look at the performance of hybrid models, the best performance was achieved in cases where we retained more attention layers. Initially I had high hopes, that it will be applicable to more crazy models, however in booth cases the hybrid models nearly an 1 to 1 match to its transformer counter part. To a certain degree this makes a lot of sense, most of the knowledge in Transformer models is kept in the channel mixer (FFN) part, now Mamba can perform booth sequence and channel mixing at the same time, which means that it is able to store a lot of knowledge! This is most obvious in models like Zyphra (2), where we have a lot of stacked Mamba blocks and with minimal attention. 
+
+Still this is one of the first papers that discuss cross architecture knowledge distilation, and even with the shortcomings the results are promising.
