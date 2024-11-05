@@ -20,9 +20,9 @@ disqusShortname = "mbarak-io"
 
 [params]
     author = "n1o_c0rTx"
-    description = "Data Artificer and code:Breaker" 
+    description = "Data A(I)rtificer and code:Breaker" 
     keywords = "blog,developer,personal"
-    info = "Data Artificer and code:Breaker"
+    info = "Data A(I)rtificer and code:Breaker"
     
     footerContent = "Data and Technology"
     katex = true
