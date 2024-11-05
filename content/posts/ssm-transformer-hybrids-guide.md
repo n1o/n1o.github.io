@@ -302,3 +302,9 @@ The idea behind the Zamba family can be summarized as: "One Attention layer is a
 
 # Conclusion
 Hybridizing Mamba(2) with Attention is a great approach to make the model more efficient while retaining the same accuracy. However, there is no free lunch, and it may require rethinking the prompting strategies a bit, formulating the goal at the beginning of the prompt (maybe even mentioning it multiple times). The obvious improvements are gained by running hybrid models in settings where we need to process a large context but have constrained resources.
+
+
+Mamba is a State Space model, however this state is "fake", to find out more: 
+
+http://localhost:1313/posts/ssm-the-illusion/
+
