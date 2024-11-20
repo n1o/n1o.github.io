@@ -16,7 +16,7 @@ series = []
 
 Programming languages come and go and during my 20 years of coding I have used many of them to at least some degree (more than just hello world). Thanks to [ThePrimeagen](https://www.youtube.com/c/theprimeagen) I decided to take [Zig](https://ziglang.org/) for a spin. And boy I really like it! Just look at the mascot:
 
-![](/images/zero.svg)
+![](/images/zig_zero.png)
 
 Come on, a crocodile with a jetpack? How cool is that?
 
