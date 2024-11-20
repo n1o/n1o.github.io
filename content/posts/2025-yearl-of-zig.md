@@ -1,11 +1,11 @@
 +++ 
-draft = true
+draft = false
 date = 2024-11-20T08:31:40+01:00
 title = "2025 Year of Zig"
 description = ""
 slug = ""
 authors = []
-tags = []
+tags = ["zig"]
 categories = []
 externalLink = ""
 series = []
@@ -262,7 +262,7 @@ The explicit use of Allocators gives me the possibility of implementing the foll
 
 And lastly, and probably the most important part for me, I am leveraging a lot of existing C libraries. For example, I am building a Fuzzer on top of QEMU. This is already done in [Rust LibAFL QEMU](https://www.s3.eurecom.fr/docs/bar24_malmain.pdf), however if you look at the code, you quickly realize that the authors had to first fork QEMU and implement extra features. Second, they needed to generate Rust bindings for the C code, and since QEMU is not really Rust, they extensively use unsafe.
 
-To recap, yes Rust is amazing when you stay in Rust, and there are a lot of things where the extra safety that Rust gives you is crucial. For example, SSL libraries or any library or service that is directly exposed to the internet, where any malicious use can have huge impact, should probably use Rust. But for the rest, there is Go, yes Go - this is not a typo, I wrote and meant Go! Zig is really perfect if you need to integrate with existing C libraries and when you need to squeeze out every last drop of performance from your hardware. (Sure there is high-performance Rust, but that's another story, making Rust a whole different language, once again!)
+To recap, yes Rust is amazing when you stay in Rust, and there are a lot of things where the extra safety that Rust gives you is crucial. For example, SSL libraries or any library or service that is directly exposed to the internet, where any malicious use can have huge impact, should probably use Rust. But for the rest, there is Go, yes Go - this is not a typo, I wrote and meant Go! Zig is really perfect if you need to integrate with existing C libraries and when you need to squeeze out every last drop of performance from your hardware. (Sure there is high-performance Rust, but that's another story, making Rust a whole different language, once again!). But most Web APIs, CLI tools can run for a couple of milliseconds longer, consuming extra couple of bytes memory.
 
 ## Is there More? 
 
