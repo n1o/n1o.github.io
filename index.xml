@@ -1,4 +1,21 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 28 Oct 2024 10:12:27 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Distilling State Space Models from Transformers</title><link>https://n1o.github.io/posts/distilling-ssm-from-transformers/</link><pubDate>Mon, 28 Oct 2024 10:12:27 +0100</pubDate><guid>https://n1o.github.io/posts/distilling-ssm-from-transformers/</guid><description>&lt;h1 id="abstract">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Wed, 20 Nov 2024 08:31:40 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>2025 Year of Zig</title><link>https://n1o.github.io/posts/2025-yearl-of-zig/</link><pubDate>Wed, 20 Nov 2024 08:31:40 +0100</pubDate><guid>https://n1o.github.io/posts/2025-yearl-of-zig/</guid><description>&lt;h1 id="intro">
+ Intro
+ &lt;a class="heading-link" href="#intro">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>Programming languages come and go and during my 20 years of coding I have used many of them to at least some degree (more than just hello world). Thanks to &lt;a href="https://www.youtube.com/c/theprimeagen" class="external-link" target="_blank" rel="noopener">ThePrimeagen&lt;/a> I decided to take &lt;a href="https://ziglang.org/" class="external-link" target="_blank" rel="noopener">Zig&lt;/a> for a spin. And boy I really like it! Just look at the mascot:&lt;/p>
+&lt;p>&lt;img src="https://n1o.github.io/images/zero.svg">&lt;/p>
+&lt;p>Come on, a crocodile with a jetpack? How cool is that?&lt;/p>
+&lt;h1 id="why-zig">
+ Why Zig
+ &lt;a class="heading-link" href="#why-zig">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>Sure I would not invest a lot of time into anything that a full time YouTuber recommends. However, I was in search of a highly performant programming language that compiles to native code, has excellent C compatibility, and most importantly, is fun to write code in. If I look back at my past nearly 10 years, the most dominant languages I used were Python and Scala with a detour to Go, and some necessary evil of Javascript/Typescript (Thank god this was minimal). For a long time I thought Scala was the pinnacle of programming languages, it had everything: Classes, Traits, Pattern Matching, For Comprehension, Destructuring, Options, Eithers, Try, Monads, Monoids, EitherT, OptionT, Applicatives, Functors, Kleisli, &amp;hellip;. And the list goes on nearly forever. I felt extremely smart writing Scala, however that was also its demise. You can take 2 people with the same experience, and their Scala code could look like two different programming languages. And that is a serious issue - the last thing you need is a language that takes forever to onboard a new person to, especially if this person is already experienced with the language. After 5 years of full time Scala development, I was competent and comfortable, but was well aware that there was a lot to the language I did not know, and this feeling of constantly chasing mastery felt not really rewarding.&lt;/p></description></item><item><title>Distilling State Space Models from Transformers</title><link>https://n1o.github.io/posts/distilling-ssm-from-transformers/</link><pubDate>Mon, 28 Oct 2024 10:12:27 +0100</pubDate><guid>https://n1o.github.io/posts/distilling-ssm-from-transformers/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
