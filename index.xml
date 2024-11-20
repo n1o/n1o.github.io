@@ -6,7 +6,7 @@
  &lt;/a>
 &lt;/h1>
 &lt;p>Programming languages come and go and during my 20 years of coding I have used many of them to at least some degree (more than just hello world). Thanks to &lt;a href="https://www.youtube.com/c/theprimeagen" class="external-link" target="_blank" rel="noopener">ThePrimeagen&lt;/a> I decided to take &lt;a href="https://ziglang.org/" class="external-link" target="_blank" rel="noopener">Zig&lt;/a> for a spin. And boy I really like it! Just look at the mascot:&lt;/p>
-&lt;p>&lt;img src="https://n1o.github.io/images/zero.svg">&lt;/p>
+&lt;p>&lt;img src="https://n1o.github.io/images/zig_zero.png">&lt;/p>
 &lt;p>Come on, a crocodile with a jetpack? How cool is that?&lt;/p>
 &lt;h1 id="why-zig">
  Why Zig
