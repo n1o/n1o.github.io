@@ -21,7 +21,6 @@ In the last two years there has been a surge of Large Language Models. This is u
 It is not hard to see that causal models are meant to be good at predicting future tokens, while encoder models are designed to capture information about their surroundings. A natural question to ask is: *"If Bidirectional models are so good why do we not stick to them, and train them to get better embedding models?"*. Again there are a couple of reasons:
 
 1. **Sample efficiency of LLMs**, let's start here with an example sentence: "I think this article is really cool.". It does not matter if this is true or not, we can show how a causal LLM is trained:
-useful
 $$ p(., "I") $$
 $$ p(.| "think", "I")$$
 $$ p(.| "this", "think", "I")$$
@@ -40,7 +39,7 @@ Here we want to predict [MASK], given the surrounding, and usually we use a sent
 
 2. **LLMs are more useful**, here we may argue a bit, but maybe not. ChatGPT, Claude, or other Generative models, have made an impact on knowledge workers, and have potential to transform many aspects of work. On the other hand embedding models are useful but they are constrained to certain subjects like similarity detection, information retrieval and classification, all useful but the overall impact is somewhat less profound.
 
-Let's recap the text above: LLMs are more efficient to train and are more flexible ultimately yielding them more useful, but for some special cases we need an encoder model to get rich representations. A natural question is: "Can we train an LLM and somehow make it so that it can produce rich semantic representations?". The answer is of course we can, and we will cover the current state of the art how to do it:
+Let's recap the text above: LLMs are more efficient to train and are more flexible ultimately yielding them more useful, but for some special cases we need an encoder model to get rich representations. A natural question is: *"Can we train an LLM and somehow make it so that it can produce rich semantic representations?"*. The answer is of course we can, and we will cover the current state of the art how to do it:
 
 1. [LLM2Vec: Large Language Models are Secretly Powerful Text Encoders](https://arxiv.org/abs/2404.05961)
 2. [NV-Embed](https://arxiv.org/abs/2405.17428)
@@ -182,4 +181,4 @@ We can clearly see that we can chop off the upper 10-20% of layers and see virtu
 
 # Final Thoughts
 
-Since my main interests lie more in understanding tasks than necessary generation problems, this research was very needed. For a very long time I thought that I would need to pretrain my own embedding model, however as we all know that is expensive and generally discouraged. Right now I see that I can create a powerful embedding model, in my example from [Qwen-2.5 Coder](https://github.com/QwenLM/Qwen2.5-Coder). What would be extremely nice to see is if I can take the ideas from NV-Embed (mainly because it is the latest research already leveraging ideas from LLM2Vec, however I still see the need to have a word level pretraining step) and fuse it with [Matryoshka Representation Learning](https://arxiv.org/pdf/2205.13147) to get a more lean final representation.
+Since my main interests lie more in understanding tasks than in generation problems, this research was very needed. For a very long time, I thought that I would need to pretrain my own embedding model; however, as we all know, that is expensive and generally discouraged. Right now, I see that I can create a powerful embedding model, in my example from [Qwen-2.5 Coder](https://github.com/QwenLM/Qwen2.5-Coder). What would be extremely nice to see is if I could take the ideas from NV-Embed (mainly because it is the latest research already leveraging ideas from LLM2Vec, however I still see the need to have a word-level pretraining step) and fuse it with [Matryoshka Representation Learning](https://arxiv.org/pdf/2205.13147) to get a leaner final representation.
