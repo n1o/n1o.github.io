@@ -1,6 +1,6 @@
 +++ 
 raft = false
-date = 2024-11-21T10:44:33+01:00
+date = 2024-11-25T09:00:33+01:00
 title = "Transform any LLMs to a powerful Encoder"
 description = ""
 slug = ""
