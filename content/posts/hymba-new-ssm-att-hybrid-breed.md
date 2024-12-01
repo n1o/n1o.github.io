@@ -1,6 +1,6 @@
 +++ 
 draft = false
-date = 2024-11-28T09:48:43+01:00
+date = 2024-12-02T07:00:00+01:00
 title = "Hymba, a new breed of SSM-Attention Hybrids"
 description = ""
 slug = ""
@@ -105,12 +105,17 @@ Af for the performance benchmarks, we have a couple of them, first to asses the 
 
 ![](/images/hymba_vs_other.png)
 
-### Instruction Tuning
-![](./images/hymba_instruct.png)
-
 ### Needle in the Haystack
 
+Performance on retrieving a specific value "needle" from he input "haystack":
+
 ![](/images/hymba_needle_in_the_haystack.png)
+
+### Instruction Tuning
+
+By taking further and applying Directed Preference Optimization (DPO) we can compare its performance to current state of the art sub 2B language models, where Hymba is the clear winner.
+![](./images/hymba_instruct.png)
+
 
 # Recap
 
