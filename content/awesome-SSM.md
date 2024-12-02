@@ -21,6 +21,9 @@ This series will cover a bunch of posts about State Space Models, their extensio
     - [Zamba A Compact 7B SSM Hybrid Model](https://arxiv.org/abs/2405.16712v1)
     - [Zamba2-small](https://www.zyphra.com/post/zamba2-small)
     - [Zamba2-mini](https://www.zyphra.com/post/zamba2-mini)
+- [Hymba]({{< relref "posts/hymba-new-ssm-att-hybrid-breed.md" >}})
+    - [Hymba: A Hybrid-head Architecture for Small Language Models](https://www.arxiv.org/abs/2411.13676)
+    - instead of having Attention and Mamba running in alternating layers we run them in parallel in the same layer
     
 # Theory and Limitations
 - [Illusion of State in SSMs like Mamba]({{< relref "posts/ssm-the-illusion.md" >}}) covers:
