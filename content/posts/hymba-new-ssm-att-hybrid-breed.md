@@ -114,7 +114,7 @@ Performance on retrieving a specific value "needle" from the input "haystack":
 ### Instruction Tuning
 
 By taking it further and applying Directed Preference Optimization (DPO) we can compare its performance to current state of the art sub 2B language models, where Hymba is the clear winner.
-![](./images/hymba_instruct.png)
+![](/images/hymba_instruct.png)
 
 
 # Recap
