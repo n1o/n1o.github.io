@@ -1,4 +1,11 @@
-<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 25 Nov 2024 09:00:33 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Transform any LLMs to a powerful Encoder</title><link>https://n1o.github.io/posts/from-llms-to-sentence-embeddings/</link><pubDate>Mon, 25 Nov 2024 09:00:33 +0100</pubDate><guid>https://n1o.github.io/posts/from-llms-to-sentence-embeddings/</guid><description>&lt;h1 id="abstract">
+<?xml version="1.0" encoding="utf-8" standalone="yes"?><rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom"><channel><title>Data Artificer and code:Breaker</title><link>https://n1o.github.io/</link><description>Recent content on Data Artificer and code:Breaker</description><generator>Hugo</generator><language>en</language><lastBuildDate>Mon, 02 Dec 2024 07:00:00 +0100</lastBuildDate><atom:link href="https://n1o.github.io/index.xml" rel="self" type="application/rss+xml"/><item><title>Hymba, a new breed of SSM-Attention Hybrids</title><link>https://n1o.github.io/posts/hymba-new-ssm-att-hybrid-breed/</link><pubDate>Mon, 02 Dec 2024 07:00:00 +0100</pubDate><guid>https://n1o.github.io/posts/hymba-new-ssm-att-hybrid-breed/</guid><description>&lt;h1 id="abstract">
+ Abstract
+ &lt;a class="heading-link" href="#abstract">
+ &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
+ &lt;span class="sr-only">Link to heading&lt;/span>
+ &lt;/a>
+&lt;/h1>
+&lt;p>State space models are really close to my heart, I even have a &lt;a href="https://n1o.github.io/awesome-ssm/" >dedicated page&lt;/a> about them. But when it comes to Language Models they lack some performance and that gave rise to &lt;a href="https://n1o.github.io/posts/ssm-transformer-hybrids-guide/" >SSM-Attention Hybrids&lt;/a>. Until now it was conventional that in hybrid layers you sequentially combine Mamba(2) with Attention layers. Nvidia introduced &lt;a href="https://www.arxiv.org/abs/2411.13676" class="external-link" target="_blank" rel="noopener">Hymba&lt;/a> - this paper changes the game by using Attention and Mamba2 in the same layer, each of them processing the same input tokens. The authors also give a human memory-like analogy why this approach is superior, which they also show in the benchmarks. And since Nvidia pushed this further they also introduced special Meta tokens, which alleviate Attention sink issues and its over-focus on BOS token and also setting up Mamba&amp;rsquo;s hidden state before it even starts processing the data.&lt;/p></description></item><item><title>Transform any LLMs to a powerful Encoder</title><link>https://n1o.github.io/posts/from-llms-to-sentence-embeddings/</link><pubDate>Mon, 25 Nov 2024 09:00:33 +0100</pubDate><guid>https://n1o.github.io/posts/from-llms-to-sentence-embeddings/</guid><description>&lt;h1 id="abstract">
  Abstract
  &lt;a class="heading-link" href="#abstract">
  &lt;i class="fa-solid fa-link" aria-hidden="true" title="Link to heading">&lt;/i>
@@ -81,6 +88,12 @@
 &lt;li>&lt;a href="https://arxiv.org/abs/2405.16712v1" class="external-link" target="_blank" rel="noopener">Zamba A Compact 7B SSM Hybrid Model&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.zyphra.com/post/zamba2-small" class="external-link" target="_blank" rel="noopener">Zamba2-small&lt;/a>&lt;/li>
 &lt;li>&lt;a href="https://www.zyphra.com/post/zamba2-mini" class="external-link" target="_blank" rel="noopener">Zamba2-mini&lt;/a>&lt;/li>
+&lt;/ul>
+&lt;/li>
+&lt;li>&lt;a href="https://n1o.github.io/posts/hymba-new-ssm-att-hybrid-breed/" >Hymba&lt;/a>
+&lt;ul>
+&lt;li>&lt;a href="https://www.arxiv.org/abs/2411.13676" class="external-link" target="_blank" rel="noopener">Hymba: A Hybrid-head Architecture for Small Language Models&lt;/a>&lt;/li>
+&lt;li>instead of having Attention and Mamba running in alternating layers we run them in parallel in the same layer&lt;/li>
 &lt;/ul>
 &lt;/li>
 &lt;/ul>
