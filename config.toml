@@ -25,7 +25,8 @@ disqusShortname = "mbarak-io"
     info = "Data A(I)rtificer and code:Breaker"
     
     footerContent = "Data and Technology"
-    katex = true
+    # katex = true
+    math = true
     dateFormat = "January 2, 2006"
     gravatar = "mrk.barak@gmail.com"
     hideFooter = true
