@@ -16,10 +16,10 @@ series = ["TLDR", "subgraph", "GNN","hierarchical graph auto-encoder"  ]
 - Source Code: https://github.com/JonathanGXu/HC-GAE
 
 # Abstract
-Graph Representations learning is an essential topic in Graph ML, and it is all about compressing an whole Graph (arbitrary large) into a fixed representation. Usually these techniques leverage Graph Auto Encoders, whichh are train in an self-supervised fashions. This is all good however they usually focus on node feature reconstruction, and they tend to lose the topological information that input Graph encodes.
+Graph Representation Learning is an essential topic in Graph ML, and it is all about compressing a whole Graph (arbitrarily large) into a fixed representation. Usually these techniques leverage Graph Auto Encoders, which are trained in a self-supervised fashion. This is all good; however, they usually focus on node feature reconstruction, and they tend to lose the topological information that the input Graph encodes.
 
 # **H**ierarchical **C**luster-based **G**raph **A**uto **E**ncoder (HC-GAE)
-An approach that learns graph representations, by encoding node features but also the topology of the Graph. This is done by a encoder-decoder architecture, where encoder operates in multiple steps, in each step we compress the input graph into a collection of subgraphs. The goal of the decoder is to reverse this process and recover the original graph, with the correct topology and the correct node features.
+An approach that learns graph representations by encoding node features but also the topology of the Graph. This is done by an encoder-decoder architecture, where the encoder operates in multiple steps, in each step we compress the input graph into a collection of subgraphs. The goal of the decoder is to reverse this process and recover the original graph, with the correct topology and the correct node features.
 
 ![](/images/hc_gae.png)
 
@@ -30,7 +30,7 @@ Encoder consists of a bunch of layers, where each layer can be characterized by 
 2. Coarsening
 
 ### Subgraph Assignment
-The idea is that we have an input graph which is compressed into an output graph, by assigning one or more nodes from the input graph, to a single node in the output graph.  The assignment works in two steps:
+The idea is that we have an input graph which is compressed into an output graph, by assigning one or more nodes from the input graph to a single node in the output graph. The assignment works in two steps:
 
 1. Soft Assignment
 $$ S_{soft} =
@@ -53,24 +53,24 @@ S^{(l)}(i, j) =
 $$
 Nothing fancy we just take the maximum, this enforces that the input graph is partitioned into a bunch of Subgraphs.
 
-A another view on this problem is that we learn an mapping between two Graph Adjacency matrices:
+Another view on this problem is that we learn a mapping between two Graph Adjacency matrices:
 
 $$A^{(l+1)} = S^{(l)^T} A^{(l)}S^{(l)}$$
 
 
-### Croasening
-Once we have the learned subgraph partitioning, we learn the node representations for croasened graph:
+### Coarsening
+Once we have the learned subgraph partitioning, we learn the node representations for coarsened graph:
 
 $$Z_j^{(l)} = A_j^{(l)}X_j^{(l)}W_j^{(l)} $$
 
-This is just Graph Convolution Network (GCN), where we aggreagte information from a neighborhood, and since we operate on Subgraphs we do not need to wory about over-smoothing. Given the the learned representations we derive the node features:
+This is just Graph Convolution Network (GCN), where we aggregate information from a neighborhood, and since we operate on Subgraphs we do not need to worry about over-smoothing. Given the learned representations we derive the node features:
 
 $$X^{(l+1)} = Reorder[\underset{j=1}{\overset{n_{l+1}}{\parallel}} s_j^{(l)^\top}] Z^{(l)}$$
-- $s_j^{(l)} = softmax(A_j^{(l)} X_j^{(l)} D_j^{(l)})$ this are just mixing weights
+- $s_j^{(l)} = softmax(A_j^{(l)} X_j^{(l)} D_j^{(l)})$ these are just mixing weights
 - we need to REORDER so we use the correct weight with the correct embedding
 
 ### Final Graph Representation
-For the final graph representation we usuallypool the remaining node representations with some sort of pooling like Mean, Max, Min pooling or other.
+For the final graph representation we usually pool the remaining node representations with some sort of pooling like Mean, Max, Min pooling or other.
 
 ## Decoder
 The decoder reverses the graph compression in multiple layers. The key distinction is that we use only soft assignment (with hard assignment we would end up with a bunch of subgraphs) and it is done by learning the re-assignment matrix:
@@ -83,9 +83,9 @@ And we reconstruct the latent representation of individual nodes:
 
 $$ \bar{Z}^{(l')} = GNN_{l', emb}(X'^{(l')}, A'^{(l')}) $$
 
-- $GNN_{re}, GNN_{emb}$ are two GNN decoder that do not share parameterss
+- $GNN_{re}, GNN_{emb}$ are two GNN decoders that do not share parameters
 
-Now we can compute $A^{(l')}$ the same fassion as in the encoder, but here we increase the dimensionss with each layer.
+Now we can compute $A^{(l')}$ the same fashion as in the encoder, but here we increase the dimensions with each layer.
 
 $$ A'^{(l'+1)} = \bar{S}^{(l')^\top} A'^{(l')} \bar{S}^{(l')} $$
 
@@ -94,14 +94,14 @@ $$ X'^{(l'+1)} = \bar{S}^{(l')^\top} \bar{Z}^{(l')} $$
 
 ## Loss
 
-The loss is a bit tricky, we have a local loss, this covers the information in the subgrpahs (needs to capture each layer, where the croasening happens) and a  global loss that captures the information in the whole graph.
+The loss is a bit tricky, we have a local loss, this covers the information in the subgraphs (needs to capture each layer, where the coarsening happens) and a global loss that captures the information in the whole graph.
 
-$$ \mathcal{L}_{local} = \sum_{l=1}^{L} \sum_{j=1}^{n_{(l+1)}} KL[q(Z_j^{(l)} | X_j^{(l)}, A_j^{(l)}) || p(Z^{(l)})]$$
-$$\mathcal{L}_{global} = -\sum_{l=1}^{L} \mathbb{E}_{q(X^{(L)}, A^{(L)})|X^{(l)}, A^{(l)}} [log p(X'^{(L-l+2)}, A'^{(L-l+2)} | X^{(L)}, A^{(L)})]$$
+$$ L_{local} = \sum_{l=1}^{L} \sum_{j=1}^{n_{(l+1)}} KL[q(Z_j^{(l)} | X_j^{(l)}, A_j^{(l)}) || p(Z^{(l)})]$$
+$$ L_{global} = -\sum_{l=1}^{L} E_{q(X^{(L)}, A^{(L)})|X^{(l)}, A^{(l)}} [\log p(X'^{(L-l+2)}, A'^{(L-l+2)} | X^{(L)}, A^{(L)})]$$
 
-$$\mathcal{L}_{HC-GAE} = \mathcal{L}_{local} + \mathcal{L}_{global}$$
-- $Z^{(l)}$ a Gaussian prior, introduced 
+$$ L_{HC-GAE} = L_{local} + L_{global}$$
+- $Z^{(l)}$ a Gaussian prior, introduced
 
 # Final Remarks
 
-The overall approach of continually compressing the graph, each time splitting a graph into subgraphs add aggregating the information in them is an great way how to avoid oversmoothing. What I find personally compeling is the application of domains where there are naturally subgraphs. At [code:Breakers](https://codebreakers.re/) I do a lot of AI stuff around source code and cybersecurity. If you thing about it source code is inheritly a huge graph, which nicely aggregates: individual statements into control flow, control flow into functions, functions into classes those into modules. With HC-GAE I can force this natural aggregation into the training objective, and not just thatintroduce some extra aggregation along the way to make the final representation as effective as possible.
+The overall approach of continually compressing the graph, each time splitting a graph into subgraphs and aggregating the information in them is a great way to avoid oversmoothing. What I find personally compelling is the application to domains where there are naturally occurring subgraphs. At [code:Breakers](https://codebreakers.re/) I do a lot of AI stuff around source code and cybersecurity. If you think about it, source code is inherently a huge graph, which nicely aggregates: individual statements into control flow, control flow into functions, functions into classes, those into modules. With HC-GAE I can force this natural aggregation into the training objective, and not just that, introduce some extra aggregation along the way to make the final representation as effective as possible.
