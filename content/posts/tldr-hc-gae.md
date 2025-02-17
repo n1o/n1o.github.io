@@ -70,23 +70,38 @@ $$X^{(l+1)} = Reorder[\underset{j=1}{\overset{n_{l+1}}{\parallel}} s_j^{(l)^\top
 - we need to REORDER so we use the correct weight with the correct embedding
 
 ### Final Graph Representation
+For the final graph representation we usuallypool the remaining node representations with some sort of pooling like Mean, Max, Min pooling or other.
 
 ## Decoder
-- this reverses the graph compression in multiple layers, here we will use soft assignment, we learn an re-assignment matrix
-$$  \bar{S}^{l'} \in R^{n_{(l')} \times n_{(l' +1)}}$$
-- in this case $n_{(l')} < n_{(l'+1)}$
+The decoder reverses the graph compression in multiple layers. The key distinction is that we use only soft assignment (with hard assignment we would end up with a bunch of subgraphs) and it is done by learning the re-assignment matrix:
 
+$$ \bar{S}^{l'} \in R^{n_{(l')} \times n_{(l' +1)}}$$
+- in this case $n_{(l')} < n_{(l'+1)}$
 $$ \bar{S}^{(l')} = softmax(GNN_{l', re}(X'^{(l')}, A'^{(l')})) $$
+
+And we reconstruct the latent representation of individual nodes:
 
 $$ \bar{Z}^{(l')} = GNN_{l', emb}(X'^{(l')}, A'^{(l')}) $$
 
 - $GNN_{re}, GNN_{emb}$ are two GNN decoder that do not share parameterss
-- we compute $A^{(l')}$ same as in the encoder, but here we increase the dimensionss with later layer
 
-$$ X'^{(l'+1)} = \bar{S}^{(l')^\top} \bar{Z}^{(l')} $$
+Now we can compute $A^{(l')}$ the same fassion as in the encoder, but here we increase the dimensionss with each layer.
 
 $$ A'^{(l'+1)} = \bar{S}^{(l')^\top} A'^{(l')} \bar{S}^{(l')} $$
+
+And the reconstructed node features:
+$$ X'^{(l'+1)} = \bar{S}^{(l')^\top} \bar{Z}^{(l')} $$
+
 ## Loss
 
+The loss is a bit tricky, we have a local loss, this covers the information in the subgrpahs (needs to capture each layer, where the croasening happens) and a  global loss that captures the information in the whole graph.
 
+$$ \mathcal{L}_{local} = \sum_{l=1}^{L} \sum_{j=1}^{n_{(l+1)}} KL[q(Z_j^{(l)} | X_j^{(l)}, A_j^{(l)}) || p(Z^{(l)})]$$
+$$\mathcal{L}_{global} = -\sum_{l=1}^{L} \mathbb{E}_{q(X^{(L)}, A^{(L)})|X^{(l)}, A^{(l)}} [log p(X'^{(L-l+2)}, A'^{(L-l+2)} | X^{(L)}, A^{(L)})]$$
 
+$$\mathcal{L}_{HC-GAE} = \mathcal{L}_{local} + \mathcal{L}_{global}$$
+- $Z^{(l)}$ a Gaussian prior, introduced 
+
+# Final Remarks
+
+The overall approach of continually compressing the graph, each time splitting a graph into subgraphs add aggregating the information in them is an great way how to avoid oversmoothing. What I find personally compeling is the application of domains where there are naturally subgraphs. At [code:Breakers](https://codebreakers.re/) I do a lot of AI stuff around source code and cybersecurity. If you thing about it source code is inheritly a huge graph, which nicely aggregates: individual statements into control flow, control flow into functions, functions into classes those into modules. With HC-GAE I can force this natural aggregation into the training objective, and not just thatintroduce some extra aggregation along the way to make the final representation as effective as possible.
