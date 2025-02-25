@@ -13,7 +13,7 @@ series = ["TLDR", "GNN", "graph-attention", "directed-graphs"]
 
 # Source
 - Paper link: https://arxiv.org/abs/2406.05391
-- Github Implementation: https://github.com/alipay/DUPLEX
+- Source Code: https://github.com/alipay/DUPLEX
 
 # Abstract
 I am a huge fan of Graph Machine Learning, it has a lot of cool applications, and I am particularly interested in Source Code understanding and Vulnerability Detection, where Graph Neural Networks (GNN) are unambiguous. One of the obvious downsides of general GNNs is that they mostly focus on undirected graphs, which makes their approach somewhat limiting for Digraphs (fancy name for directed graphs). This TLDR; is about DUPLEX (I already wrote about its application in [GaLLa](https://codebreakers.re/articles/llm-and-security/galla-graph-aligned-llm)) which is a cool technique to learn node representations in a self-supervised way (can be extended with arbitrary objectives).
