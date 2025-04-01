@@ -99,4 +99,4 @@ $$\pi_{k+1} = \underset{\pi}{\text{argmax}} \ E_{(s, a) \sim p^{\gamma}_{\pi_k}}
 - $\rho_k (s,a) = \frac{\pi(a|s)}{\pi_k(a|s)}$ is the likelihood ratio
 - $\tilde{\rho_k}(s,a) = clip(\rho_k(s,a), 1 - \epsilon, 1 + \epsilon)$, where clip(x,l,u) = min(max(x, l),u)
 
-That's it!
+That's it! No magic, just an simplification, of a simplification of an lower-bound to constrain monotonic policy improvement.
