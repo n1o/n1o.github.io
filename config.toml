@@ -1,5 +1,5 @@
 baseURL = "https://n1o.github.io/"
-title = "Data Artificer and code:Breaker"
+title = "Artificial Intelligence and Machine Learning Research"
 
 theme = "hugo-coder"
 languageCode = "en"
@@ -19,10 +19,10 @@ disqusShortname = "mbarak-io"
     ID =  "G-5WLCXX3LGJ"
 
 [params]
-    author = "n1o_c0rTx"
-    description = "Data A(I)rtificer and code:Breaker" 
+    author = "Marek Barak"
+    description = "Artificial Intelligence and Machine Learning Research" 
     keywords = "blog,developer,personal"
-    info = "Data A(I)rtificer and code:Breaker"
+    info = "Artificial Intelligence and Machine Learning Research"
     
     footerContent = "Data and Technology"
     # katex = true
