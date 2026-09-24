@@ -42,8 +42,12 @@ const external = /^https?:\/\//.test(href);
   }
   .project:hover {
     border-color: var(--accent);
+    box-shadow: 0 0 20px rgba(251, 146, 60, 0.12);
     transform: translateY(-2px);
     text-decoration: none;
+  }
+  .project:hover .project-name {
+    color: var(--accent);
   }
   .project-category {
     font-family: var(--mono);

@@ -1,26 +1,27 @@
 /*
  * Dark editorial engineering aesthetic.
  * 75-80% clean editorial design, 20-25% technical detail.
- * One accent: warm muted amber. Dark-only. No light mode.
+ * One accent: orange-400. Dark-only. No light mode.
+ * Palette ported from Dissecting AI (codebreakers-re) dark theme.
  */
 
 :root {
-  /* Base — near-black with a subtle green tint */
-  --bg: #0e1210;
-  --bg-raised: #141916;
-  --bg-inset: #0a0d0b;
-  --fg: #e8e6dd; /* warm off-white */
-  --fg-strong: #f5f3ea;
-  --muted: #a3a79c;
-  --faint: #82867e;
+  /* Base — warm dark brown (Dissecting AI dark theme) */
+  --bg: #110e0a;
+  --bg-raised: #1a1510;
+  --bg-inset: #0c0a07;
+  --fg: #e2e8f0;
+  --fg-strong: #f1f5f9;
+  --muted: #9ca3af;
+  --faint: #858992;
 
-  /* The one accent — warm muted amber */
-  --accent: #d4a054;
-  --accent-strong: #e0b268;
+  /* The one accent — orange-400 */
+  --accent: #fb923c;
+  --accent-strong: #fdba74;
 
-  /* Hairlines */
-  --border: #232724;
-  --border-strong: #31352f;
+  /* Hairlines — warm */
+  --border: rgba(229, 200, 150, 0.14);
+  --border-strong: rgba(229, 200, 150, 0.3);
 
   /* Type */
   --sans: "InterVariable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
@@ -265,37 +266,6 @@ hr {
 .btn-primary:hover {
   background: var(--accent-strong);
   text-decoration: none;
-}
-
-/* Faint background grid — hero only */
-.grid-bg {
-  position: relative;
-}
-
-.grid-bg::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  background-image:
-    linear-gradient(to right, rgba(232, 230, 221, 0.05) 1px, transparent 1px),
-    linear-gradient(to bottom, rgba(232, 230, 221, 0.05) 1px, transparent 1px);
-  background-size: 56px 56px;
-  -webkit-mask-image: radial-gradient(
-    ellipse 90% 80% at 30% 20%,
-    black 35%,
-    transparent 75%
-  );
-  mask-image: radial-gradient(
-    ellipse 90% 80% at 30% 20%,
-    black 35%,
-    transparent 75%
-  );
-}
-
-.grid-bg > * {
-  position: relative;
-  z-index: 1;
 }
 
 /* Accessibility: respect reduced motion, visible keyboard focus */
