@@ -4,17 +4,34 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
+
+# peaceiris/actions-gh-pages pushes the build to the gh-pages branch with
+# GITHUB_TOKEN — it needs explicit write permission (read-only token breaks it).
+permissions:
+  contents: write
+
+# Serialize deploys; never cancel an in-flight one mid-push.
+concurrency:
+  group: pages-deploy
+  cancel-in-progress: false
 
 jobs:
   deploy:
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
 
+      # Installs deps from package-lock.json and runs `astro build` → ./dist
       - uses: withastro/action@v3
+        with:
+          node-version: 20
 
       - name: Deploy
         uses: peaceiris/actions-gh-pages@v4
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./dist
+          # gh-pages is a generated artifact: keep it a single orphan commit,
+          # so no stale files or history from previous builds (incl. Hugo-era).
+          force_orphan: true
