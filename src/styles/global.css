@@ -1,8 +1,8 @@
 /*
  * Dark editorial engineering aesthetic.
  * 75-80% clean editorial design, 20-25% technical detail.
- * One accent: orange-400. Dark-only. No light mode.
- * Palette ported from Dissecting AI (codebreakers-re) dark theme.
+ * One accent: orange-400 (dark) / orange-500 (light). Dark default, light override via html.light.
+ * Palette ported from Dissecting AI (codebreakers-re) dark and light themes.
  */
 
 :root {
@@ -23,6 +23,11 @@
   --border: rgba(229, 200, 150, 0.14);
   --border-strong: rgba(229, 200, 150, 0.3);
 
+  /* Ambient background layers — warm dark */
+  --ambient-from: rgba(140, 70, 20, 0.15);
+  --ambient-to: rgba(100, 60, 15, 0.1);
+  --ambient-grid-line: rgba(200, 130, 50, 0.25);
+
   /* Type */
   --sans: "InterVariable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
     sans-serif;
@@ -32,7 +37,29 @@
   /* Rhythm */
   --measure: 46rem; /* comfortable reading column for posts */
   --wide: 72rem; /* editorial composition width */
-  --gap: 1rem;
+  --gap:  1rem;
+}
+
+/* Light/bright theme — warm cream (Dissecting AI light theme) */
+:root.light {
+  --bg: #faf7f2;
+  --bg-raised: #f5f0e8;
+  --bg-inset: #efe9de;
+  --fg: #2c1e0e;
+  --fg-strong: #1a1208;
+  --muted: #5c4a35;
+  --faint: #6f5d46;
+
+  /* Accent shifts to orange-600 — orange-400/500 fail AA on cream (#ea580c is 3.3:1) */
+  --accent: #c2410c;
+  --accent-strong: #9a3412;
+
+  --border: rgba(210, 190, 165, 0.6);
+  --border-strong: rgba(160, 130, 95, 0.75);
+
+  --ambient-from: rgba(255, 230, 200, 0.3);
+  --ambient-to: rgba(255, 235, 210, 0.2);
+  --ambient-grid-line: rgba(200, 140, 60, 0.3);
 }
 
 * {

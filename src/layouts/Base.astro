@@ -17,12 +17,22 @@ const {
 ---
 
 <!doctype html>
-<html lang="en" class="dark">
+<html lang="en">
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
     <title>{title}</title>
     <meta name="description" content={description} />
+    <script is:inline>
+      // Apply persisted/system theme before first paint
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const light = stored
+          ? stored === "light"
+          : matchMedia("(prefers-color-scheme: light)").matches;
+        document.documentElement.classList.toggle("light", light);
+      })();
+    </script>
     <link
       rel="stylesheet"
       href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
@@ -52,6 +62,14 @@ const {
           <a href="/research/"><span class="nav-prompt">&gt;</span>Research</a>
           <a href="/about/"><span class="nav-prompt">&gt;</span>About</a>
         </nav>
+        <button
+          class="theme-toggle"
+          aria-label="Toggle light/dark theme"
+          title="Toggle theme"
+        >
+          <span class="theme-icon-dark" aria-hidden="true">◐</span>
+          <span class="theme-icon-light" aria-hidden="true">◑</span>
+        </button>
       </div>
     </header>
     <main class={wide ? "wide" : ""}><slot /></main>
@@ -141,6 +159,33 @@ const {
     font-size: 0.8rem;
     color: var(--accent);
   }
+  .theme-toggle {
+    background: none;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 0.25rem 0.55rem;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--muted);
+    transition: color 0.15s ease, border-color 0.15s ease;
+  }
+  .theme-toggle:hover {
+    color: var(--accent);
+    border-color: var(--accent);
+  }
+  .theme-icon-dark,
+  .theme-icon-light {
+    font-size: 0.85rem;
+  }
+  .theme-icon-light {
+    display: none;
+  }
+  :root.light .theme-icon-dark {
+    display: none;
+  }
+  :root.light .theme-icon-light {
+    display: inline;
+  }
   .site-footer {
     border-top: 1px solid var(--border);
     color: var(--muted);
@@ -191,9 +236,9 @@ const {
     pointer-events: none;
     background: linear-gradient(
       to bottom right,
-      rgba(140, 70, 20, 0.15),
+      var(--ambient-from),
       var(--bg),
-      rgba(100, 60, 15, 0.1)
+      var(--ambient-to)
     );
   }
   body::after {
@@ -203,8 +248,8 @@ const {
     pointer-events: none;
     opacity: 0.15;
     background-image:
-      linear-gradient(rgba(200, 130, 50, 0.25) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(200, 130, 50, 0.25) 1px, transparent 1px);
+      linear-gradient(var(--ambient-grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--ambient-grid-line) 1px, transparent 1px);
     background-size: 50px 50px;
   }
   .site-header,
@@ -214,3 +259,13 @@ const {
     z-index: 1;
   }
 </style>
+
+<script>
+  // Theme toggle — mirrors Dissecting AI's dark/light switch behavior
+  const toggle = document.querySelector(".theme-toggle");
+  toggle?.addEventListener("click", () => {
+    const root = document.documentElement;
+    const light = root.classList.toggle("light");
+    localStorage.setItem("theme", light ? "light" : "dark");
+  });
+</script>
