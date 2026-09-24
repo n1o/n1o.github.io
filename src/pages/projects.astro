@@ -1,0 +1,111 @@
+---
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const projects = [
+  {
+    href: "https://hathortts.com",
+    category: "AUDIO",
+    name: "Hathor",
+    claim: "Turn entire books into audio for the price of a coffee.",
+    pitch:
+      "Paste text, upload an EPUB, or drop a JSONL batch — Hathor turns it into natural, high-fidelity speech. Voice cloning, voice design, and an HTTP API, at a fraction of the usual cost.",
+    tag: "TEXT → AUDIO",
+    cta: "Try it at hathortts.com",
+  },
+  {
+    href: "https://dissecting-ai.dev",
+    category: "AI RESEARCH",
+    name: "Dissecting AI",
+    claim: "Papers → summary · lecture · quiz · audio.",
+    pitch:
+      "A learning platform for cutting-edge AI research. Curated paths, topic deep-dives, and a public library — submit any paper and get it turned into a lesson. First module free, no account needed to browse.",
+    tag: "PAPERS → UNDERSTANDING",
+    cta: "Visit dissecting-ai.dev",
+  },
+  {
+    href: "https://n1o.github.io/study_notes/content.html",
+    category: "REFERENCE",
+    name: "Study notes",
+    claim: "Thousands of pages of notes, rewritten to stay useful.",
+    pitch:
+      "My compilation of notes from various subjects — continuously migrated, rewritten, and simplified. Zettelkasten-style: short, easy to follow, one subject per note.",
+    tag: "NOTES → KNOWLEDGE",
+    cta: "Browse the notes",
+  },
+];
+---
+
+<Base title="Projects · Marek Barak">
+  <p class="section-label">02 / PROJECTS</p>
+  <h1>Things I'm building</h1>
+  <p class="intro">
+    Things I build start with something that bothers me. Each card is a
+    product that exists — with the why, the bet, and where to find it.
+  </p>
+  <div class="grid">
+    {
+      projects.map((p) => (
+        <ProjectCard
+          href={p.href}
+          category={p.category}
+          name={p.name}
+          claim={p.claim}
+          pitch={p.pitch}
+          tag={p.tag}
+          cta={p.cta}
+        />
+      ))
+    }
+  </div>
+
+
+  <section id="dissecting-ai" class="thesis">
+    <p class="kicker">WHY THIS EXISTS</p>
+    <h2>Dissecting AI — keeping up shouldn't mean drowning</h2>
+    <p>
+      New models arrive constantly. Summaries tell you what happened; they
+      rarely help you understand why it happened. Dissecting AI connects new
+      research to the ideas underneath it — what changed, why it matters,
+      and what came before it — through lessons, lectures, and quizzes.
+    </p>
+    <p class="bet">
+      <strong>The bet:</strong> a paper you can interrogate beats ten papers
+      you skimmed.
+    </p>
+  </section>
+</Base>
+
+<style>
+  .intro {
+    color: var(--muted);
+    max-width: 40rem;
+    margin-bottom: 2.5rem;
+  }
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+    margin-bottom: 4rem;
+  }
+  .thesis {
+    border-top: 1px solid var(--border);
+    padding-top: 2.5rem;
+    margin-top: 2rem;
+  }
+  .thesis h2 {
+    margin: 0 0 1rem;
+  }
+  .thesis p {
+    max-width: 42rem;
+    color: var(--muted);
+  }
+  .thesis .bet strong {
+    color: var(--fg-strong);
+  }
+  @media (max-width: 800px) {
+    .grid {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

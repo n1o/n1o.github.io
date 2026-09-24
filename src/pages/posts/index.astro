@@ -1,0 +1,65 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../../layouts/Base.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft)).sort(
+  (a, b) => b.data.date.valueOf() - a.data.date.valueOf(),
+);
+
+const byYear = new Map<number, typeof posts>();
+for (const post of posts) {
+  const y = post.data.date.getFullYear();
+  if (!byYear.has(y)) byYear.set(y, []);
+  byYear.get(y)!.push(post);
+}
+const years = [...byYear.keys()].sort((a, b) => b - a);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "2-digit" }).toUpperCase();
+---
+
+<Base title="Writing · Marek Barak">
+  <p class="section-label">03 / WRITING</p>
+  <h1>Notes, ideas, and learnings</h1>
+  <p class="intro">
+    Years of thinking out loud — from reinforcement learning and graph
+    learning, through T5 and SSMs, to modern LLM research and systems
+    thinking. The archive is kept whole on purpose.
+  </p>
+  {
+    years.map((year) => (
+      <section class="year">
+        <h2 class="year-head">{year}</h2>
+        <ul class="post-list">
+          {byYear.get(year)!.map((post) => (
+            <li>
+              <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+              <time datetime={post.data.date.toISOString()}>
+                {fmt(post.data.date)}
+              </time>
+            </li>
+          ))}
+        </ul>
+      </section>
+    ))
+  }
+</Base>
+
+<style>
+  .intro {
+    color: var(--muted);
+    max-width: 40rem;
+    margin-bottom: 2.5rem;
+  }
+  .year {
+    margin-bottom: 2.5rem;
+  }
+  .year-head {
+    font-family: var(--mono);
+    font-size: 0.95rem;
+    font-weight: 500;
+    color: var(--accent);
+    margin: 0 0 0.5rem;
+    letter-spacing: 0.08em;
+  }
+</style>

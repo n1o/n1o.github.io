@@ -1,0 +1,10 @@
+allowUnfree: false
+inputs:
+  nixpkgs:
+    url: github:NixOS/nixpkgs/nixpkgs-unstable
+  # devenv 1.x CLI (system package) cannot provide the devenvPrimops module arg
+  # that src/modules >= 2026-08-16 (dotenv-ng rewrite) requires. Pin to the
+  # last rev before that rewrite until the CLI is upgraded to 2.x.
+  # (Same pin as ~/projects/codebreakers-re.)
+  devenv:
+    url: github:cachix/devenv/267cf2eb26840c5ec73bce0a82046ec8907ece11?dir=src/modules

@@ -1,0 +1,294 @@
+---
+import { getCollection } from "astro:content";
+import Base from "../layouts/Base.astro";
+import ProjectCard from "../components/ProjectCard.astro";
+
+const posts = (await getCollection("posts", ({ data }) => !data.draft))
+  .sort((a, b) => b.data.date.valueOf() - a.data.date.valueOf())
+  .slice(0, 5);
+
+const fmt = (d: Date) =>
+  d.toLocaleDateString("en-US", { month: "short", day: "2-digit" }).toUpperCase();
+
+const projects = [
+  {
+    href: "https://hathortts.com",
+    category: "AUDIO",
+    name: "Hathor",
+    claim: "Turn entire books into audio for the price of a coffee.",
+    pitch:
+      "Paste text, upload an EPUB, or drop a JSONL batch — get natural, high-fidelity speech back. Voice cloning, voice design, and an HTTP API, at a fraction of the usual cost.",
+    tag: "TEXT → AUDIO",
+  },
+  {
+    href: "https://dissecting-ai.dev",
+    category: "AI RESEARCH",
+    name: "Dissecting AI",
+    claim: "Papers → summary · lecture · quiz · audio.",
+    pitch:
+      "A learning platform for cutting-edge AI research: curated paths, topic deep-dives, and a public library. Submit any paper and get it turned into a lesson.",
+    tag: "PAPERS → UNDERSTANDING",
+  },
+];
+---
+
+<Base
+  title="Marek Barak — Principal Engineer · AI Researcher · Technical Fixer"
+  wide
+>
+  <!-- 01 / HERO -->
+  <section class="hero grid-bg">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <p class="kicker">PRINCIPAL ENGINEER · AI RESEARCHER · TECHNICAL FIXER</p>
+        <h1>
+          I turn ambiguous technical problems into
+          <span class="accent">working systems.</span>
+        </h1>
+        <p class="lede">
+          AI research, real products, and a bias for action.
+        </p>
+        <p class="sub">
+          I like problems that don't have an obvious answer yet.<br />
+          Research when needed. Build when possible. Ship what matters.
+        </p>
+        <div class="hero-cta">
+          <a class="btn-primary arrow-link" href="/projects/">See what I'm building</a>
+          <a class="arrow-link quiet" href="/posts/">Read my writing</a>
+        </div>
+      </div>
+      <div class="hero-side">
+        <div class="portrait-frame">
+          <img
+            src="/images/avatar.jpg"
+            alt="Portrait of Marek Barak"
+            loading="eager"
+          />
+        </div>
+        <p class="portrait-caption">SAME PROBLEMS. DIFFERENT APPROACH.</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- 02 / THINGS I'M BUILDING -->
+  <section class="band">
+    <p class="section-label">02 / PROJECTS</p>
+    <div class="section-head">
+      <h2>Things I'm building</h2>
+      <p class="section-note">WHY THEY EXIST, NOT HOW THEY'RE BUILT</p>
+    </div>
+    <div class="projects">
+      {
+        projects.map((p) => (
+          <ProjectCard
+            href={p.href}
+            category={p.category}
+            name={p.name}
+            claim={p.claim}
+            pitch={p.pitch}
+            tag={p.tag}
+          />
+        ))
+      }
+    </div>
+  </section>
+
+  <!-- 03 / WRITING -->
+  <section class="band">
+    <p class="section-label">03 / WRITING</p>
+    <div class="section-head">
+      <h2>Notes, ideas, and learnings</h2>
+      <p class="section-note">
+        <a class="arrow-link" href="/posts/">View all writing</a>
+      </p>
+    </div>
+    <ul class="post-list">
+      {
+        posts.map((post) => (
+          <li>
+            <a href={`/posts/${post.id}/`}>{post.data.title}</a>
+            <time datetime={post.data.date.toISOString()}>
+              {fmt(post.data.date)} {post.data.date.getFullYear()}
+            </time>
+          </li>
+        ))
+      }
+    </ul>
+  </section>
+
+  <!-- 04 / RESEARCH -->
+  <section class="band">
+    <p class="section-label">04 / RESEARCH</p>
+    <div class="section-head">
+      <h2>Longer-lived technical work</h2>
+      <p class="section-note">REFERENCES AND EXPERIMENTS</p>
+    </div>
+    <ul class="research-list">
+      <li>
+        <a href="/research/">Research index — Awesome T5, Awesome SSM, notebooks</a>
+      </li>
+    </ul>
+  </section>
+
+  <!-- 05 / ABOUT -->
+  <section class="band about">
+    <p class="section-label">05 / ABOUT</p>
+    <p class="about-text">
+      I'm Marek — principal engineer, AI researcher and product builder. I
+      like working at the intersection of research, systems and real-world
+      applications, especially when the path isn't clear yet. I write,
+      build, experiment, and try to leave useful things behind.
+    </p>
+    <p><a class="arrow-link" href="/about/">Learn more about me</a></p>
+  </section>
+</Base>
+
+<style>
+  /* ---- hero ---- */
+  .hero {
+    padding-block: 5.5rem 4.5rem;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero-grid {
+    display: grid;
+    grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+    gap: 4rem;
+    align-items: center;
+  }
+  .hero h1 {
+    font-size: clamp(2.1rem, 4.6vw, 3.6rem);
+    margin: 0 0 1.4rem;
+    letter-spacing: -0.02em;
+    line-height: 1.08;
+  }
+  .accent {
+    color: var(--accent);
+  }
+  .lede {
+    font-size: 1.15rem;
+    color: var(--fg);
+    margin: 0 0 0.4rem;
+  }
+  .sub {
+    color: var(--muted);
+    margin: 0 0 2rem;
+  }
+  .hero-cta {
+    display: flex;
+    align-items: center;
+    gap: 1.6rem;
+    flex-wrap: wrap;
+  }
+  .hero-cta .quiet {
+    color: var(--muted);
+    font-size: 0.95rem;
+  }
+  .hero-cta .quiet:hover {
+    color: var(--accent);
+  }
+  .hero-side {
+    display: flex;
+    gap: 1.2rem;
+    justify-content: flex-end;
+    align-items: stretch;
+  }
+  .portrait-frame {
+    width: min(280px, 100%);
+    aspect-ratio: 4 / 5;
+    border: 1px solid var(--border-strong);
+    border-radius: 4px;
+    overflow: hidden;
+    background: var(--bg-raised);
+    position: relative;
+  }
+  .portrait-frame img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    filter: grayscale(100%) contrast(1.05);
+  }
+  .portrait-caption {
+    writing-mode: vertical-rl;
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.3em;
+    color: var(--faint);
+    margin: 0;
+    user-select: none;
+  }
+
+  /* ---- bands ---- */
+  .band {
+    padding-block: 3.2rem;
+    border-top: 1px solid var(--border);
+  }
+  .section-head {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 2rem;
+    flex-wrap: wrap;
+    margin-bottom: 2rem;
+  }
+  .section-head h2 {
+    margin: 0;
+  }
+  .section-note {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.14em;
+    color: var(--faint);
+    margin: 0;
+  }
+
+  /* ---- projects ---- */
+  .projects {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: var(--gap);
+  }
+
+
+  /* ---- research ---- */
+  .research-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .research-list a {
+    color: var(--fg);
+    font-weight: 500;
+  }
+  .research-list a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+
+  /* ---- about ---- */
+  .about-text {
+    max-width: 42rem;
+    font-size: 1.05rem;
+    margin-top: 0;
+  }
+
+  /* ---- responsive ---- */
+  @media (max-width: 900px) {
+    .hero {
+      padding-block: 3.5rem 3rem;
+    }
+    .hero-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+    .hero-side {
+      order: -1;
+    }
+    .portrait-frame {
+      width: min(220px, 100%);
+    }
+    .projects {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>

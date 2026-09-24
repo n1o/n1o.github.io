@@ -1,0 +1,332 @@
+/*
+ * Dark editorial engineering aesthetic.
+ * 75-80% clean editorial design, 20-25% technical detail.
+ * One accent: warm muted amber. Dark-only. No light mode.
+ */
+
+:root {
+  /* Base — near-black with a subtle green tint */
+  --bg: #0e1210;
+  --bg-raised: #141916;
+  --bg-inset: #0a0d0b;
+  --fg: #e8e6dd; /* warm off-white */
+  --fg-strong: #f5f3ea;
+  --muted: #a3a79c;
+  --faint: #82867e;
+
+  /* The one accent — warm muted amber */
+  --accent: #d4a054;
+  --accent-strong: #e0b268;
+
+  /* Hairlines */
+  --border: #232724;
+  --border-strong: #31352f;
+
+  /* Type */
+  --sans: "InterVariable", ui-sans-serif, system-ui, -apple-system, "Segoe UI",
+    sans-serif;
+  --mono: "JetBrains Mono Variable", ui-monospace, "SF Mono", "Cascadia Mono",
+    monospace;
+
+  /* Rhythm */
+  --measure: 46rem; /* comfortable reading column for posts */
+  --wide: 72rem; /* editorial composition width */
+  --gap: 1rem;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html {
+  font-family: var(--sans);
+  background: var(--bg);
+  color: var(--fg);
+  line-height: 1.65;
+  font-size: 17px;
+  scroll-behavior: smooth;
+}
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+}
+
+main {
+  width: min(var(--measure), 100% - 2.5rem);
+  margin-inline: auto;
+  flex: 1;
+}
+
+main.wide {
+  width: min(var(--wide), 100% - 3rem);
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+h1,
+h2,
+h3,
+h4 {
+  line-height: 1.15;
+  letter-spacing: -0.015em;
+  color: var(--fg-strong);
+  font-weight: 650;
+}
+
+h1 {
+  font-size: 2.2rem;
+}
+
+h2 {
+  font-size: 1.45rem;
+  margin-top: 2.5rem;
+}
+
+h3 {
+  font-size: 1.15rem;
+}
+
+code {
+  font-family: var(--mono);
+  font-size: 0.85em;
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 4px;
+  padding: 0.1em 0.35em;
+}
+
+pre {
+  background: var(--bg-inset);
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  padding: 1rem;
+  overflow-x: auto;
+  font-size: 0.85rem;
+  line-height: 1.6;
+}
+
+pre code {
+  background: none;
+  border: none;
+  padding: 0;
+}
+
+img {
+  max-width: 100%;
+  height: auto;
+}
+
+table {
+  border-collapse: collapse;
+  width: 100%;
+  font-size: 0.92rem;
+}
+
+th,
+td {
+  border: 1px solid var(--border);
+  padding: 0.4rem 0.7rem;
+  text-align: left;
+}
+
+th {
+  background: var(--bg-raised);
+  font-weight: 600;
+}
+
+blockquote {
+  margin-inline: 0;
+  padding-left: 1.1rem;
+  border-left: 2px solid var(--accent);
+  color: var(--muted);
+  font-style: italic;
+}
+
+hr {
+  border: none;
+  border-top: 1px solid var(--border);
+  margin: 3rem 0;
+}
+
+.katex {
+  color: var(--fg);
+}
+
+/* ---- Shared editorial devices ------------------------------------------ */
+
+/* Numbered section label: `01 / PROJECTS` */
+.section-label {
+  font-family: var(--mono);
+  font-size: 0.72rem;
+  font-weight: 500;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: flex;
+  align-items: center;
+  gap: 0.9rem;
+  margin: 0 0 2.5rem;
+}
+
+.section-label::before {
+  content: "";
+  display: block;
+  width: 1.6rem;
+  height: 1px;
+  background: var(--accent);
+}
+
+/* Post list rows: title left, date right in mono */
+.post-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+}
+
+.post-list li {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 1.5rem;
+  padding: 0.85rem 0;
+  border-bottom: 1px solid var(--border);
+}
+
+.post-list li:first-child {
+  border-top: 1px solid var(--border);
+}
+
+.post-list a {
+  color: var(--fg);
+  font-weight: 500;
+}
+
+.post-list a:hover {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+.post-list time {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  color: var(--faint);
+  white-space: nowrap;
+}
+
+/* Mono kicker above a heading */
+.kicker {
+  font-family: var(--mono);
+  font-size: 0.78rem;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--accent);
+  margin: 0 0 0.75rem;
+}
+
+/* Arrow link */
+.arrow-link {
+  font-weight: 550;
+  white-space: nowrap;
+}
+
+.arrow-link::after {
+  content: " →";
+  transition: margin-left 0.15s ease;
+}
+
+.arrow-link:hover::after {
+  margin-left: 0.25rem;
+}
+
+/* Primary filled button */
+.btn-primary {
+  display: inline-block;
+  background: var(--accent);
+  color: var(--bg);
+  font-weight: 600;
+  font-size: 0.95rem;
+  padding: 0.65rem 1.3rem;
+  border-radius: 3px;
+}
+
+.btn-primary:hover {
+  background: var(--accent-strong);
+  text-decoration: none;
+}
+
+/* Faint background grid — hero only */
+.grid-bg {
+  position: relative;
+}
+
+.grid-bg::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  background-image:
+    linear-gradient(to right, rgba(232, 230, 221, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(232, 230, 221, 0.05) 1px, transparent 1px);
+  background-size: 56px 56px;
+  -webkit-mask-image: radial-gradient(
+    ellipse 90% 80% at 30% 20%,
+    black 35%,
+    transparent 75%
+  );
+  mask-image: radial-gradient(
+    ellipse 90% 80% at 30% 20%,
+    black 35%,
+    transparent 75%
+  );
+}
+
+.grid-bg > * {
+  position: relative;
+  z-index: 1;
+}
+
+/* Accessibility: respect reduced motion, visible keyboard focus */
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+:focus-visible {
+  outline: 2px solid var(--accent);
+  outline-offset: 3px;
+  border-radius: 2px;
+}
+
+/* Post-list links keep a subtle persistent cue beyond color */
+.post-list a {
+  text-decoration: underline transparent;
+  text-decoration-thickness: 1px;
+  text-underline-offset: 4px;
+  transition: text-decoration-color 0.15s ease;
+}
+
+.post-list a:hover,
+.post-list a:focus-visible {
+  text-decoration-color: var(--accent);
+}

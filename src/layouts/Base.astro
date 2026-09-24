@@ -1,0 +1,175 @@
+---
+import "@fontsource-variable/inter";
+import "@fontsource-variable/jetbrains-mono";
+import "../styles/global.css";
+
+interface Props {
+  title: string;
+  description?: string;
+  wide?: boolean;
+}
+
+const {
+  title,
+  description = "Principal Engineer · AI Researcher · Technical Fixer — I turn ambiguous technical problems into working systems.",
+  wide = false,
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="en" class="dark">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <link
+      rel="stylesheet"
+      href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css"
+      crossorigin="anonymous"
+    />
+    <script
+      src="https://www.googletagmanager.com/gtag/js?id=G-5WLCXX3LGJ"
+      async
+    ></script>
+    <script is:inline>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-5WLCXX3LGJ");
+    </script>
+  </head>
+  <body>
+    <header class="site-header">
+      <div class="wrap">
+        <a href="/" class="brand">
+          <span class="brand-name">MAREK BARAK</span>
+          <span class="brand-tag">Researcher · Builder · Operator</span>
+        </a>
+        <nav>
+          <a href="/projects/">Projects</a>
+          <a href="/posts/">Writing</a>
+          <a href="/research/">Research</a>
+          <a href="/about/">About</a>
+        </nav>
+      </div>
+    </header>
+    <main class={wide ? "wide" : ""}><slot /></main>
+    <footer class="site-footer">
+      <div class="wrap">
+        <div class="footer-left">
+          <span class="footer-brand">MAREK BARAK</span>
+          <span class="footer-motto">Build · Learn · Share</span>
+        </div>
+        <div class="socials">
+          <a href="https://github.com/n1o">GitHub</a>
+          <a href="https://twitter.com/n1o_cr0Tx">Twitter</a>
+          <a
+            href="https://www.linkedin.com/in/marek-bar%C3%A1k-31977a55/">LinkedIn</a
+          >
+          <a href="https://medium.com/@n1o_cr0Tx">Medium</a>
+          <a href="https://dissecting-ai.dev">Dissecting AI</a>
+          <a href="mailto:mrk.barak@gmail.com">Email</a>
+          <a href="/rss.xml">RSS</a>
+        </div>
+      </div>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .site-header {
+    border-bottom: 1px solid var(--border);
+    position: sticky;
+    top: 0;
+    background: color-mix(in srgb, var(--bg) 88%, transparent);
+    backdrop-filter: blur(8px);
+    z-index: 10;
+  }
+  .site-header .wrap,
+  .site-footer .wrap {
+    width: min(var(--wide), 100% - 3rem);
+    margin-inline: auto;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 1rem;
+    flex-wrap: wrap;
+  }
+  .site-header .wrap {
+    padding-block: 0.85rem;
+  }
+  .brand {
+    display: flex;
+    flex-direction: column;
+    gap: 0.05rem;
+    text-decoration: none;
+  }
+  .brand-name {
+    font-weight: 700;
+    color: var(--fg-strong);
+    font-size: 0.95rem;
+    letter-spacing: 0.04em;
+  }
+  .brand-tag {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  nav {
+    display: flex;
+    align-items: center;
+    gap: 1.4rem;
+    flex-wrap: wrap;
+  }
+  nav a {
+    color: var(--muted);
+    font-size: 0.9rem;
+    font-weight: 500;
+  }
+  nav a:hover {
+    color: var(--accent);
+    text-decoration: none;
+  }
+  .site-footer {
+    border-top: 1px solid var(--border);
+    color: var(--muted);
+    font-size: 0.82rem;
+    margin-top: 5rem;
+  }
+  .site-footer .wrap {
+    padding-block: 1.2rem;
+    flex-wrap: wrap;
+    row-gap: 0.6rem;
+  }
+  .footer-left {
+    display: flex;
+    align-items: baseline;
+    gap: 1rem;
+  }
+  .footer-brand {
+    font-weight: 700;
+    letter-spacing: 0.04em;
+    color: var(--fg);
+  }
+  .footer-motto {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.1em;
+    text-transform: uppercase;
+    color: var(--faint);
+  }
+  .socials {
+    display: flex;
+    gap: 1.1rem;
+    flex-wrap: wrap;
+  }
+  .socials a {
+    color: var(--muted);
+  }
+  .socials a:hover {
+    color: var(--accent);
+  }
+</style>

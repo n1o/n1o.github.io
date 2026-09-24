@@ -1,0 +1,84 @@
+---
+interface Props {
+  href: string;
+  category: string;
+  name: string;
+  claim: string;
+  pitch: string;
+  tag?: string;
+  cta?: string;
+}
+
+const { href, category, name, claim, pitch, tag, cta = "Explore" } =
+  Astro.props;
+const external = /^https?:\/\//.test(href);
+---
+
+<a
+  class="project"
+  href={href}
+  {...external ? { target: "_blank", rel: "noopener" } : {}}
+>
+  <p class="project-category">— {category}</p>
+  <h3 class="project-name">{name}</h3>
+  <p class="project-claim">{claim}</p>
+  <p class="project-pitch">{pitch}</p>
+  <span class="project-cta arrow-link">{cta}</span>
+  {tag && <p class="project-tag">{tag}</p>}
+</a>
+
+<style>
+  .project {
+    display: flex;
+    flex-direction: column;
+    gap: 0.55rem;
+    padding: 1.6rem;
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    background: var(--bg-raised);
+    color: inherit;
+    text-decoration: none;
+    transition: border-color 0.15s ease, transform 0.15s ease;
+  }
+  .project:hover {
+    border-color: var(--accent);
+    transform: translateY(-2px);
+    text-decoration: none;
+  }
+  .project-category {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: var(--accent);
+    margin: 0;
+  }
+  .project-name {
+    margin: 0;
+    font-size: 1.5rem;
+  }
+  .project-claim {
+    margin: 0;
+    color: var(--fg);
+    font-weight: 550;
+  }
+  .project-pitch {
+    margin: 0;
+    color: var(--muted);
+    font-size: 0.92rem;
+    flex: 1;
+  }
+  .project-cta {
+    color: var(--accent);
+    font-size: 0.9rem;
+    font-weight: 600;
+  }
+  .project-tag {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    color: var(--faint);
+    border-top: 1px solid var(--border);
+    padding-top: 0.8rem;
+    margin: 0.6rem 0 0;
+  }
+</style>

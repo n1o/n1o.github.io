@@ -1,0 +1,99 @@
+---
+import Base from "../layouts/Base.astro";
+
+const resources = [
+  {
+    href: "/awesome-t5/",
+    name: "Awesome T5",
+    note: "T5, FLAN-T5, UL2, LongT5, CodeT5+ — the model family that keeps giving. Curated series.",
+  },
+  {
+    href: "/awesome-ssm/",
+    name: "Awesome SSM",
+    note: "State Space Models: Mamba, Mamba2, Hydra, and SSM-transformer hybrids.",
+  },
+  {
+    href: "https://n1o.github.io/study_notes/content.html",
+    name: "Study notes",
+    note: "Years of notes, continuously rewritten and simplified — Zettelkasten-style, one subject per note.",
+  },
+  {
+    href: "https://codebreakers.re",
+    name: "CodeBreakers",
+    note: "Posts and courses on reverse engineering, vulnerability exploitation, and ML applied to security.",
+  },
+];
+---
+
+<Base title="Research · Marek Barak">
+  <p class="section-label">04 / RESEARCH</p>
+  <h1>Longer-lived technical work</h1>
+  <p class="intro">
+    References, resources, and experiments — the part of my work that
+    outlives the projects it was built for.
+  </p>
+  <ul class="resource-list">
+    {
+      resources.map((r) => (
+        <li>
+          <a href={r.href}>
+            <span class="res-name">{r.name}</span>
+            <span class="res-note">{r.note}</span>
+          </a>
+        </li>
+      ))
+    }
+  </ul>
+</Base>
+
+<style>
+  .intro {
+    color: var(--muted);
+    margin-bottom: 2.5rem;
+    max-width: 40rem;
+  }
+  .resource-list {
+    list-style: none;
+    margin: 0;
+    padding: 0;
+  }
+  .resource-list li {
+    border-bottom: 1px solid var(--border);
+  }
+  .resource-list li:first-child {
+    border-top: 1px solid var(--border);
+  }
+  .resource-list a {
+    display: flex;
+    align-items: baseline;
+    justify-content: space-between;
+    gap: 1.5rem;
+    padding: 0.9rem 0;
+    color: inherit;
+  }
+  .resource-list a:hover {
+    text-decoration: none;
+  }
+  .resource-list a:hover .res-name {
+    color: var(--accent);
+  }
+  .res-name {
+    font-weight: 600;
+    color: var(--fg-strong);
+    white-space: nowrap;
+  }
+  .res-note {
+    color: var(--muted);
+    font-size: 0.88rem;
+    text-align: right;
+  }
+  @media (max-width: 700px) {
+    .resource-list a {
+      flex-direction: column;
+      gap: 0.2rem;
+    }
+    .res-note {
+      text-align: left;
+    }
+  }
+</style>
