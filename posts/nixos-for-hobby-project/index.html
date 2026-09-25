@@ -1,0 +1,122 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Nixos for Hobby Project · Marek Barak</title><meta name="description" content="AI Researcher · Product Builder — I turn ambiguous technical problems into working systems."><script>
+      // Apply persisted/system theme before first paint
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const light = stored
+          ? stored === "light"
+          : matchMedia("(prefers-color-scheme: light)").matches;
+        document.documentElement.classList.toggle("light", light);
+      })();
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" crossorigin="anonymous"><script src="https://www.googletagmanager.com/gtag/js?id=G-5WLCXX3LGJ" async></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-5WLCXX3LGJ");
+    </script><link rel="stylesheet" href="/_astro/_slug_.BdK79Qfr.css">
+<style>header[data-astro-cid-tljqxsdm]{margin-bottom:2.5rem}header[data-astro-cid-tljqxsdm] h1[data-astro-cid-tljqxsdm]{margin:0 0 .75rem;font-size:2rem}.taxonomy[data-astro-cid-tljqxsdm]{display:flex;gap:.6rem;flex-wrap:wrap;margin:.75rem 0 0}.taxonomy[data-astro-cid-tljqxsdm] a[data-astro-cid-tljqxsdm]{font-family:var(--mono);font-size:.68rem;letter-spacing:.08em;text-transform:uppercase;color:var(--muted);border:1px solid var(--border);border-radius:999px;padding:.15rem .6rem}.taxonomy[data-astro-cid-tljqxsdm] a[data-astro-cid-tljqxsdm]:hover{color:var(--accent);border-color:var(--accent);text-decoration:none}
+</style></head> <body data-astro-cid-5hce7sga> <header class="site-header" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <a href="/" class="brand" data-astro-cid-5hce7sga> <span class="brand-name" data-astro-cid-5hce7sga>MAREK BARAK</span> <span class="brand-tag" data-astro-cid-5hce7sga>Researcher · Builder</span> </a> <nav data-astro-cid-5hce7sga> <a href="/projects/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Projects</a> <a href="/posts/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Writing</a> <a href="/research/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Research</a> <a href="/about/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>About</a> </nav> <button class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme" data-astro-cid-5hce7sga> <span class="theme-icon-dark" aria-hidden="true" data-astro-cid-5hce7sga>◐</span> <span class="theme-icon-light" aria-hidden="true" data-astro-cid-5hce7sga>◑</span> </button> </div> </header> <main class data-astro-cid-5hce7sga> <article data-astro-cid-tljqxsdm> <header data-astro-cid-tljqxsdm> <p class="kicker" data-astro-cid-tljqxsdm> <time datetime="2023-09-13T11:09:10.000Z" data-astro-cid-tljqxsdm>SEPTEMBER 13, 2023</time> </p> <h1 data-astro-cid-tljqxsdm>Nixos for Hobby Project</h1> <p class="taxonomy" data-astro-cid-tljqxsdm> <a href="/tags/nixos/" data-astro-cid-tljqxsdm> NixOS </a> </p> </header> <div class="content" data-astro-cid-tljqxsdm><p>Lately, I’ve embarked on a side project: <a href="https://codebreakers.re/courses/">CodeBreakers</a>. It’s nothing too fancy, just a website where I plan to release videos and articles about my latest passions—Reverse Engineering and Binary Exploitation.</p>
+<p>Creating a website isn’t all that complex, and I’ve done it a couple of times before. The main challenge was deciding where and how to host it. Initially, I considered using <a href="https://fly.io/">Fly</a> ((which is a fantastic PaaS product with many built-in features), but ultimately, I opted for <a href="hetzner.com">Hetzner</a> and rented a virtual server.</p>
+<p>Managing a virtual server is definitely a more hands-on solution (and it comes with its fair share of challenges), but it provided me with the opportunity to explore the idea of using <a href="https://nixos.org/">NixOS</a> on my server.</p>
+<h1 id="nixos">Nixos</h1>
+<p>I used NixOS as my primary OS for around two years, and I must admit, it had its moments of difficulty. For those unfamiliar with it, NixOS is a unique Linux distribution built around the  <a href="https://nix.dev/tutorials/first-steps/nix-language">Nix</a>programming language. What sets it apart is that your entire operating system configuration is expressed as code.</p>
+<p>You might ask:</p>
+<p>“Isn’t having the operating system as code similar to tools like Ansible, Puppet, or SaltStack?”</p>
+<p>Well, it depends. The technologies mentioned above are more sophisticated and offer a broader range of features. With NixOS, the configuration is more akin to something like Terraform. Essentially, you have a set of features that you can enable and configure (with support for custom modules, so the sky’s the limit).</p>
+<h1 id="my-setup">My Setup</h1>
+<p>Now, with a server running NixOS (if you don’t have it yet, you can <a href="https://github.com/elitak/nixos-infect">Infect</a>)), here’s what I want to achieve:</p>
+<ol>
+<li>Ngnix</li>
+<li>Postgresql</li>
+<li>Django</li>
+</ol>
+<p>At Hetzner, I acquired a virtual server for just under 6 Euros, equipped with 2 vCPUs, 4 GB of RAM, and a fixed IP. This is more than sufficient to run everything I need on a single machine. Plus, if I require additional resources, I can efficiently scale vertically. Running all my services on a single machine allows them to communicate through Unix sockets, and the only open ports I need are:</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="nix"><code><span class="line"><span style="color:#FFA657">networking</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">firewall</span><span style="color:#FFA198;font-style:italic"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">    enable</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">    allowedTCPPorts</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> [</span><span style="color:#79C0FF">22</span><span style="color:#79C0FF"> 80</span><span style="color:#79C0FF"> 443</span><span style="color:#E6EDF3">];</span></span>
+<span class="line"><span style="color:#E6EDF3">  }</span><span style="color:#FFA198;font-style:italic">;</span></span></code></pre>
+<p>NixOS, by default, prioritizes security. Consequently, any ports you wish to open must be explicitly defined.</p>
+<h2 id="ngnix">Ngnix</h2>
+<p>I use Let’s Encrypt certificates to keep costs as low as possible.</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="nix"><code><span class="line"><span style="color:#FFA657">services</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">nginx</span><span style="color:#FFA198;font-style:italic"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">    enable</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">    virtualHosts</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#A5D6FF">	    "codebreakers.re"</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">	        addSSL</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">	        enableACME</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">	        locations</span><span style="color:#E6EDF3">.</span><span style="color:#A5D6FF">"/.well-known/acme-challenge"</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">	        root</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "/var/lib/acme/.challenges"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">	        };</span></span>
+<span class="line"><span style="color:#79C0FF">	    locations</span><span style="color:#E6EDF3">.</span><span style="color:#A5D6FF">"/static/"</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">	    	alias</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "/www/codebreakers/staticfiles/"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">            extraConfig</span><span style="color:#FF7B72">  =</span><span style="color:#A5D6FF"> ''</span></span>
+<span class="line"><span style="color:#A5D6FF">            expires 1h;</span></span>
+<span class="line"><span style="color:#A5D6FF">            add_header Cache-Control "public";</span></span>
+<span class="line"><span style="color:#A5D6FF">            ''</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">        };</span></span>
+<span class="line"><span style="color:#79C0FF">	    locations</span><span style="color:#E6EDF3">.</span><span style="color:#A5D6FF">"/"</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">	    	proxyPass</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "http://unix:/run/gunicorn.sock"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">	    };</span></span>
+<span class="line"><span style="color:#E6EDF3">	  };</span></span>
+<span class="line"><span style="color:#E6EDF3">	};</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span><span style="color:#FFA198;font-style:italic">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#FFA657">users</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">users</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">nginx</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">extraGroups</span><span style="color:#FFA198;font-style:italic"> =</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">"acme"</span><span style="color:#E6EDF3"> ]</span><span style="color:#FFA198;font-style:italic">;</span></span>
+<span class="line"><span style="color:#FFA657">security</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">acme</span><span style="color:#FFA198;font-style:italic"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">    acceptTerms</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">    email</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "my@email.com"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span><span style="color:#FFA198;font-style:italic">;</span></span></code></pre>
+<p>Under the hood, there is an <code>nginx</code> Linux user created, under which Nginx runs as a systemd daemon. Instead of having an <code>nginx.conf</code> file, our configuration is inlined.</p>
+<h2 id="postgresql">Postgresql</h2>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="nix"><code><span class="line"><span style="color:#FFA657">services</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">postgresql</span><span style="color:#FFA198;font-style:italic"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">  enable</span><span style="color:#FF7B72"> =</span><span style="color:#79C0FF"> true</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">  package</span><span style="color:#FF7B72"> =</span><span style="color:#FFA657"> pkgs</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">postgresql_15</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">  ensureDatabases</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> [ </span><span style="color:#A5D6FF">"codebreakers"</span><span style="color:#E6EDF3"> ];</span></span>
+<span class="line"><span style="color:#79C0FF">  authentication</span><span style="color:#FF7B72"> =</span><span style="color:#FFA657"> pkgs</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">lib</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">mkOverride</span><span style="color:#79C0FF"> 10</span><span style="color:#A5D6FF"> ''</span></span>
+<span class="line"><span style="color:#A5D6FF">    local all       all     trust</span></span>
+<span class="line"><span style="color:#A5D6FF">  ''</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">  initialScript</span><span style="color:#FF7B72"> =</span><span style="color:#FFA657"> pkgs</span><span style="color:#FF7B72">.</span><span style="color:#FFA657">writeText</span><span style="color:#A5D6FF"> "backend-initScript"</span><span style="color:#A5D6FF"> ''</span></span>
+<span class="line"><span style="color:#A5D6FF">    CREATE USER codebreakers WITH PASSWORD 'password';</span></span>
+<span class="line"><span style="color:#A5D6FF">    GRANT ALL PRIVILEGES ON DATABASE codebreakers TO codebreakers;</span></span>
+<span class="line"><span style="color:#A5D6FF">  ''</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span><span style="color:#FFA198;font-style:italic">;</span></span></code></pre>
+<p>Similarly to Nginx, under the hood, a <code>postgres</code> user is created. By default, this user doesn’t open the typical <code>5432</code> port or allow TCP connections. However, we won’t need that, as we can communicate with it through a Unix socket located at <code>/var/run/postgresql/.s.PGSQL.5432</code>.</p>
+<h2 id="django">Django</h2>
+<p>This was one of my pain points in the past. While working on Python projects on NixOS (This is especially true if you need libraries like Pytorch), the experience was anything but friendly. Consequently, I eventually decided to run my application within a Docker container (technically using <a href="https://podman.io/">Podman</a>).</p>
+<pre class="astro-code github-dark-default" style="background-color:#0d1117;color:#e6edf3; overflow-x: auto;" tabindex="0" data-language="nix"><code><span class="line"><span style="color:#E6EDF3">{</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">virtualisation</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">oci-containers</span><span style="color:#E6EDF3">.</span><span style="color:#79C0FF">containers</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">   djnago</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">	image</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "ghcr.io/n1o/codebreakers-re:$TAG"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">	entrypoint</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "poetry"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">	cmd</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#A5D6FF">		"run"</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#A5D6FF">		"gunicorn"</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#A5D6FF">		"codebreakers.wsgi"</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#A5D6FF">		"-w"</span><span style="color:#A5D6FF"> "2"</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#A5D6FF">		"-b"</span><span style="color:#A5D6FF"> "unix:/run/gunicorn.sock"</span></span>
+<span class="line"><span style="color:#A5D6FF">		"--access-logfile"</span><span style="color:#A5D6FF"> "'-'"</span><span style="color:#E6EDF3"> </span></span>
+<span class="line"><span style="color:#A5D6FF">		"--error-logfile"</span><span style="color:#A5D6FF"> "'-' "</span></span>
+<span class="line"><span style="color:#E6EDF3">		];</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">	login</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> {</span></span>
+<span class="line"><span style="color:#79C0FF">		username</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "n1o"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"><span style="color:#79C0FF">		passwordFile</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "/etc/nixos/github-container-password.txt"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#E6EDF3">	};</span></span>
+<span class="line"><span style="color:#79C0FF">    user</span><span style="color:#FF7B72"> =</span><span style="color:#A5D6FF"> "django"</span><span style="color:#E6EDF3">;</span></span>
+<span class="line"></span>
+<span class="line"><span style="color:#79C0FF">	volumes</span><span style="color:#FF7B72"> =</span><span style="color:#E6EDF3"> [</span></span>
+<span class="line"><span style="color:#A5D6FF">		"/var/run/postgresql/:/var/run/postgresql/"</span></span>
+<span class="line"><span style="color:#A5D6FF">		"/run/:/run/"</span></span>
+<span class="line"><span style="color:#E6EDF3">	];</span></span>
+<span class="line"><span style="color:#E6EDF3">   };</span></span>
+<span class="line"><span style="color:#E6EDF3">};</span></span>
+<span class="line"><span style="color:#E6EDF3">}</span></span></code></pre>
+<p>This tells Nixos to run <code>django</code> container as a systemd daemon.</p>
+<h1 id="release-or-cicd">Release or CI/CD</h1>
+<p>I store all my code in a single GitHub repository. I have a GitHub action that runs every time I create a new Git tag. This action collects static Django assets, builds my Docker image, which is then pushed to GitHub’s Container Repository. It replaces the <code>$TAG</code> placeholder with the appropriate value and copies the NixOS configuration files to the server through SCP. Finally, on the server, it executes <code>nixos-rebuild switch</code> as the last step. And the new version is live. And if the switch fails than we stay at the version as before.</p>
+<h1 id="is-nixos-for-your">Is NixOS for your</h1>
+<p>Yes it is! Ok so it has some gotchas but if I compare to tools I used before this is a definite improvement.</p>
+<h1 id="disclaimer">Disclaimer</h1>
+<p>I did write this article, but since my writing is far from being perfect I used Chat GPT to improve my writing.</p></div> </article> </main> <footer class="site-footer" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <div class="footer-left" data-astro-cid-5hce7sga> <span class="footer-brand" data-astro-cid-5hce7sga>MAREK BARAK</span> <span class="footer-motto" data-astro-cid-5hce7sga>Build · Learn · Share</span> </div> <div class="socials" data-astro-cid-5hce7sga> <a href="https://github.com/n1o" data-astro-cid-5hce7sga>GitHub</a> <a href="https://twitter.com/n1o_cr0Tx" data-astro-cid-5hce7sga>Twitter</a> <a href="https://www.linkedin.com/in/marek-bar%C3%A1k-31977a55/" data-astro-cid-5hce7sga>LinkedIn</a> <a href="https://medium.com/@n1o_cr0Tx" data-astro-cid-5hce7sga>Medium</a> <a href="https://dissecting-ai.dev" data-astro-cid-5hce7sga>Dissecting AI</a> <a href="mailto:mrk.barak@gmail.com" data-astro-cid-5hce7sga>Email</a> <a href="/rss.xml" data-astro-cid-5hce7sga>RSS</a> </div> </div> </footer>   <script type="module">const e=document.querySelector(".theme-toggle");e?.addEventListener("click",()=>{const t=document.documentElement.classList.toggle("light");localStorage.setItem("theme",t?"light":"dark")});</script></body></html> 
