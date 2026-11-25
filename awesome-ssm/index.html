@@ -1,0 +1,77 @@
+<!DOCTYPE html><html lang="en" data-astro-cid-5hce7sga> <head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>Awesome SSM · Marek Barak</title><meta name="description" content="AI Researcher · Product Builder — I turn ambiguous technical problems into working systems."><script>
+      // Apply persisted/system theme before first paint
+      (() => {
+        const stored = localStorage.getItem("theme");
+        const light = stored
+          ? stored === "light"
+          : matchMedia("(prefers-color-scheme: light)").matches;
+        document.documentElement.classList.toggle("light", light);
+      })();
+    </script><link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.22/dist/katex.min.css" crossorigin="anonymous"><script src="https://www.googletagmanager.com/gtag/js?id=G-5WLCXX3LGJ" async></script><script>
+      window.dataLayer = window.dataLayer || [];
+      function gtag() { dataLayer.push(arguments); }
+      gtag("js", new Date());
+      gtag("config", "G-5WLCXX3LGJ");
+    </script><link rel="stylesheet" href="/_astro/_slug_.BdK79Qfr.css"></head> <body data-astro-cid-5hce7sga> <header class="site-header" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <a href="/" class="brand" data-astro-cid-5hce7sga> <span class="brand-name" data-astro-cid-5hce7sga>MAREK BARAK</span> <span class="brand-tag" data-astro-cid-5hce7sga>Researcher · Builder</span> </a> <nav data-astro-cid-5hce7sga> <a href="/projects/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Projects</a> <a href="/posts/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Writing</a> <a href="/research/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>Research</a> <a href="/about/" data-astro-cid-5hce7sga><span class="nav-prompt" data-astro-cid-5hce7sga>&gt;</span>About</a> </nav> <button class="theme-toggle" aria-label="Toggle light/dark theme" title="Toggle theme" data-astro-cid-5hce7sga> <span class="theme-icon-dark" aria-hidden="true" data-astro-cid-5hce7sga>◐</span> <span class="theme-icon-light" aria-hidden="true" data-astro-cid-5hce7sga>◑</span> </button> </div> </header> <main class data-astro-cid-5hce7sga> <article> <h1>Awesome SSM</h1> <p>This series will cover a bunch of posts about State Space Models, their extensions and applications.</p>
+<h1 id="basics">Basics</h1>
+<ul>
+<li><a href="/posts/from-mamba-to-mamba2/">Mamba, Mamba2</a></li>
+</ul>
+<h1 id="bidirectional">Bidirectional</h1>
+<ul>
+<li><a href="/posts/hydra-a-double-headed-mamba/">Hydra</a></li>
+</ul>
+<h1 id="attention-hybrids">Attention Hybrids</h1>
+<ul>
+<li><a href="/posts/ssm-transformer-hybrids-guide/">SSM-Transformer Hybrids</a> covers:
+<ul>
+<li><a href="https://arxiv.org/abs/2406.07887">An Empirical Study of Mamba-based Language Models</a></li>
+<li><a href="https://arxiv.org/html/2406.07522v1">SAMBA Simple Hybrid State Space Models for Efficient Unlimited Context Language Modeling</a></li>
+<li><a href="https://arxiv.org/abs/2403.19887v1">Jamba A Hybrid Transformer-Mamba Language Model</a></li>
+<li><a href="https://arxiv.org/abs/2408.12570">Jamba 1.5 Hybrid Transformer-Mamba Models at Scale</a></li>
+<li><a href="https://arxiv.org/abs/2405.16712v1">Zamba A Compact 7B SSM Hybrid Model</a></li>
+<li><a href="https://www.zyphra.com/post/zamba2-small">Zamba2-small</a></li>
+<li><a href="https://www.zyphra.com/post/zamba2-mini">Zamba2-mini</a></li>
+</ul>
+</li>
+<li><a href="/posts/hymba-new-ssm-att-hybrid-breed/">Hymba</a>
+<ul>
+<li><a href="https://www.arxiv.org/abs/2411.13676">Hymba: A Hybrid-head Architecture for Small Language Models</a></li>
+<li>instead of having Attention and Mamba running in alternating layers we run them in parallel in the same layer</li>
+</ul>
+</li>
+</ul>
+<h1 id="theory-and-limitations">Theory and Limitations</h1>
+<ul>
+<li><a href="/posts/ssm-the-illusion/">Illusion of State in SSMs like Mamba</a> covers:
+<ul>
+<li><a href="https://www.semanticscholar.org/paper/The-Expressive-Capacity-of-State-Space-Models%3A-A-Sarrof-Veitsman/e7f47e8393c697696a3fccd9ff906dfdb49fe736">The Expressive Capacity of State Space Models: A Formal Language Perspective</a></li>
+<li><a href="https://www.semanticscholar.org/paper/The-Illusion-of-State-in-State-Space-Models-Merrill-Petty/917479a7a72ee7c1fb320c14d770e30ef322ef28">The Illusion of State in State-Space Models</a></li>
+</ul>
+</li>
+</ul>
+<h1 id="with-graphs">With Graphs</h1>
+<ul>
+<li><a href="https://www.semanticscholar.org/paper/Graph-Mamba%3A-Towards-Learning-on-Graphs-with-State-Behrouz-Hashemi/2dda6da7375bf5e8bcf60f87b17ba10757f3bc57">Graph Mamba: Towards Learning on Graphs with State Space Models</a>
+<ul>
+<li>we leverage SSMs an alternative to Message Passing in Graph Neural Networks</li>
+</ul>
+</li>
+</ul>
+<h1 id="distillation">Distillation</h1>
+<ul>
+<li>
+<p><a href="/posts/distilling-ssm-from-transformers/">Hohawk and Mamba in the Llama</a> covers:</p>
+<ul>
+<li>idea is to take an pretrained transformer and distill it into a SSM</li>
+</ul>
+</li>
+</ul>
+<h1 id="reinforcement-learning">Reinforcement Learning</h1>
+<ul>
+<li><a href="https://www.semanticscholar.org/paper/Decision-Mamba%3A-Reinforcement-Learning-via-Sequence-Ota/9b8130a2a5d3398f4993f540ddd01d440d99d62e">Decision Mamba: Reinforcement Learning via Sequence Modeling with Selective State Spaces</a>
+<ul>
+<li>apply SSMs to Sequential Decision Making</li>
+</ul>
+</li>
+</ul> </article> </main> <footer class="site-footer" data-astro-cid-5hce7sga> <div class="wrap" data-astro-cid-5hce7sga> <div class="footer-left" data-astro-cid-5hce7sga> <span class="footer-brand" data-astro-cid-5hce7sga>MAREK BARAK</span> <span class="footer-motto" data-astro-cid-5hce7sga>Build · Learn · Share</span> </div> <div class="socials" data-astro-cid-5hce7sga> <a href="https://github.com/n1o" data-astro-cid-5hce7sga>GitHub</a> <a href="https://twitter.com/n1o_cr0Tx" data-astro-cid-5hce7sga>Twitter</a> <a href="https://www.linkedin.com/in/marek-bar%C3%A1k-31977a55/" data-astro-cid-5hce7sga>LinkedIn</a> <a href="https://medium.com/@n1o_cr0Tx" data-astro-cid-5hce7sga>Medium</a> <a href="https://dissecting-ai.dev" data-astro-cid-5hce7sga>Dissecting AI</a> <a href="mailto:mrk.barak@gmail.com" data-astro-cid-5hce7sga>Email</a> <a href="/rss.xml" data-astro-cid-5hce7sga>RSS</a> </div> </div> </footer>   <script type="module">const e=document.querySelector(".theme-toggle");e?.addEventListener("click",()=>{const t=document.documentElement.classList.toggle("light");localStorage.setItem("theme",t?"light":"dark")});</script></body></html>
